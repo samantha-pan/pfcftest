@@ -27,9 +27,15 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings 
 theme: just-the-docs
-plugins:
+plugins: 
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-paginate
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
+  - jekyll-sitemap
   
 markdown: kramdown
 commonmark:
