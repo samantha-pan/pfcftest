@@ -1,0 +1,702 @@
+{"0": {
+    "doc": "下單",
+    "title": "下單",
+    "content": "api說明 . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E4%B8%8B%E5%96%AE",
+    
+    "relUrl": "/教學/下單"
+  },"1": {
+    "doc": "事先準備",
+    "title": "1. 事先準備",
+    "content": "1.1 儲存憑證 . | 取得您的憑證檔案和密碼 | 將憑證檔案放到api 運行目錄下 1.2 下載 . | windows | linux | mac | 解壓縮資料夾 | 複製[.whl]資料夾到自行專案內 | 新增py檔案開始(可參考範例程式) | . 1.3 安裝pfcf套件 . pip install pfcf.whl . ",
+    "url": "/%E4%BA%8B%E5%85%88%E6%BA%96%E5%82%99/#1-%E4%BA%8B%E5%85%88%E6%BA%96%E5%82%99",
+    
+    "relUrl": "/事先準備/#1-事先準備"
+  },"2": {
+    "doc": "事先準備",
+    "title": "事先準備",
+    "content": " ",
+    "url": "/%E4%BA%8B%E5%85%88%E6%BA%96%E5%82%99/",
+    
+    "relUrl": "/事先準備/"
+  },"3": {
+    "doc": "內期委託範例",
+    "title": "內期委託範例",
+    "content": "!pip install - r requirements.txt #安裝顯示表格套件 !pip install pandas . ##API初始&amp;登入 import pfcf from pfcf.pfcf import * from pfcf.product import * from pfcf.trade.dlogic import * from typing import List #匯入顯示資料套件 import pandas as pd from IPython.display import display,clear_output pd.set_option('display.max_columns', None) pd.set_option('display.max_rows', None) pd.set_option('display.width', None) #初始API api = Pfcf() #錯誤事件處理 api.on_error = lambda error: print(f'api錯誤 {error}') #系統登入 loginresponse = api.login( \"http://test167.pfctrade.com\", \"80009808401\", \"j19810916\", 'PSC_A226097195_20250310.pfx', '12345678')#url,帳號,密碼,憑證檔名,憑證密碼 #顯示登入結果 print(loginresponse) print(f\"登入旗標{api.login_status_flag}\") print(f\"交易帳號{api.get_accounts()}\") ##初始資料 reply_data = [ ['','','','','','','','','','','','','','','','','','','','','']] reply_dd = pd.DataFrame(reply_data) reply_dd.columns=['分公司','帳號','網路流水序號','委託時間','委託書號','子帳', '商品類別','商品代碼','買賣別','價格別','委託價格','委託數量','未成交數量', '成交數量','刪除數量','下單方式','開倉別','異動時間','委託狀態','委託狀態碼','下單序號'] match_data = [ ['','','','','','','','','','','','','','','','']] match_dd = pd.DataFrame(match_data) match_dd.columns=['分公司','帳號','網路流水序號','成交時間','委託書號','子帳', '商品類別','商品代碼','買賣別','成交價格','成交口數','成交序號', '成交價1','成交價2','備註','異動時間'] actno = '9808401'# 使用帳號 . #訂閱回報接收範例 def on_reply(orderreply: DOrderReply): i=len(reply_dd)+1 reply_dd.loc[i, '分公司'] = orderreply.brokerid reply_dd.loc[i, '帳號'] = orderreply.investoracno reply_dd.loc[i, '網路流水序號'] = orderreply.networkid reply_dd.loc[i, '委託時間'] = orderreply.ordertime reply_dd.loc[i, '委託書號'] = orderreply.orderno reply_dd.loc[i, '子帳'] = orderreply.subact reply_dd.loc[i, '商品類別'] = orderreply.productkind reply_dd.loc[i, '商品代碼'] = orderreply.productid reply_dd.loc[i, '買賣別'] = orderreply.bs reply_dd.loc[i, '價格別'] = orderreply.ordertype reply_dd.loc[i, '委託價格'] = orderreply.price reply_dd.loc[i, '委託數量'] = orderreply.orderqty reply_dd.loc[i, '未成交數量'] = orderreply.nomatchqty reply_dd.loc[i, '成交數量'] = orderreply.matchqty reply_dd.loc[i, '刪除數量'] = orderreply.delqty reply_dd.loc[i, '下單方式'] = orderreply.ordercondition reply_dd.loc[i, '開倉別'] = orderreply.opencloseflag reply_dd.loc[i, '異動時間'] = orderreply.mdate reply_dd.loc[i, '委託狀態'] = orderreply.orderstatus reply_dd.loc[i, '委託狀態碼'] = orderreply.statuscode reply_dd.loc[i, '開倉別'] = orderreply.opencloseflag reply_dd.loc[i, '下單序號'] = orderreply.seq clear_output(wait=True) display(reply_dd) display(match_dd) def on_match(matchreply: DMatchReply): i=len(reply_dd)+1 match_dd.loc[i, '分公司'] = matchreply.brokerid match_dd.loc[i, '帳號'] = matchreply.investoracno match_dd.loc[i, '網路流水序號'] = matchreply.networkid match_dd.loc[i, '成交時間'] = matchreply.matchtime match_dd.loc[i, '委託書號'] = matchreply.orderno match_dd.loc[i, '子帳'] = matchreply.subact match_dd.loc[i, '商品類別'] = matchreply.productkind match_dd.loc[i, '商品代碼'] = matchreply.productid match_dd.loc[i, '買賣別'] = matchreply.bs match_dd.loc[i, '成交價格'] = matchreply.matchprice match_dd.loc[i, '成交口數'] = matchreply.matchqty match_dd.loc[i, '成交序號'] = matchreply.matchseq match_dd.loc[i, '成交價1'] = matchreply.matchpricefoot1 match_dd.loc[i, '成交價2'] = matchreply.matchpricefoot2 match_dd.loc[i, '備註'] = matchreply.note match_dd.loc[i, '異動時間'] = matchreply.mdate clear_output(wait=True) display(reply_dd) display(match_dd) api.dtrade.on_reply=on_reply api.dtrade.on_match=on_match print('訂閱完畢') . #下單 order = DOrderObject() order.actno = actno#帳號 order.note = \"ordertest\"#備註 order.subactno = \"\"#子帳 order.productid = \"TXFF5\"#商品代號 order.bs = \"B\"#買賣別B/S order.ordertype = \"M\"#L:限價 M:市價 P:範圍市價 order.price = 0#委託價格 order.orderqty = 5#數量 order.ordercondition = \"R\"##委託種類 I:IOC R:ROD F:FOK order.opencloseflag = \"\"##開倉別 str 0:新倉 1:平倉 空白:自動 order.dtrade=\"N\"## Y:當沖 N:非當沖 orderresponse=api.dtrade.order(order) print(f\" 是否成功 {orderresponse.issend} 下單序號 {orderresponse.seq} 錯誤代碼 {orderresponse.errorcode} 錯誤訊息 {orderresponse.errormsg}\") . #刪單 replace=DReplaceObject() replace.replacetype=\"4\"#4:取消, 5: 減量, m:改價\" replace.actno = actno#帳號 replace.orderno=\"P1ySr\"#委託書號 replaceresponse=api.dtrade.replace_order(replace) print(f\" 是否成功 {replaceresponse.issend} 下單序號 {replaceresponse.seq} 錯誤代碼 {replaceresponse.errorcode} 錯誤訊息 {replaceresponse.errormsg}\") . #減量 replace=DReplaceObject() replace.replacetype=\"5\"#4:取消, 5: 減量, m:改價\" replace.actno =actno#帳號 replace.orderno=\"P1ySr\"#委託書號 replace.orderqty = 1#減量口數 replaceresponse=api.dtrade.replace_order(replace) print(f\" 是否成功 {replaceresponse.issend} 下單序號 {replaceresponse.seq} 錯誤代碼 {replaceresponse.errorcode} 錯誤訊息 {replaceresponse.errormsg}\") . #改價 replace=DReplaceObject() replace.replacetype=\"m\"#4:取消, 5: 減量, m:改價\" replace.actno =actno#帳號 replace.orderno=\"P1ySz\"#委託書號 replace.ordertype=\"L\"#L:限價 M:市價 P:範圍市價 replace.ordercondition=\"R\"#委託種類 I:IOC R:ROD F:FOK replace.price=22300#委託價格 replaceresponse=api.dtrade.replace_order(replace) print(f\" 是否成功 {replaceresponse.issend} 下單序號 {replaceresponse.seq} 錯誤代碼 {replaceresponse.errorcode} 錯誤訊息 {replaceresponse.errormsg}\") . ##委回查詢範例 query_reply_response=api.dtrade.query_reply(actno,500,\"\",\"\",\"\",\"\")#帳號,筆數,網路流水序號起,,網路流水序號迄,委託時間起,委託時間迄 print(query_reply_response) if query_reply_response.ok == True: i=0 for orderreply in query_reply_response.data: reply_dd.loc[i,'分公司'] = orderreply.brokerid reply_dd.loc[i,'帳號'] = orderreply.investoracno reply_dd.loc[i,'網路流水序號'] = orderreply.networkid reply_dd.loc[i,'委託時間'] = orderreply.ordertime reply_dd.loc[i,'委託書號'] = orderreply.orderno reply_dd.loc[i,'子帳'] = orderreply.subact reply_dd.loc[i,'商品類別'] = orderreply.productkind reply_dd.loc[i,'商品代碼'] = orderreply.productid reply_dd.loc[i,'買賣別'] = orderreply.bs reply_dd.loc[i,'價格別'] = orderreply.ordertype reply_dd.loc[i,'委託價格'] = orderreply.price reply_dd.loc[i,'委託數量'] = orderreply.orderqty reply_dd.loc[i,'未成交數量'] = orderreply.nomatchqty reply_dd.loc[i,'成交數量'] = orderreply.matchqty reply_dd.loc[i,'刪除數量'] = orderreply.delqty reply_dd.loc[i,'下單方式'] = orderreply.ordercondition reply_dd.loc[i,'開倉別'] = orderreply.opencloseflag reply_dd.loc[i,'異動時間'] = orderreply.mdate reply_dd.loc[i,'委託狀態'] = orderreply.orderstatus reply_dd.loc[i,'委託狀態碼'] = orderreply.statuscode reply_dd.loc[i,'開倉別'] = orderreply.opencloseflag reply_dd.loc[i,'下單序號'] = orderreply.seq i=i+1 clear_output(wait=True) display(reply_dd) else: print(\"查詢發生錯誤\"+query_reply_response.error) . ##成回查詢範例 query_match_response=api.dtrade.query_match(actno,500,\"\",\"\",\"\",\"\")#帳號,筆數,網路流水序號起,,網路流水序號迄,成交時間起,成交時間迄 if query_match_response.ok == True: for matchreply in query_match_response.data: match_dd.loc[i,'分公司'] = matchreply.brokerid match_dd.loc[i,'帳號'] = matchreply.investoracno match_dd.loc[i,'網路流水序號'] = matchreply.networkid match_dd.loc[i,'成交時間'] = matchreply.matchtime match_dd.loc[i,'委託書號'] = matchreply.orderno match_dd.loc[i,'子帳'] = matchreply.subact match_dd.loc[i,'商品類別'] = matchreply.productkind match_dd.loc[i,'商品代碼'] = matchreply.productid match_dd.loc[i,'買賣別'] = matchreply.bs match_dd.loc[i,'成交價格'] = matchreply.matchprice match_dd.loc[i,'成交口數'] = matchreply.matchqty match_dd.loc[i,'成交序號'] = matchreply.matchseq match_dd.loc[i,'成交價1'] = matchreply.matchpricefoot1 match_dd.loc[i,'成交價2'] = matchreply.matchpricefoot2 match_dd.loc[i,'備註'] = matchreply.note match_dd.loc[i,'異動時間'] = matchreply.mdate i=i+1 clear_output(wait=True) display(match_dd) else: print(\"查詢發生錯誤\"+query_match_response.error) . #系統登出 api.logout() print('登出完畢') print(f\"登入旗標{api.login_status_flag}\") . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E5%85%A7%E6%9C%9F%E5%A7%94%E8%A8%97%E7%AF%84%E4%BE%8B",
+    
+    "relUrl": "/教學/內期委託範例"
+  },"4": {
+    "doc": "內期帳務範例",
+    "title": "內期帳務範例",
+    "content": "!pip install - r requirements.txt #安裝顯示表格套件 !pip install pandas . ##API初始&amp;登入 import pfcf from pfcf.pfcf import * from pfcf.product import * from pfcf.trade.ddata import * from typing import List #匯入顯示資料套件 import pandas as pd from IPython.display import display, clear_output pd.set_option('display.max_columns', None) pd.set_option('display.max_rows', None) pd.set_option('display.width', None) #初始API api = Pfcf() #錯誤事件處理 api.on_error = lambda error: print(f'api錯誤 {error}') #系統登入 loginresponse = api.login( \"http://test167.pfctrade.com\", \"80009808401\", \"j19810916\", 'PSC_A226097195_20250310.pfx', '12345678')#url,帳號,密碼,憑證檔名,憑證密碼 #顯示登入結果 print(loginresponse) print(f\"登入旗標{api.login_status_flag}\") print(f\"交易帳號{api.get_accounts()}\") . ## 保證金查詢範例 actno = '9808401'# 使用帳號 # 初始數據 reply_data = [['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']] reply_dd = pd.DataFrame(reply_data) reply_dd.columns = ['總筆數', '現在筆數', '網路序號', '公司別', '帳號', '帳務日期', '幣別', '匯率', '昨日權益數', '昨日餘額', '存提', '期貨平倉損益', '未沖銷期貨浮動損益', '選擇權平倉損益', '選擇權未平倉損益', '當日權利金支出收入', '成交手續費', '成交期交稅', '委託預扣權利金', '權益數', '委託預扣原始保證金', '原始保證金', '維持保證金', '可動用(出金)保證金', '買方選擇權市值', '賣方選擇權市值', '權益總值', '原始比率', '維持比率', '清算比率', '台幣權益總值', '台幣原始比率', '台幣可動用(出金)保證金', '有價證券抵繳金額', '加收保證金', '風險指標', '資料更新日期', '資料更新時間', '有價證券評價價值', '到期履約損益', '交易總額度', '超額/追繳保證金', '資料來源類別', '夜盤收盤權益數', '夜盤風險指標', '夜盤權利總值', '夜盤原始保證金', '夜盤維持保證金'] #查詢保證金 query_reply_response = api.daccount.get_margin(actno, 'NTT') if query_reply_response.ok == True: margin = query_reply_response.data new_row = {} new_row[\"總筆數\"] = margin.total_count new_row[\"現在筆數\"] = margin.current_count new_row[\"網路序號\"] = margin.network_id new_row[\"公司別\"] = margin.company new_row[\"帳號\"] = margin.actno new_row[\"帳務日期\"] = margin.account_date new_row[\"幣別\"] = margin.currency new_row[\"匯率\"] = margin.exrate new_row[\"昨日權益數\"] = margin.lctdab new_row[\"昨日餘額\"] = margin.ltdab new_row[\"存提\"] = margin.dwamt new_row[\"期貨平倉損益\"] = margin.osprtlos new_row[\"未沖銷期貨浮動損益\"] = margin.prtlos new_row[\"選擇權平倉損益\"] = margin.optosprtlos new_row[\"選擇權未平倉損益\"] = margin.optprtlos new_row[\"當日權利金支出收入\"] = margin.tpremium new_row[\"成交手續費\"] = margin.orignfee new_row[\"成交期交稅\"] = margin.ctaxamt new_row[\"委託預扣權利金\"] = margin.ordpremium new_row[\"權益數\"] = margin.ctdab new_row[\"委託預扣原始保證金\"] = margin.ordiamt new_row[\"原始保證金\"] = margin.iamt new_row[\"維持保證金\"] = margin.mamt new_row[\"可動用(出金) 保證金\"] = margin.ordcexcess new_row[\"買方選擇權市值\"] = margin.bpremium new_row[\"賣方選擇權市值\"] = margin.spremium new_row[\"權益總值\"] = margin.optequity new_row[\"原始比率\"] = margin.inirate new_row[\"維持比率\"] = margin.matrate new_row[\"清算比率\"] = margin.liquidation_ratio new_row[\"台幣權益總值\"] = margin.twdoptequity new_row[\"台幣原始比率\"] = margin.twdinirate new_row[\"台幣可動用(出金)保證金\"] = margin.twdordexcess new_row[\"有價證券抵繳金額\"] = margin.securities_payment_amount new_row[\"加收保證金\"] = margin.tmp1prices new_row[\"風險指標\"] = margin.optrate new_row[\"資料更新日期\"] = margin.update_date new_row[\"資料更新時間\"] = margin.update_time new_row[\"有價證券評價價值\"] = margin.securities_valuation new_row[\"到期履約損益\"] = margin.excerciseprice new_row[\"交易總額度\"] = margin.transaction_total_quota new_row[\"超額/追繳保證金\"] = margin.excess_margin new_row[\"資料來源類別\"] = margin.data_source_type new_row[\"夜盤收盤權益數\"] = margin.night_session_closing_ctdab new_row[\"夜盤風險指標\"] = margin.night_session_optrate new_row[\"夜盤權利總值\"] = margin.night_session_optequity new_row[\"夜盤原始保證金\"] = margin.night_session_iamt new_row[\"夜盤維持保證金\"] = margin.night_session_mamt reply_data[0]=new_row reply_dd = pd.DataFrame(reply_data) else: print(query_reply_response.error) clear_output(wait=True) display(reply_dd) . # 未平倉查詢範例 actno = '9808401'# 使用帳號 # 初始數據 reply_data=[['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','']] dd = pd.DataFrame(reply_data) dd.columns = ['現在筆數','網路序號','公司別','帳號','商品代碼','買賣別','留倉口數','成交均價','即時價','浮動損益','交易稅','手續費','淨損益','腳一商品類別','腳一商品年月','腳一履約價','腳一買賣權','腳一買賣別','腳一成交均價','腳二商品類別','腳二商品年月','腳二履約價','腳二買賣權','腳二買賣別','腳二成交均價','商品名稱','腳一商品','腳二商品','複式單策略名稱','資料來源類別'] #查詢未平倉 query_reply_response = api.daccount.get_unliquidation(actno, 'NTT') if query_reply_response.ok == True: i=0 for data in query_reply_response.data: dd.loc[i,\"現在筆數\"]=data.current_count dd.loc[i,\"網路序號\"]=data.network_id dd.loc[i,\"公司別\"]=data.company dd.loc[i,\"帳號\"]=data.actno dd.loc[i,\"商品代碼\"]=data.productid dd.loc[i,\"買賣別\"]=data.bs dd.loc[i,\"留倉口數\"]=data.totalotqty dd.loc[i,\"成交均價\"]=data.avgmatchprice dd.loc[i,\"即時價\"]=data.realprice dd.loc[i,\"浮動損益\"]=data.reftotalpl dd.loc[i,\"交易稅\"]=data.ctaxamt dd.loc[i,\"手續費\"]=data.commission_fee dd.loc[i,\"淨損益\"]=data.net_profit_loss dd.loc[i,\"腳一商品類別\"]=data.leg1_product_category dd.loc[i,\"腳一商品年月\"]=data.leg1_product_date dd.loc[i,\"腳一履約價\"]=data.leg1_strike_price dd.loc[i,\"腳一買賣權\"]=data.leg1_call_put dd.loc[i,\"腳一買賣別\"]=data.leg1_buy_sell dd.loc[i,\"腳一成交均價\"]=data.leg1_average_price dd.loc[i,\"腳二商品類別\"]=data.leg2_product_category dd.loc[i,\"腳二商品年月\"]=data.leg2_product_date dd.loc[i,\"腳二履約價\"]=data.leg2_strike_price dd.loc[i,\"腳二買賣權\"]=data.leg2_call_put dd.loc[i,\"腳二買賣別\"]=data.leg2_buy_sell dd.loc[i,\"腳二成交均價\"]=data.leg2_average_price dd.loc[i,\"商品名稱\"]=data.product_name dd.loc[i,\"腳一商品\"]=data.leg1_productid dd.loc[i,\"腳二商品\"]=data.leg2_productid dd.loc[i,\"複式單策略名稱\"]=data.multiname dd.loc[i,\"資料來源類別\"]=data.data_source_type i=i+1 else: print(query_reply_response.error) clear_output(wait=True) display(dd) . # 即時部位查詢範例 actno = '9808401'# 使用帳號 # 初始數據 reply_data=[['','','','','','','','','','','','','','','','','','','','','','','','','','','','','']] dd = pd.DataFrame(reply_data) dd.columns = ['現在筆數','網路序號','公司別','帳號','幣別','商品','月份','Call Put','履約價','前日買進留倉','前日賣出留倉','本日買進委託','本日賣出委託','本日買進成交','本日賣出成交','本日平倉','目前買進留倉','目前賣出留倉','組合買進餘額','組合賣出餘額','留倉買進平均成本','留倉賣出平均成本','買方原始保證金','賣方原始保證金','買方維持保證金','賣方維持保證金','商品基數','參考即時價','平倉損益'] #查詢即時部位 query_reply_response = api.daccount.get_position(actno, 'NTT') if query_reply_response.ok == True: i=0 for data in query_reply_response.data: dd.loc[i,'現在筆數']=data.current_count dd.loc[i,'網路序號']=data.network_id dd.loc[i,'公司別']=data.company dd.loc[i,'帳號']=data.actno dd.loc[i,'幣別']=data.currency dd.loc[i,'商品']=data.product dd.loc[i,'月份']=data.month dd.loc[i,'Call Put']=data.call_put dd.loc[i,'履約價']=data.strike_price dd.loc[i,'前日買進留倉']=data.ot_qty_b dd.loc[i,'前日賣出留倉']=data.ot_qty_s dd.loc[i,'本日買進委託']=data.noworder_qty_b dd.loc[i,'本日賣出委託']=data.noworder_qty_s dd.loc[i,'本日買進成交']=data.nowmatch_qty_b dd.loc[i,'本日賣出成交']=data.nowmatch_qty_s dd.loc[i,'本日平倉']=data.today_close_position dd.loc[i,'目前買進留倉']=data.current_buy_open_position dd.loc[i,'目前賣出留倉']=data.current_sell_open_position dd.loc[i,'組合買進餘額']=data.combined_buy_balance dd.loc[i,'組合賣出餘額']=data.combined_sell_balance dd.loc[i,'留倉買進平均成本']=data.open_buy_position_average_cost dd.loc[i,'留倉賣出平均成本']=data.open_sell_position_average_cost dd.loc[i,'買方原始保證金']=data.buyer_IAMT dd.loc[i,'賣方原始保證金']=data.seller_IAMT dd.loc[i,'買方維持保證金']=data.buyer_MAMT dd.loc[i,'賣方維持保證金']=data.seller_MAMT dd.loc[i,'商品基數']=data.product_base_number dd.loc[i,'參考即時價']=data.reference_realPrice dd.loc[i,'平倉損益']=data.close_position_pnl i=i+1 clear_output(wait=True) display(dd) else: print(query_reply_response.error) . #系統登出 api.logout() print('登出完畢') print(f\"登入旗標{api.login_status_flag}\") . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E5%85%A7%E6%9C%9F%E5%B8%B3%E5%8B%99%E7%AF%84%E4%BE%8B",
+    
+    "relUrl": "/教學/內期帳務範例"
+  },"5": {
+    "doc": "內期行情範例",
+    "title": "內期行情範例",
+    "content": "!pip install -r requirements.txt #安裝顯示表格套件 !pip install plotly . 初始化 . ##API初始&amp;登入 import pfcf from pfcf.pfcf import * from pfcf.product import * from pfcf.quote.ddata import * from typing import List #匯入顯示表格套件 import plotly.graph_objs as go from plotly.offline import init_notebook_mode # 初始數據 init_notebook_mode(connected=True) header1 = dict(values=['成交時間', '成交價','成交量','買價1','買量1' ,'買價2','買量2' ,'買價3','買量3' ,'買價4','買量4' ,'買價5','買量5', '賣價1','賣量1' ,'賣價2','賣量2' ,'賣價3','賣量3' ,'賣價4','賣量4' ,'賣價5','賣量5']) data1 = [['','','','','','','','','','','','','','','','','','','','','','','']] header2 = dict(values=['開盤時間','開盤價' ,'開盤量','最高低價時間' ,'最高','最低']) data2 = [['','','','','','']] header3 = dict(values=['現貨統計時間','現貨價格']) data3 = [['','']] # 創建初始表格 fig = go.FigureWidget(data=[go.Table( header=header1, cells=dict(values=list(zip(*data1)), align='left'),)]) fig.update_layout(height=100, margin=dict(t=0, b=0, l=0, r=0),autosize=True) fig2 = go.FigureWidget(data=[go.Table( header=header2, cells=dict(values=list(zip(*data2)), align='left'),)]) fig2.update_layout(height=100, margin=dict(t=0, b=0, l=0, r=0),autosize=True) fig3 = go.FigureWidget(data=[go.Table( header=header3, cells=dict(values=list(zip(*data3)), align='left'),)]) fig3.update_layout(height=100, margin=dict(t=0, b=0, l=0, r=0),autosize=True) col_idx = {header: idx for idx, header in enumerate(header1['values'])} col2_idx = {header: idx for idx, header in enumerate(header2['values'])} col3_idx = {header: idx for idx, header in enumerate(header3['values'])} . #初始API api = Pfcf() #錯誤事件處理 api.on_error = lambda error: print(f'api錯誤 {error}') #系統登入 loginresponse = api.login( \"http://test167.pfctrade.com\", \"80009809769\", \"Aa123456\", 'PSC_A226097195_20250310.pfx', '12345678')#url,帳號,密碼,憑證檔名,憑證密碼 #顯示登入結果 print(loginresponse) print(f\"登入旗標{api.login_status_flag}\") print(f\"交易帳號{api.get_accounts()}\") . 查詢成交價 . #查詢成交和最佳買賣價接收範例 productid='TXFG4'#商品代碼 if loginresponse.ok == True: display(fig) display(fig2) #查詢開盤價量 tickdataopenResponse=api.dquote.query_tickdataopen(productid) if tickdataopenResponse.ok == True: tickdataopen=tickdataopenResponse.data cur = list(fig2.data[0].cells.values) cur[col2_idx['開盤時間']] = tickdataopen.opentime cur[col2_idx['開盤價']] = tickdataopen.openprice cur[col2_idx['開盤量'] ]= tickdataopen.openquantity with fig.batch_update(): fig2.data[0].cells.values = cur else: print(\"tickdataopen \"+tickdataopenResponse.error) #查詢成交價量 tickDataTradeResponse=api.dquote.query_tickdatatrade(productid) if tickDataTradeResponse.ok == True: tickdatatrade=tickDataTradeResponse.data cur = list(fig.data[0].cells.values) cur[col_idx['成交時間']] = tickdatatrade.matchtime cur[col_idx['成交價']] = tickdatatrade.matchprice cur[col_idx['成交量']] = tickdatatrade.matchquantity with fig.batch_update(): fig.data[0].cells.values = cur else: print(\"tickdatatrade \"+tickDataTradeResponse.error) #查詢最高最低價 tickDataHignLowResponse=api.dquote.query_tickdatahighlow(productid) if tickDataHignLowResponse.ok == True: tickdatahighlow=tickDataHignLowResponse.data cur = list(fig2.data[0].cells.values) cur[col2_idx['最高']] = tickdatahighlow.dayhighprice cur[col2_idx['最低']] = tickdatahighlow.daylowprice cur[col2_idx['最高低價時間']] = tickdatahighlow.showtime with fig.batch_update(): fig2.data[0].cells.values = cur else: print(\"tickdatahighlow \"+tickDataTradeResponse.error) #查詢最佳買賣價量 tickDataBeforeBidOfferResponse=api.dquote.query_tickdatabidoffer(productid) if tickDataBeforeBidOfferResponse.ok == True: tickdatabidoffer=tickDataBeforeBidOfferResponse.data cur = list(fig.data[0].cells.values) cur[col_idx['買價1']] = tickdatabidoffer.bp1 cur[col_idx['買量1']] = tickdatabidoffer.bq1 cur[col_idx['買價2']] = tickdatabidoffer.bp2 cur[col_idx['買量2']] = tickdatabidoffer.bq2 cur[col_idx['買價3']] = tickdatabidoffer.bp3 cur[col_idx['買量3']] = tickdatabidoffer.bq3 cur[col_idx['買價4']] = tickdatabidoffer.bp4 cur[col_idx['買量4']] = tickdatabidoffer.bq4 cur[col_idx['買價5']] = tickdatabidoffer.bp5 cur[col_idx['買量5']] = tickdatabidoffer.bq5 cur[col_idx['賣價1']] = tickdatabidoffer.sp1 cur[col_idx['賣量1']] = tickdatabidoffer.sq1 cur[col_idx['賣價2']] = tickdatabidoffer.sp2 cur[col_idx['賣量2']] = tickdatabidoffer.sq2 cur[col_idx['賣價3']] = tickdatabidoffer.sp3 cur[col_idx['賣量3']] = tickdatabidoffer.sq3 cur[col_idx['賣價4']] = tickdatabidoffer.sp4 cur[col_idx['賣量4']] = tickdatabidoffer.sq4 cur[col_idx['賣價5']] = tickdatabidoffer.sp5 cur[col_idx['賣量5']] = tickdatabidoffer.sq5 with fig.batch_update(): fig.data[0].cells.values = cur else: print(\"tickdatabidoffer \"+tickDataBeforeBidOfferResponse.error) . #訂閱成交和最佳買賣價接收範例 productid='TXFG4'#商品代碼 #開盤價量接收處理 def on_tickdataopen(tickdataopen: DTickDataOpen): cur = list(fig2.data[0].cells.values) cur[col_idx['開盤時間']] = tickdataopen.opentime cur[col_idx['開盤價']] = tickdataopen.openprice cur[col_idx['開盤量'] ]= tickdataopen.openquantity with fig2.batch_update(): fig2.data[0].cells.values = cur #成交價量接收處理 def on_tickdatatrade(tickdatatrade: DTickDataTrade): cur = list(fig.data[0].cells.values) cur[col_idx['成交時間']] = tickdatatrade.matchtime cur[col_idx['成交價']] = tickdatatrade.matchprice cur[col_idx['成交量']] = tickdatatrade.matchquantity with fig.batch_update(): fig.data[0].cells.values = cur #最高最低價接收處理 def on_tickdatahighlow(tickdatahighlow: DTickDataHighLow): cur = list(fig2.data[0].cells.values) cur[col_idx['最高']] = tickdatahighlow.dayhighprice cur[col_idx['最低']] = tickdatahighlow.daylowprice cur[col_idx['最高低價時間']] = tickdatahighlow.showtime with fig2.batch_update(): fig2.data[0].cells.values = cur #最佳買賣價量接收處理 def on_tickdatabidoffer(tickdatabidoffer: DTickDataBidOffer): cur = list(fig.data[0].cells.values) cur[col_idx['買價1']] = tickdatabidoffer.bp1 cur[col_idx['買量1']] = tickdatabidoffer.bq1 cur[col_idx['買價2']] = tickdatabidoffer.bp2 cur[col_idx['買量2']] = tickdatabidoffer.bq2 cur[col_idx['買價3']] = tickdatabidoffer.bp3 cur[col_idx['買量3']] = tickdatabidoffer.bq3 cur[col_idx['買價4']] = tickdatabidoffer.bp4 cur[col_idx['買量4']] = tickdatabidoffer.bq4 cur[col_idx['買價5']] = tickdatabidoffer.bp5 cur[col_idx['買量5']] = tickdatabidoffer.bq5 cur[col_idx['賣價1']] = tickdatabidoffer.sp1 cur[col_idx['賣量1']] = tickdatabidoffer.sq1 cur[col_idx['賣價2']] = tickdatabidoffer.sp2 cur[col_idx['賣量2']] = tickdatabidoffer.sq2 cur[col_idx['賣價3']] = tickdatabidoffer.sp3 cur[col_idx['賣量3']] = tickdatabidoffer.sq3 cur[col_idx['賣價4']] = tickdatabidoffer.sp4 cur[col_idx['賣量4']] = tickdatabidoffer.sq4 cur[col_idx['賣價5']] = tickdatabidoffer.sp5 cur[col_idx['賣量5']] = tickdatabidoffer.sq5 with fig.batch_update(): fig.data[0].cells.values = cur #訂閱接收事件 api.dquote.on_tickdataopen = on_tickdataopen api.dquote.on_tickdatahighlow = on_tickdatahighlow api.dquote.on_tickdatatrade = on_tickdatatrade api.dquote.on_tickdatabidoffer = on_tickdatabidoffer if loginresponse.ok == True: subok,msg=api.dquote.subscribe_tradebidoffer(productid) print(f'註冊成交買賣價量 {productid} {subok} {msg}') subok,msg=api.dquote.subscribe_highlow(productid) print(f'註冊最高最低價 {productid} {subok} {msg}') subok,msg=api.dquote.subscribe_open(productid) print(f'註冊開收盤價 {productid} {subok} {msg}') display(fig) display(fig2) else: print(loginresponse.error) . #反註冊報價 unsub_ok,msg=api.dquote.unsubscribe_tradebidoffer(productid) print(f'反註冊成交買賣價量 {productid} {unsub_ok} {msg}') unsub_ok,msg=api.dquote.unsubscribe_highlow(productid) print(f'反註冊最高最低價 {productid} {unsub_ok} {msg}') unsub_ok,msg=api.dquote.unsubscribe_open(productid) print(f'反註冊開收盤價 {productid} {unsub_ok} {msg}') . #查詢現貨價量範例 index_id='TXF'#代碼 display(fig3) if loginresponse.ok == True: #查詢 indexdataResponse=api.dquote.query_indexdata(index_id) if indexdataResponse.ok == True: indexdata=indexdataResponse.data cur = list(fig3.data[0].cells.values) cur[col3_idx['現貨統計時間']] = indexdata.index_time cur[col3_idx['現貨價格']] = indexdata.index_value with fig3.batch_update(): fig3.data[0].cells.values = cur else: print(indexdataResponse.error) . #訂閱現貨價量接收範例 index_id='TXF' #代碼 #接收現貨價量處理 def on_indexdata(indexdata: DIndexData): cur = list(fig3.data[0].cells.values) cur[col3_idx['現貨統計時間']] = indexdata.index_time cur[col3_idx['現貨價格']] = indexdata.index_value with fig3.batch_update(): fig3.data[0].cells.values = cur #訂閱事件 api.dquote.on_indexdata = on_indexdata if loginresponse.ok == True: #註冊報價 subok,msg=api.dquote.subscribe_indexdata('1',index_id) print(f'註冊現貨價量 {index_id} {subok} {msg}') display(fig3) else: print(loginresponse.error) . #反註冊現貨價量接收 unsub_ok,msg=api.dquote.unsubscribe_indexdata('1',index_id) print(f'反註冊現貨價量 {index_id} {unsub_ok} {msg}') . #系統登出 api.logout() print('登出完畢') print(f\"登入旗標{api.login_status_flag}\") . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E5%85%A7%E6%9C%9F%E8%A1%8C%E6%83%85%E7%AF%84%E4%BE%8B",
+    
+    "relUrl": "/教學/內期行情範例"
+  },"6": {
+    "doc": "商品取得範例",
+    "title": "商品取得範例",
+    "content": "!pip install - r requirements.txt #安裝顯示表格套件 !pip install pandas . ##API初始&amp;登入 import pfcf from pfcf.pfcf import * from pfcf.product import * from pfcf.trade.ddata import * from typing import List #匯入顯示資料套件 import pandas as pd from IPython.display import display, clear_output pd.set_option('display.max_columns', None) pd.set_option('display.max_rows', None) pd.set_option('display.width', None) #初始API api = Pfcf() #錯誤事件處理 api.on_error = lambda error: print(f'api錯誤 {error}') #系統登入 loginresponse = api.login( \"http://test167.pfctrade.com\", \"80009808401\", \"j19810916\", 'PSC_A226097195_20250310.pfx', '12345678')#url,帳號,密碼,憑證檔名,憑證密碼 #顯示登入結果 print(loginresponse) print(f\"登入旗標{api.login_status_flag}\") print(f\"交易帳號{api.get_accounts()}\") . # 內期商品取得範例 # 初始數據 data = [['', '', '', '', '']] dd = pd.DataFrame(data) dd.columns = ['商品代號', '商品名稱', '股票代碼', '類別', '合約基數'] p09s = api.get_p09s() i = 0 for key, value in p09s.items(): print(data) dd.loc[i, '商品代號'] = value.kind_id dd.loc[i, '商品名稱'] = value.name dd.loc[i, '股票代碼'] = value.stock_id dd.loc[i, '類別'] = value.subtype dd.loc[i, '合約基數'] = value.contract_size i = i+1 clear_output(wait=True) display(dd) . # 內期期貨合約取得範例 # 初始數據 data = [['','','','','','','']] dd = pd.DataFrame(data) dd.columns = ['商品代號','年月','CP','履約價','漲停價','跌停價','參考價'] query_response = api.get_p08mf(\"TXF\")#商品類別碼 if query_response.ok == True: i=0 for data in query_response.data: dd.loc[i,'商品代號']=data.prod_id dd.loc[i,'年月']=data.month dd.loc[i,'CP']=data.cp dd.loc[i,'履約價']=data.stikeprice dd.loc[i,'漲停價']=data.maxprice dd.loc[i,'跌停價']=data.minprice dd.loc[i,'參考價']=data.premium i=i+1 clear_output(wait=True) display(dd) else: print(query_response.error) . # 內期選擇權合約取得範例 # 初始數據 data = [['','','','','','','']] dd = pd.DataFrame(data) dd.columns = ['商品代號','年月','CP','履約價','漲停價','跌停價','參考價'] query_response = api.get_p08m(\"TXO\")#商品類別碼 if query_response.ok == True: i=0 for data in query_response.data: dd.loc[i,'商品代號']=data.prod_id dd.loc[i,'年月']=data.month dd.loc[i,'CP']=data.cp dd.loc[i,'履約價']=data.stikeprice dd.loc[i,'漲停價']=data.maxprice dd.loc[i,'跌停價']=data.minprice dd.loc[i,'參考價']=data.premium i=i+1 clear_output(wait=True) display(dd) else: print(query_response.error) . # 外期交易所取得範例 # 初始數據 data = [['', '', '', '']] dd = pd.DataFrame(data) dd.columns = ['交易所', '中文名稱', '區域', '幣別'] exchanges = api.get_exchanges() i = 0 for key, value in exchanges.items(): print(data) dd.loc[i, '交易所'] = value.exchange dd.loc[i, '中文名稱'] = value.name dd.loc[i, '區域'] = value.country dd.loc[i, '幣別'] = value.currency i = i+1 clear_output(wait=True) display(dd) . # 外期商品取得範例 # 初始數據 data = [['', '', '', '', '', '', '']] dd = pd.DataFrame(data) dd.columns = ['交易所', '商品代碼', '類型(期貨:F 選擇權:O)','中文名稱','中文簡稱','區域', '幣別'] symboldatas = api.get_symboldatas() i = 0 for key, value in symboldatas.items(): print(data) dd.loc[i, '交易所'] = value.exchange dd.loc[i, '商品代碼'] = value.symbol dd.loc[i, '類型(期貨:F 選擇權:O)'] = value.type dd.loc[i, '中文名稱'] = value.name dd.loc[i, '中文簡稱'] = value.shortname dd.loc[i, '區域'] = value.country dd.loc[i, '幣別'] = value.currency i = i+1 clear_output(wait=True) display(dd) . # 外期商品取得範例 # 初始數據 data = [['', '', '', '', '', '', '']] dd = pd.DataFrame(data) dd.columns = ['交易所', '商品代碼', '類型(期貨:F 選擇權:O)','年月','履約價','call put', '最後交易日'] query_response =api.get_symbol_contract(\"CME\",\"NQ\",\"F\")#交易所代碼,商品代碼,F:期貨O:選擇權 if query_response.ok == True: i=0 for data in query_response.data: dd.loc[i, '交易所'] = data.exchange dd.loc[i, '商品代碼'] = data.symbol dd.loc[i, '類型(期貨:F 選擇權:O)'] = data.type dd.loc[i, '年月'] = data.monthyear dd.loc[i, '履約價'] = data.strikeprice dd.loc[i, 'call put'] = data.cp dd.loc[i, '最後交易日'] = data.lasttradedate i=i+1 clear_output(wait=True) display(dd) else: print(query_response.error) . #系統登出 api.logout() print('登出完畢') print(f\"登入旗標{api.login_status_flag}\") . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E5%95%86%E5%93%81%E5%8F%96%E5%BE%97%E7%AF%84%E4%BE%8B",
+    
+    "relUrl": "/教學/商品取得範例"
+  },"7": {
+    "doc": "外期委託範例",
+    "title": "外期委託範例",
+    "content": "!pip install - r requirements.txt #安裝顯示表格套件 !pip install pandas . ##API初始&amp;登入 import pfcf from pfcf.pfcf import * from pfcf.product import * from pfcf.trade.fdata import * from typing import List #匯入顯示資料套件 import pandas as pd from IPython.display import display,clear_output pd.set_option('display.max_columns', None) pd.set_option('display.max_rows', None) pd.set_option('display.width', None) api = Pfcf() #錯誤事件處理 api.on_error = lambda error: print(f'api錯誤 {error}') loginresponse = api.login( \"http://test167.pfctrade.com\", \"80009808401\", \"j19810916\", 'PSC_A226097195_20250310.pfx', '12345678')#url,帳號,密碼,憑證檔名,憑證密碼 #顯示登入結果 print(loginresponse) print(f\"登入旗標{api.login_status_flag}\") print(f\"交易帳號{api.get_accounts()}\") ##使用帳號 actno='9808401' ##初始資料 reply_data = [ ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','']] reply_dd = pd.DataFrame(reply_data) reply_dd.columns=['分公司','帳號','網路流水序號','委託時間','委託書號','子帳', '商品類別','交易所','商品代碼','年月','CP','履約價','商品代碼2','年月2','CP2','履約價2','買賣別','價格別','委託價格','委託數量','未成交數量', '成交數量','刪除數量','下單方式','開倉別','異動時間','委託狀態','委託狀態碼','下單序號','pricebase'] match_data = [ ['','','','','','','','','','','','','','','','','','','','','','','','','']] match_dd = pd.DataFrame(match_data) match_dd.columns=['分公司','帳號','網路流水序號','成交時間','委託書號','子帳', '商品類別','交易所','商品代碼','年月','CP','履約價','商品代碼2','年月2','CP2','履約價2','買賣別','成交價格','成交口數','成交序號', '成交價1','成交價2','備註','異動時間','pricebase'] . #訂閱回報接收範例 def on_reply(orderreply: FOrderReply): i=len(reply_dd)+1 reply_dd.loc[i, '分公司'] = orderreply.brokerid reply_dd.loc[i, '帳號'] = orderreply.investoracno reply_dd.loc[i, '網路流水序號'] = orderreply.networkid reply_dd.loc[i, '委託時間'] = orderreply.ordertime reply_dd.loc[i, '委託書號'] = orderreply.orderno reply_dd.loc[i, '子帳'] = orderreply.subact reply_dd.loc[i, '商品類別'] = orderreply.productkind reply_dd.loc[i, '交易所'] = orderreply.exchange reply_dd.loc[i, '商品代碼'] = orderreply.symbol reply_dd.loc[i, '年月'] = orderreply.maturitymonthyear reply_dd.loc[i, 'CP'] = orderreply.putorcall reply_dd.loc[i, '履約價'] = orderreply.strikeprice reply_dd.loc[i, '商品代碼2'] = orderreply.symbol2 reply_dd.loc[i, '年月2'] = orderreply.maturitymonthyear2 reply_dd.loc[i, 'CP2'] = orderreply.putorcall2 reply_dd.loc[i, '履約價2'] = orderreply.strikeprice2 reply_dd.loc[i, '買賣別'] = orderreply.bs reply_dd.loc[i, '價格別'] = orderreply.ordertype reply_dd.loc[i, '委託價格'] = orderreply.price reply_dd.loc[i, '委託數量'] = orderreply.orderqty reply_dd.loc[i, '未成交數量'] = orderreply.nomatchqty reply_dd.loc[i, '成交數量'] = orderreply.matchqty reply_dd.loc[i, '刪除數量'] = orderreply.delqty reply_dd.loc[i, '下單方式'] = orderreply.ordercondition reply_dd.loc[i, '開倉別'] = orderreply.opencloseflag reply_dd.loc[i, '異動時間'] = orderreply.mdate reply_dd.loc[i, '委託狀態'] = orderreply.orderstatus reply_dd.loc[i, '委託狀態碼'] = orderreply.statuscode reply_dd.loc[i, '開倉別'] = orderreply.opencloseflag reply_dd.loc[i, '下單序號'] = orderreply.seq reply_dd.loc[i, 'pricebase'] = orderreply.pricebase clear_output(wait=True) display(reply_dd) display(match_dd) def on_match(matchreply: FMatchReply): print(\"match\") i=len(match_dd)+1 match_dd.loc[i, '分公司'] = matchreply.brokerid match_dd.loc[i, '帳號'] = matchreply.investoracno match_dd.loc[i, '網路流水序號'] = matchreply.networkid match_dd.loc[i, '成交時間'] = matchreply.matchtime match_dd.loc[i, '委託書號'] = matchreply.orderno match_dd.loc[i, '子帳'] = matchreply.subact match_dd.loc[i, '商品類別'] = matchreply.productkind match_dd.loc[i, '交易所'] = matchreply.exchange match_dd.loc[i, '商品代碼'] = matchreply.symbol match_dd.loc[i, '年月'] = matchreply.maturitymonthyear match_dd.loc[i, 'CP'] = matchreply.putorcall match_dd.loc[i, '履約價'] = matchreply.strikeprice match_dd.loc[i, '商品代碼2'] = matchreply.symbol2 match_dd.loc[i, '年月2'] = matchreply.maturitymonthyear2 match_dd.loc[i, 'CP2'] = matchreply.putorcall2 match_dd.loc[i, '履約價2'] = matchreply.strikeprice2 match_dd.loc[i, '買賣別'] = matchreply.bs match_dd.loc[i, '成交價格'] = matchreply.matchprice match_dd.loc[i, '成交口數'] = matchreply.matchqty match_dd.loc[i, '成交序號'] = matchreply.matchseq match_dd.loc[i, '備註'] = matchreply.note match_dd.loc[i, '異動時間'] = matchreply.mdate match_dd.loc[i, 'pricebase'] = matchreply.pricebase clear_output(wait=True) display(reply_dd) display(match_dd) api.ftrade.on_reply=on_reply api.ftrade.on_match=on_match print('訂閱完畢') . #下單 order = FOrderObject() order.actno = actno#帳號 order.note = \"ordertest\"#備註 order.subactno = \"\"#子帳 order.exchange = \"CME\"#交易所 order.symbol= \"AD\"#商品 order.maturitymonthyear = \"202409\"#年月 order.putorcall=\"F\"#F:期貨 C:Call P:Put order.bs = \"B\"#買賣別B/S order.ordertype = \"M\"#L:限價 M:市價 3:停損市價 4:停損限價 order.price = 0#委託價格 order.stopprice=0#停損價格 order.orderqty = 1#委託數量 order.ordercondition = \"R\"##委託種類 I:IOC R:ROD F:FOK order.opencloseflag = \"\"##開倉別 str 0:新倉 1:平倉 空白:自動 order.dtrade=\"N\"## Y:當沖 N:非當沖 orderresponse=api.ftrade.order(order) print(f\" 是否成功 {orderresponse.issend} 下單序號 {orderresponse.seq} 錯誤代碼 {orderresponse.errorcode} 錯誤訊息 {orderresponse.errormsg}\") . #刪單 replace=FReplaceObject() replace.replacetype=\"4\"#4:取消, 5: 減量, m:改價 replace.actno = actno#帳號 replace.orderno=\"C0047\"#委託書號 replaceresponse=api.dtrade.replace_order(replace) print(f\" 是否成功 {replaceresponse.issend} 下單序號 {replaceresponse.seq} 錯誤代碼 {replaceresponse.errorcode} 錯誤訊息 {replaceresponse.errormsg}\") . #減量 replace=FReplaceObject() replace.replacetype=\"5\"#4:取消, 5: 減量, m:改價 replace.actno = actno#帳號 replace.orderno=\"\"#委託書號 replace.orderqty = 1#委託數量 replaceresponse=api.dtrade.replace_order(replace) print(f\" 是否成功 {replaceresponse.issend} 下單序號 {replaceresponse.seq} 錯誤代碼 {replaceresponse.errorcode} 錯誤訊息 {replaceresponse.errormsg}\") . #改價 replace=FReplaceObject() replace.replacetype=\"m\"#4:取消, 5: 減量, m:改價 replace.actno = actno#帳號 replace.orderno=\"\"#委託書號 replace.ordertype=\"L\"#L:限價 M:市價 3:停損市價 4:停損限價 replace.ordercondition=\"R\"##委託種類 I:IOC R:ROD F:FOK replace.price=22300#委託價格 replaceresponse=api.dtrade.replace_order(replace) print(f\" 是否成功 {replaceresponse.issend} 下單序號 {replaceresponse.seq} 錯誤代碼 {replaceresponse.errorcode} 錯誤訊息 {replaceresponse.errormsg}\") . ##委回查詢範例 query_reply_response=api.ftrade.query_reply(actno,500,\"\",\"\",\"\",\"\")#帳號,筆數,網路流水序號起,,網路流水序號迄,委託時間起,委託時間迄 if query_reply_response.ok == True: i=0 for orderreply in query_reply_response.data: reply_dd.loc[i, '分公司'] = orderreply.brokerid reply_dd.loc[i, '帳號'] = orderreply.investoracno reply_dd.loc[i, '網路流水序號'] = orderreply.networkid reply_dd.loc[i, '委託時間'] = orderreply.ordertime reply_dd.loc[i, '委託書號'] = orderreply.orderno reply_dd.loc[i, '子帳'] = orderreply.subact reply_dd.loc[i, '商品類別'] = orderreply.productkind reply_dd.loc[i, '交易所'] = orderreply.exchange reply_dd.loc[i, '商品代碼'] = orderreply.symbol reply_dd.loc[i, '年月'] = orderreply.maturitymonthyear reply_dd.loc[i, 'CP'] = orderreply.putorcall reply_dd.loc[i, '履約價'] = orderreply.strikeprice reply_dd.loc[i, '商品代碼2'] = orderreply.symbol2 reply_dd.loc[i, '年月2'] = orderreply.maturitymonthyear2 reply_dd.loc[i, 'CP2'] = orderreply.putorcall2 reply_dd.loc[i, '履約價2'] = orderreply.strikeprice2 reply_dd.loc[i, '買賣別'] = orderreply.bs reply_dd.loc[i, '價格別'] = orderreply.ordertype reply_dd.loc[i, '委託價格'] = orderreply.price reply_dd.loc[i, '委託數量'] = orderreply.orderqty reply_dd.loc[i, '未成交數量'] = orderreply.nomatchqty reply_dd.loc[i, '成交數量'] = orderreply.matchqty reply_dd.loc[i, '刪除數量'] = orderreply.delqty reply_dd.loc[i, '下單方式'] = orderreply.ordercondition reply_dd.loc[i, '開倉別'] = orderreply.opencloseflag reply_dd.loc[i, '異動時間'] = orderreply.mdate reply_dd.loc[i, '委託狀態'] = orderreply.orderstatus reply_dd.loc[i, '委託狀態碼'] = orderreply.statuscode reply_dd.loc[i, '開倉別'] = orderreply.opencloseflag reply_dd.loc[i, '下單序號'] = orderreply.seq reply_dd.loc[i, 'pricebase'] = orderreply.pricebase i=i+1 clear_output(wait=True) display(reply_dd) else: print(query_reply_response.error) . ##成回查詢範例 query_match_response=api.ftrade.query_match(actno,500,\"\",\"\",\"\",\"\")#帳號,筆數,網路流水序號起,,網路流水序號迄,成交時間起,成交時間迄 if query_match_response.ok == True: i=0 for matchreply in query_match_response.data: match_dd.loc[i, '分公司'] = matchreply.brokerid match_dd.loc[i, '帳號'] = matchreply.investoracno match_dd.loc[i, '網路流水序號'] = matchreply.networkid match_dd.loc[i, '成交時間'] = matchreply.matchtime match_dd.loc[i, '委託書號'] = matchreply.orderno match_dd.loc[i, '子帳'] = matchreply.subact match_dd.loc[i, '商品類別'] = matchreply.productkind match_dd.loc[i, '交易所'] = matchreply.exchange match_dd.loc[i, '商品代碼'] = matchreply.symbol match_dd.loc[i, '年月'] = matchreply.maturitymonthyear match_dd.loc[i, 'CP'] = matchreply.putorcall match_dd.loc[i, '履約價'] = matchreply.strikeprice match_dd.loc[i, '商品代碼2'] = matchreply.symbol2 match_dd.loc[i, '年月2'] = matchreply.maturitymonthyear2 match_dd.loc[i, 'CP2'] = matchreply.putorcall2 match_dd.loc[i, '履約價2'] = matchreply.strikeprice2 match_dd.loc[i, '買賣別'] = matchreply.bs match_dd.loc[i, '成交價格'] = matchreply.matchprice match_dd.loc[i, '成交口數'] = matchreply.matchqty match_dd.loc[i, '成交序號'] = matchreply.matchseq match_dd.loc[i, '備註'] = matchreply.note match_dd.loc[i, '異動時間'] = matchreply.mdate match_dd.loc[i, 'pricebase'] = matchreply.pricebase i=i+1 clear_output(wait=True) display(reply_dd) else: print(query_match_response.error) . #系統登出 api.logout() print('登出完畢') print(f\"登入旗標{api.login_status_flag}\") . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E5%A4%96%E6%9C%9F%E5%A7%94%E8%A8%97%E7%AF%84%E4%BE%8B",
+    
+    "relUrl": "/教學/外期委託範例"
+  },"8": {
+    "doc": "外期帳務範例",
+    "title": "外期帳務範例",
+    "content": "!pip install - r requirements.txt #安裝顯示表格套件 !pip install pandas . ##API初始&amp;登入 import pfcf from pfcf.pfcf import * from pfcf.product import * from pfcf.trade.ddata import * from typing import List #匯入顯示資料套件 import pandas as pd from IPython.display import display, clear_output pd.set_option('display.max_columns', None) pd.set_option('display.max_rows', None) pd.set_option('display.width', None) #初始API api = Pfcf() #錯誤事件處理 api.on_error = lambda error: print(f'api錯誤 {error}') #系統登入 loginresponse = api.login( \"http://test167.pfctrade.com\", \"80009808401\", \"j19810916\", 'PSC_A226097195_20250310.pfx', '12345678')#url,帳號,密碼,憑證檔名,憑證密碼 #顯示登入結果 print(loginresponse) print(f\"登入旗標{api.login_status_flag}\") print(f\"交易帳號{api.get_accounts()}\") . The package version is 1.0.0.1 Pfcf.LoginResponse(ok=True, error='') . # 保證金查詢範例 actno = '9808401'# 使用帳號 # 初始數據 reply_data = [['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','']] dd = pd.DataFrame(reply_data) dd.columns = ['幣別','前日帳款餘額','手續費','匯率','期交稅','存提金額','平倉損益','未平倉損益','買方選擇權市值','賣方選擇權市值','下單預扣權利金','當日權利金收支','淨值','原始保證金','維持保證金','可用餘額','下單可用保證金','當日委託保證金','履約損益','變動權利金','洗價時間','追繳金額','昨日未平倉損益','今日盤中浮動損益','賣方垂直價差市值','履約價款','今日餘額','帳戶總市值','足額原始保證金','總市值風險','風險係數','維持率','公司別','帳號','組別','交易員'] #查詢保證金 query_reply_response = api.faccount.get_margin(actno) if query_reply_response.ok == True: i=0 for data in query_reply_response.data: dd.loc[i,'幣別']=data.currency dd.loc[i,'前日帳款餘額']=data.previous_day_balance dd.loc[i,'手續費']=data.commission dd.loc[i,'匯率']=data.exchange_rate dd.loc[i,'期交稅']=data.futures_tax dd.loc[i,'存提金額']=data.deposit_withdrawal_amount dd.loc[i,'平倉損益']=data.close_pnl dd.loc[i,'未平倉損益']=data.unrealized_pnl dd.loc[i,'買方選擇權市值']=data.buy_option_market_value dd.loc[i,'賣方選擇權市值']=data.sell_option_market_value dd.loc[i,'下單預扣權利金']=data.order_withholding_premium dd.loc[i,'當日權利金收支']=data.today_premium_income_expense dd.loc[i,'淨值']=data.net_value dd.loc[i,'原始保證金']=data.original_margin dd.loc[i,'維持保證金']=data.maintenance_margin dd.loc[i,'可用餘額']=data.available_balance dd.loc[i,'下單可用保證金']=data.order_available_margin dd.loc[i,'當日委託保證金']=data.today_order_margin dd.loc[i,'履約損益']=data.performance_pnl dd.loc[i,'變動權利金']=data.variable_premium dd.loc[i,'洗價時間']=data.marking_time dd.loc[i,'追繳金額']=data.additional_payment dd.loc[i,'昨日未平倉損益']=data.yesterday_unrealized_pnl dd.loc[i,'今日盤中浮動損益']=data.today_intraday_unrealized_pnl dd.loc[i,'賣方垂直價差市值']=data.sell_vertical_spread_market_value dd.loc[i,'履約價款']=data.strike_payment dd.loc[i,'今日餘額']=data.today_balance dd.loc[i,'帳戶總市值']=data.account_total_market_value dd.loc[i,'足額原始保證金']=data.full_original_margin dd.loc[i,'總市值風險']=data.total_market_value_risk dd.loc[i,'風險係數']=data.risk_coefficient dd.loc[i,'維持率']=data.maintenance_rate dd.loc[i,'公司別']=data.company_type dd.loc[i,'帳號']=data.account dd.loc[i,'組別']=data.group dd.loc[i,'交易員 ']=data.trader i=i+1 clear_output(wait=True) display(dd) else: print(query_reply_response.error) . | | 幣別 | 前日帳款餘額 | 手續費 | 匯率 | 期交稅 | 存提金額 | 平倉損益 | 未平倉損益 | 買方選擇權市值 | 賣方選擇權市值 | 下單預扣權利金 | 當日權利金收支 | 淨值 | 原始保證金 | 維持保證金 | 可用餘額 | 下單可用保證金 | 當日委託保證金 | 履約損益 | 變動權利金 | 洗價時間 | 追繳金額 | 昨日未平倉損益 | 今日盤中浮動損益 | 賣方垂直價差市值 | 履約價款 | 今日餘額 | 帳戶總市值 | 足額原始保證金 | 總市值風險 | 風險係數 | 維持率 | 公司別 | 帳號 | 組別 | 交易員 | 交易員 | . | 0 | *** | 52598.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 20208974.0 | 0.0 | 0.0 | 0.0 | 0.0 | 20261572.0 | 145954289.0 | 132328122.0 | -145901691.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | -125692717.0 | 0.0 | 20208974.0 | 0.0 | 0.0 | 52598.0 | 20261572.0 | 145954289.0 | 13.88 | 13.88 | 15.31 | F008000 | 9808401 | | | | . | 1 | GBP | -15.3 | 0.0 | 41.24 | 0.0 | 0.0 | 0.0 | -1287.5 | 0.0 | 0.0 | 0.0 | 0.0 | -1302.8 | 2640.0 | 2400.0 | -3942.8 | 0.0 | 0.0 | 0.0 | 0.0 | 094743 | -3942.8 | 0.0 | -1287.5 | 0.0 | 0.0 | -15.3 | -1302.8 | 2640.0 | -49.35 | -49.35 | -54.28 | F008000 | 9808401 | | NaN | | . | 2 | HKD | 12832.0 | 0.0 | 4.14 | 0.0 | 0.0 | 0.0 | -13100.0 | 0.0 | 0.0 | 0.0 | 0.0 | -268.0 | 192850.0 | 154280.0 | -193118.0 | 0.0 | 0.0 | 0.0 | 0.0 | 140909 | -193118.0 | 0.0 | -13100.0 | 0.0 | 0.0 | 12832.0 | -268.0 | 192850.0 | -0.14 | -0.14 | -0.17 | F008000 | 9808401 | | NaN | | . | 3 | NTD | 4.0 | 0.0 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 4.0 | 0.0 | 0.0 | 4.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 4.0 | 0.0 | 0.0 | 0.0 | 0.0 | 4.0 | 4.0 | 0.0 | 9999.99 | 9999.99 | 0.0 | F008000 | 9808401 | | NaN | | . | 4 | USD | 0.0 | 0.0 | 32.39 | 0.0 | 0.0 | 0.0 | 627188.48 | 0.0 | 0.0 | 0.0 | 0.0 | 627188.48 | 4477699.0 | 4062290.0 | -4477699.0 | 0.0 | 0.0 | 0.0 | 0.0 | 140909 | -3850510.52 | 0.0 | 627188.48 | 0.0 | 0.0 | 0.0 | 627188.48 | 4477699.0 | 14.01 | 14.01 | 15.44 | F008000 | 9808401 | | NaN | | . | 5 | AUD | 0.0 | 0.0 | 21.37 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 6 | CHF | 0.0 | 0.0 | 36.23 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 7 | CNY | 0.0 | 0.0 | 4.45 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 8 | DEM | 0.0 | 0.0 | 4.45 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 9 | EUD | 0.0 | 0.0 | 34.88 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 10 | JPY | 0.0 | 0.0 | 0.2 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 11 | RMB | 0.0 | 0.0 | 0.2 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 12 | SGD | 0.0 | 0.0 | 23.98 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 13 | THB | 0.0 | 0.0 | 0.89 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . | 14 | ZAR | 0.0 | 0.0 | 1.72 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 000000 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | F008000 | 9808401 | | NaN | | . # 未平倉查詢範例 actno = '9808401'# 使用帳號 # 初始數據 reply_data=[[ '','','','','','','','','','','','','','','','','','','','','','','','','']] dd = pd.DataFrame(reply_data) dd.columns = [ '客戶帳號', '交易所', '買賣別1', '交易種類1', '商品代號1', '商品年月1', '履約價1', '買賣權1', '未平倉量1', '結算價1', '及時價1', '未平倉損益1', '原始保證金1', '維持保證金1', '幣別1', '成交價1', '上手代號', '未平倉損益-約當台幣1', '手續費1', '營業稅1', '淨未平倉損益1', '淨未平倉損益-約當台幣1', '簡稱', '後台Pricebase', '顯示pricebase'] #查詢未平倉 query_reply_response = api.faccount.get_unliquidation(actno) if query_reply_response.ok == True: i=0 for data in query_reply_response.data: dd.loc[i,'客戶帳號']= data.client_account dd.loc[i,'交易所']= data.exchange dd.loc[i,'買賣別1']= data.buy_sell_type_1 dd.loc[i,'交易種類1']= data.trade_type_1 dd.loc[i,'商品代號1']= data.product_code_1 dd.loc[i,'商品年月1']= data.product_year_month_1 dd.loc[i,'履約價1']= data.strike_price_1 dd.loc[i,'買賣權1']= data.buy_sell_option_1 dd.loc[i,'未平倉量1']= data.open_interest_1 dd.loc[i,'結算價1']= data.settlement_price_1 dd.loc[i,'及時價1']= data.spot_price_1 dd.loc[i,'未平倉損益1']= data.unrealized_pnl_1 dd.loc[i,'原始保證金1']= data.initial_margin_1 dd.loc[i,'維持保證金1']= data.maintenance_margin_1 dd.loc[i,'幣別1']= data.currency_1 dd.loc[i,'成交價1']= data.deal_price_1 dd.loc[i,'上手代號']= data.broker_code dd.loc[i,'未平倉損益-約當台幣1']= data.unrealized_pnl_ntd_1 dd.loc[i,'手續費1']= data.commission_1 dd.loc[i,'營業稅1']= data.business_tax_1 dd.loc[i,'淨未平倉損益1']= data.net_open_interest_pnl_1 dd.loc[i,'淨未平倉損益-約當台幣1']= data.net_open_interest_pnl_ntd_1 dd.loc[i,'簡稱']= data.abbreviation dd.loc[i,'後台Pricebase']= data.backend_pricebase dd.loc[i,'顯示pricebase']= data.display_pricebase i=i+1 clear_output(wait=True) display(dd) else: print(query_reply_response.error) . # 即時部位查詢範例 actno = '9808401'# 使用帳號 # 初始數據 reply_data=[[ '','','','','','','','','','','','','','','','','','','','','','','','']] dd = pd.DataFrame(reply_data) dd.columns = [ '客戶帳號','交易所','交易種類','商品代號','商品年月','履約價','買賣權','淨買','淨賣','買方留倉','賣方留倉','買方成交','賣方成交','買方委託','賣方委託','交割日期','幣別','成交均價','即時價','未平倉損益','平倉口數','平倉損益','簡稱','Pricebase'] #查詢即時部位 query_reply_response = api.faccount.get_position(actno, 'NTT') if query_reply_response.ok == True: i=0 for data in query_reply_response.data: dd.loc[i,'客戶帳號']= data.client_account dd.loc[i,'交易所']= data.exchange dd.loc[i,'交易種類']= data.trade_type dd.loc[i,'商品代號']= data.product_code dd.loc[i,'商品年月']= data.product_year_month dd.loc[i,'履約價']= data.strike_price dd.loc[i,'買賣權']= data.buy_sell_option dd.loc[i,'淨買']= data.net_buy dd.loc[i,'淨賣']= data.net_sell dd.loc[i,'買方留倉']= data.buyer_position dd.loc[i,'賣方留倉']= data.seller_position dd.loc[i,'買方成交']= data.buyer_transaction dd.loc[i,'賣方成交']= data.seller_transaction dd.loc[i,'買方委託']= data.buyer_order dd.loc[i,'賣方委託']= data.seller_order dd.loc[i,'交割日期']= data.delivery_date dd.loc[i,'幣別']= data.currency dd.loc[i,'成交均價']= data.average_deal_price dd.loc[i,'即時價']= data.instant_price dd.loc[i,'未平倉損益']= data.unrealized_pnl dd.loc[i,'平倉口數']= data.close_volume dd.loc[i,'平倉損益']= data.close_pnl dd.loc[i,'簡稱']= data.abbreviation dd.loc[i,'Pricebase']= data.price_base i=i+1 clear_output(wait=True) display(dd) else: print(query_reply_response.error) . #系統登出 api.logout() print('登出完畢') print(f\"登入旗標{api.login_status_flag}\") . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E5%A4%96%E6%9C%9F%E5%B8%B3%E5%8B%99%E7%AF%84%E4%BE%8B",
+    
+    "relUrl": "/教學/外期帳務範例"
+  },"9": {
+    "doc": "外期行情範例",
+    "title": "外期行情範例",
+    "content": "!pip install -r requirements.txt #安裝顯示表格套件 !pip install plotly . ##API初始&amp;登入 import pfcf from pfcf.pfcf import * from pfcf.product import * from pfcf.quote.fdata import * from typing import List #匯入顯示表格套件 import plotly.graph_objs as go from plotly.offline import init_notebook_mode #初始API api = Pfcf() #錯誤事件處理 api.on_error = lambda error: print(f'api錯誤 {error}') #系統登入 loginresponse = api.login( \"http://test167.pfctrade.com\", \"80009809769\", \"Aa123456\", 'PSC_A226097195_20250310.pfx', '12345678')#url,帳號,密碼,憑證檔名,憑證密碼 #顯示登入結果 print(loginresponse) print(f\"登入旗標{api.login_status_flag}\") print(f\"交易帳號{api.get_accounts()}\") # 初始數據 init_notebook_mode(connected=True) header1 = dict(values=['成交時間', '成交價','成交量']) data1 = [['','','']] header2 = dict(values=['買價1','買量1' ,'買價2','買量2','買價3','買量3','買價4','買量4','買價5','買量5' ,'買價6','買量6','買價7','買量7','買價8','買量8','買價9','買量9','買價10','買量10' ]) data2 = [['','','','','','','','','','','','','','','','','','','','']] header3 = dict(values=['賣價1','賣量1' ,'賣價2','賣量2','賣價3','賣量3','賣價4','賣量4','賣價5','賣量5' ,'賣價6','賣量6','賣價7','賣量7','賣價8','賣量8','賣價9','賣量9','賣價10','賣量10' ]) data3 =[['','','','','','','','','','','','','','','','','','','','']] header4 = dict(values=['隱含買價','隱含買量','隱含賣價','隱含賣量','最高價','最低價','開盤價','收盤價','目前結算價','最新結算價']) data4 =[['','','','','','','','','','']] # 創建初始表格 fig = go.FigureWidget(data=[go.Table( header=header1, cells=dict(values=list(zip(*data1)), align='left'),)]) fig.update_layout(height=100, margin=dict(t=0, b=0, l=0, r=0),autosize=True) fig2 = go.FigureWidget(data=[go.Table( header=header2, cells=dict(values=list(zip(*data2)), align='left'),)]) fig2.update_layout(height=100, margin=dict(t=0, b=0, l=0, r=0),autosize=True) fig3 = go.FigureWidget(data=[go.Table( header=header3, cells=dict(values=list(zip(*data3)), align='left'),)]) fig3.update_layout(height=100, margin=dict(t=0, b=0, l=0, r=0),autosize=True) fig4 = go.FigureWidget(data=[go.Table( header=header4, cells=dict(values=list(zip(*data4)), align='left'),)]) fig4.update_layout(height=100, margin=dict(t=0, b=0, l=0, r=0),autosize=True) col_idx = {header: idx for idx, header in enumerate(header1['values'])} col2_idx = {header: idx for idx, header in enumerate(header2['values'])} col3_idx = {header: idx for idx, header in enumerate(header3['values'])} col4_idx = {header: idx for idx, header in enumerate(header4['values'])} . #查詢成交和最佳買賣價查詢範例 productid='CME|NQ|202409|F|' #商品代碼 if loginresponse.ok == True: display(fig) display(fig2) display(fig3) #查詢成交價量 tickDataTradeResponse=api.fquote.query_tickdatatrade(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) if tickDataTradeResponse.ok == True: tickdatatrade=tickDataTradeResponse.data cur = list(fig.data[0].cells.values) cur[col_idx['成交時間']] =tickdatatrade.time cur[col_idx['成交價']] = tickdatatrade.lastprice cur[col_idx['成交量'] ]= tickdatatrade.lastvolume with fig.batch_update(): fig.data[0].cells.values = cur else: print('tickDataTradeResponse '+tickDataTradeResponse.error) #查詢最佳買價 tickDataBidResponse=api.fquote.query_tickdatabid(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) if tickDataBidResponse.ok == True: tickdatabid=tickDataBidResponse.data cur = list(fig2.data[0].cells.values) cur[col2_idx['買價1']] =tickdatabid.BidDOM1Price cur[col2_idx['買量1']] =tickdatabid.BidDOM1Volume cur[col2_idx['買價2']] =tickdatabid.BidDOM2Price cur[col2_idx['買量2']] =tickdatabid.BidDOM2Volume cur[col2_idx['買價3']] =tickdatabid.BidDOM3Price cur[col2_idx['買量3']] =tickdatabid.BidDOM3Volume cur[col2_idx['買價4']] =tickdatabid.BidDOM4Price cur[col2_idx['買量4']] =tickdatabid.BidDOM4Volume cur[col2_idx['買價5']] =tickdatabid.BidDOM5Price cur[col2_idx['買量5']] =tickdatabid.BidDOM5Volume cur[col2_idx['買價6']] =tickdatabid.BidDOM6Price cur[col2_idx['買量6']] =tickdatabid.BidDOM6Volume cur[col2_idx['買價7']] =tickdatabid.BidDOM7Price cur[col2_idx['買量7']] =tickdatabid.BidDOM7Volume cur[col2_idx['買價8']] =tickdatabid.BidDOM8Price cur[col2_idx['買量8']] =tickdatabid.BidDOM8Volume cur[col2_idx['買價9']] =tickdatabid.BidDOM9Price cur[col2_idx['買量9']] =tickdatabid.BidDOM9Volume cur[col2_idx['買價10']] =tickdatabid.BidDOM10Price cur[col2_idx['買量10']] =tickdatabid.BidDOM10Volume with fig2.batch_update(): fig2.data[0].cells.values = cur else: print('tickDataBidResponse '+tickDataBidResponse.error) #查詢最佳賣價 tickDataOfferResponse=api.fquote.query_tickdataoffer(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) if tickDataOfferResponse.ok == True: tickdataOffer=tickDataOfferResponse.data cur = list(fig3.data[0].cells.values) cur[col3_idx['賣價1']] =tickdataOffer.OfferDOM1Price cur[col3_idx['賣量1']] =tickdataOffer.OfferDOM1Volume cur[col3_idx['賣價2']] =tickdataOffer.OfferDOM2Price cur[col3_idx['賣量2']] =tickdataOffer.OfferDOM2Volume cur[col3_idx['賣價3']] =tickdataOffer.OfferDOM3Price cur[col3_idx['賣量3']] =tickdataOffer.OfferDOM3Volume cur[col3_idx['賣價4']] =tickdataOffer.OfferDOM4Price cur[col3_idx['賣量4']] =tickdataOffer.OfferDOM4Volume cur[col3_idx['賣價5']] =tickdataOffer.OfferDOM5Price cur[col3_idx['賣量5']] =tickdataOffer.OfferDOM5Volume cur[col3_idx['賣價6']] =tickdataOffer.OfferDOM6Price cur[col3_idx['賣量6']] =tickdataOffer.OfferDOM6Volume cur[col3_idx['賣價7']] =tickdataOffer.OfferDOM7Price cur[col3_idx['賣量7']] =tickdataOffer.OfferDOM7Volume cur[col3_idx['賣價8']] =tickdataOffer.OfferDOM8Price cur[col3_idx['賣量8']] =tickdataOffer.OfferDOM8Volume cur[col3_idx['賣價9']] =tickdataOffer.OfferDOM9Price cur[col3_idx['賣量9']] =tickdataOffer.OfferDOM9Volume cur[col3_idx['賣價10']] =tickdataOffer.OfferDOM10Price cur[col3_idx['賣量10']] =tickdataOffer.OfferDOM10Volume with fig3.batch_update(): fig3.data[0].cells.values = cur else: print('tickDataOfferResponse '+tickDataOfferResponse.error) . # 訂閱成交和最佳買賣價接收範例 productid='CME|NQ|202409|F|' #商品代碼 #成交價量處理 def on_tickdatatrade(tickdatatrade: FTickDataTrade): cur = list(fig.data[0].cells.values) cur[col_idx['成交時間']] = tickdatatrade.time cur[col_idx['成交價']] = tickdatatrade.lastprice cur[col_idx['成交量']] = tickdatatrade.lastvolume with fig.batch_update(): fig.data[0].cells.values = cur #最佳買價處理 def on_tickdatabid(tickdatabid: FTickDataBid): cur = list(fig2.data[0].cells.values) cur[col2_idx['買價1']] = tickdatabid.BidDOM1Price cur[col2_idx['買量1']] = tickdatabid.BidDOM1Volume cur[col2_idx['買價2']] = tickdatabid.BidDOM2Price cur[col2_idx['買量2']] = tickdatabid.BidDOM2Volume cur[col2_idx['買價3']] = tickdatabid.BidDOM3Price cur[col2_idx['買量3']] = tickdatabid.BidDOM3Volume cur[col2_idx['買價4']] = tickdatabid.BidDOM4Price cur[col2_idx['買量4']] = tickdatabid.BidDOM4Volume cur[col2_idx['買價5']] = tickdatabid.BidDOM5Price cur[col2_idx['買量5']] = tickdatabid.BidDOM5Volume cur[col2_idx['買價6']] = tickdatabid.BidDOM6Price cur[col2_idx['買量6']] = tickdatabid.BidDOM6Volume cur[col2_idx['買價7']] = tickdatabid.BidDOM7Price cur[col2_idx['買量7']] = tickdatabid.BidDOM7Volume cur[col2_idx['買價8']] = tickdatabid.BidDOM8Price cur[col2_idx['買量8']] = tickdatabid.BidDOM8Volume cur[col2_idx['買價9']] = tickdatabid.BidDOM9Price cur[col2_idx['買量9']] = tickdatabid.BidDOM9Volume cur[col2_idx['買價10']] = tickdatabid.BidDOM10Price cur[col2_idx['買量10']] = tickdatabid.BidDOM10Volume with fig2.batch_update(): fig2.data[0].cells.values = cur #最佳賣價處理 def on_tickdataoffer(tickdataOffer: FTickDataOffer): cur = list(fig3.data[0].cells.values) cur[col3_idx['賣價1']] = tickdataOffer.OfferDOM1Price cur[col3_idx['賣量1']] = tickdataOffer.OfferDOM1Volume cur[col3_idx['賣價2']] = tickdataOffer.OfferDOM2Price cur[col3_idx['賣量2']] = tickdataOffer.OfferDOM2Volume cur[col3_idx['賣價3']] = tickdataOffer.OfferDOM3Price cur[col3_idx['賣量3']] = tickdataOffer.OfferDOM3Volume cur[col3_idx['賣價4']] = tickdataOffer.OfferDOM4Price cur[col3_idx['賣量4']] = tickdataOffer.OfferDOM4Volume cur[col3_idx['賣價5']] = tickdataOffer.OfferDOM5Price cur[col3_idx['賣量5']] = tickdataOffer.OfferDOM5Volume cur[col3_idx['賣價6']] = tickdataOffer.OfferDOM6Price cur[col3_idx['賣量6']] = tickdataOffer.OfferDOM6Volume cur[col3_idx['賣價7']] = tickdataOffer.OfferDOM7Price cur[col3_idx['賣量7']] = tickdataOffer.OfferDOM7Volume cur[col3_idx['賣價8']] = tickdataOffer.OfferDOM8Price cur[col3_idx['賣量8']] = tickdataOffer.OfferDOM8Volume cur[col3_idx['賣價9']] = tickdataOffer.OfferDOM9Price cur[col3_idx['賣量9']] = tickdataOffer.OfferDOM9Volume cur[col3_idx['賣價10']] = tickdataOffer.OfferDOM10Price cur[col3_idx['賣量10']] = tickdataOffer.OfferDOM10Volume with fig3.batch_update(): fig3.data[0].cells.values = cur #訂閱接收事件 api.fquote.on_tickdatatrade = on_tickdatatrade api.fquote.on_tickdatabid = on_tickdatabid api.fquote.on_tickdataoffer = on_tickdataoffer if loginresponse.ok == True: # 註冊報價 subok, msg = api.fquote.subscribe(exchange=productid.split('|')[0], symbol=productid.split( '|')[1], ym=productid.split('|')[2], cp=productid.split('|')[3], strike=productid.split('|')[4]) print(f'註冊報價 {productid} {subok} {msg}') display(fig) display(fig2) display(fig3) . #查詢隱含 最高最低 開收盤 結算價範例 productid='CME|NQ|202409|F|' #商品代碼 if loginresponse.ok == True: display(fig4) #查詢隱含買賣價 tickDataImpliedResponse=api.fquote.query_tickdataimplied(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) if tickDataImpliedResponse.ok == True: tickdataimplied=tickDataImpliedResponse.data cur = list(fig4.data[0].cells.values) cur[col4_idx['隱含買價']] = tickdataimplied.ImpliedBidPrice cur[col4_idx['隱含買量']] = tickdataimplied.ImpliedBidVolume cur[col4_idx['隱含賣價']] = tickdataimplied.ImpliedOfferPrice cur[col4_idx['隱含賣量']] = tickdataimplied.ImpliedOfferVolume with fig4.batch_update(): fig4.data[0].cells.values = cur else: print('tickDataImpliedResponse '+tickDataImpliedResponse.error) #查詢開收盤價 tickDataOpencloseResponse=api.fquote.query_tickdataopenclose(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) if tickDataOpencloseResponse.ok == True: tickdataopenclose=tickDataOpencloseResponse.data cur = list(fig4.data[0].cells.values) cur[col4_idx['開盤價']] = tickdataopenclose.Opening cur[col4_idx['收盤價']] = tickdataopenclose.Closing with fig4.batch_update(): fig4.data[0].cells.values = cur else: print('tickDataOpencloseResponse '+tickDataOpencloseResponse.error) #查詢最高最低價 tickDataHighLowResponse=api.fquote.query_tickdatahighlow(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) if tickDataHighLowResponse.ok==True: tickdatahighlow=tickDataHighLowResponse.data cur = list(fig4.data[0].cells.values) cur[col4_idx['最高價']] = tickdatahighlow.High cur[col4_idx['最低價']] = tickdatahighlow.Low with fig4.batch_update(): fig4.data[0].cells.values = cur else: print('tickDataHighLowResponse '+tickDataHighLowResponse.error) #查詢結算價 tickDataSettleResponse=api.fquote.query_tickdatasettle(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) if tickDataSettleResponse.ok==True: tickdatasettle=tickDataSettleResponse.data cur = list(fig4.data[0].cells.values) cur[col4_idx['目前結算價']] = tickdatasettle.CurrStl cur[col4_idx['最新結算價']] = tickdatasettle.NewStl with fig4.batch_update(): fig4.data[0].cells.values = cur else: print('tickDataSettleResponse '+tickDataSettleResponse.error) . # 註冊隱含 最高最低 開收盤 結算價 接收範例 productid='CME|NQ|202409|F|' #商品代碼 #隱含買賣價接收處理 def on_tickdataimplied(ticksataimplied: FTickDataImplied): cur = list(fig4.data[0].cells.values) cur[col4_idx['隱含買價']] = tickdataimplied.ImpliedBidPrice cur[col4_idx['隱含買量']] = tickdataimplied.ImpliedBidVolume cur[col4_idx['隱含賣價']] = tickdataimplied.ImpliedOfferPrice cur[col4_idx['隱含賣量']] = tickdataimplied.ImpliedOfferVolume with fig4.batch_update(): fig4.data[0].cells.values = cur #最高最低價接收處理 def on_tickdatahighlow(tickdatahighlow: FTickDataHighLow): cur = list(fig4.data[0].cells.values) cur[col4_idx['最高價']] = tickdatahighlow.High cur[col4_idx['最低價']] = tickdatahighlow.Low with fig4.batch_update(): fig4.data[0].cells.values = cur #開收盤價接收處理 def on_tickdataopenclose(tickdataopenclose: FTickDataOpenclose): cur = list(fig4.data[0].cells.values) cur[col4_idx['開盤價']] = tickdataopenclose.Opening cur[col4_idx['收盤價']] = tickdataopenclose.Closing with fig4.batch_update(): fig4.data[0].cells.values = cur #結算價接收處理 def on_tickdatasettle(tickdatasettle: FTickDataSettle): cur = list(fig4.data[0].cells.values) cur[col4_idx['目前結算價']] = tickdatasettle.CurrStl cur[col4_idx['最新結算價']] = tickdatasettle.NewStl with fig4.batch_update(): fig4.data[0].cells.values = cur #訂閱接收事件 api.fquote.on_tickdataimplied = on_tickdataimplied api.fquote.on_tickdatahighlow = on_tickdatahighlow api.fquote.on_tickdataopenclose = on_tickdataopenclose api.fquote.on_tickdatasettle = on_tickdatasettle time.sleep(1) if loginresponse.ok == True: # 註冊報價 subok, msg = api.fquote.subscribe(exchange=productid.split('|')[0], symbol=productid.split( '|')[1], ym=productid.split('|')[2], cp=productid.split('|')[3], strike=productid.split('|')[4]) print(f'註冊報價 {productid} {subok} {msg}') display(fig4) . #反註冊報價 unsub_ok,msg=api.fquote.unsubscribe(exchange= productid.split('|')[0], symbol= productid.split('|')[1], ym=productid.split('|')[2], cp= productid.split('|')[3], strike=productid.split('|')[4] ) print(f'反註冊報價 {productid} {unsub_ok} {msg}') . #系統登出 api.logout() print('登出完畢') print(f\"登入旗標{api.login_status_flag}\") . ",
+    "url": "/%E6%95%99%E5%AD%B8/%E5%A4%96%E6%9C%9F%E8%A1%8C%E6%83%85%E7%AF%84%E4%BE%8B",
+    
+    "relUrl": "/教學/外期行情範例"
+  },"10": {
+    "doc": "教學",
+    "title": "教學",
+    "content": " ",
+    "url": "/%E6%95%99%E5%AD%B8/",
+    
+    "relUrl": "/教學/"
+  },"11": {
+    "doc": "說明文件",
+    "title": "1. pfcf",
+    "content": ". 統一期貨API元件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1-pfcf",
+    
+    "relUrl": "/說明文件#1-pfcf"
+  },"12": {
+    "doc": "說明文件",
+    "title": "1.1. LoginResponse Objects",
+    "content": ". @dataclass class LoginResponse() . 登入回覆物件 . ok . 是否成功 . error . 錯誤訊息 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#11-loginresponse-objects",
+    
+    "relUrl": "/說明文件#11-loginresponse-objects"
+  },"13": {
+    "doc": "說明文件",
+    "title": "1.2. Pfcf Objects",
+    "content": ". class Pfcf() . login_status_flag . 登入旗標 True:登入 False:未登入 . dtrade . 內期交易元件(必需登入才可以使用) . ftrade . 外期交易元件(必需登入才可以使用) . dquote . 內期報價元件(必需登入才可以使用) . fquote . 外期報價元件(必需登入才可以使用) . daccount . 內期帳務元件(必需登入才可以使用) . faccount . 外期帳務元件(必需登入才可以使用) . on_error . 錯誤事件 . login . def login(url, userid, password, ca_path, ca_password) -&gt; LoginResponse . 登入 . Parameters . | Name | Type | Description | . | url | str | 主機 | . | userid | str | 帳號 | . | password | str | 密碼 | . | ca_path | str | 憑證路徑 | . | ca_password | str | 憑證密碼 | . Returns LoginResponse . | Type | Description | . | bool | True 成功 /False 失敗 | . | str | 錯誤訊息 | . | Header 1 | Header 2 | . | Cell 1 | Cell 2 | . | Cell 3 | Cell 4 | . logout . def logout() . 登出 . get_p09s . def get_p09s() . 取得內期商品檔 . Returns P09 . get_symboldatas . def get_symboldatas() . 取得外期商品檔 . Returns SYMBOLDATA . get_exchanges . def get_exchanges() . 取得外期交易所 . Returns EXCHANGE . get_p08m . def get_p08m(kind_id) -&gt; P08Response . 取得內期選擇權商品檔 . Parameters . | Name | Type | Description | —— | —— | ————- | kind_id | str | 商品代碼 | . Returns P08Response . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | P08 | 商品合約資料 | . get_p08mf . def get_p08mf(kind_id) -&gt; P08Response . 取得內期期貨商品檔 . Parameters . | Name | Type | Description | —— | —— | ————- | kind_id | str | 商品代碼 | . Returns P08Response . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | P08 | 商品合約資料 | . get_symbol_contract . def get_symbol_contract(exchange, symbol, type) -&gt; SymbolContractResponse . 取得外期商品檔 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品 | type | str | 類別 F期貨 O選擇權 | . Returns P08Response . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | SYMBOLCONTRACT | 商品合約資料 | . get_accounts . def get_accounts() . 取得交易帳號 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#12-pfcf-objects",
+    
+    "relUrl": "/說明文件#12-pfcf-objects"
+  },"14": {
+    "doc": "說明文件",
+    "title": "2. p08",
+    "content": ". ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#2-p08",
+    
+    "relUrl": "/說明文件#2-p08"
+  },"15": {
+    "doc": "說明文件",
+    "title": "2.1. P08 Objects",
+    "content": ". class P08() . 內期商品合約檔 . prod_id . 商品代號 . month . 年月 . cp . CP . stikeprice . 履約價 . maxprice . 漲停價 . minprice . 跌停價 . premium . 參考價 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#21-p08-objects",
+    
+    "relUrl": "/說明文件#21-p08-objects"
+  },"16": {
+    "doc": "說明文件",
+    "title": "3. p09",
+    "content": ". ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#3-p09",
+    
+    "relUrl": "/說明文件#3-p09"
+  },"17": {
+    "doc": "說明文件",
+    "title": "3.1. P09 Objects",
+    "content": ". class P09() . 內期商品 . kind_id . 商品類別 . name . 商品名稱 . stock_id . 股票代碼 . subtype . 類別 . contract_size . 合約基數 . strike_price_decimal_locator . 選擇權履約價小數位 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#31-p09-objects",
+    
+    "relUrl": "/說明文件#31-p09-objects"
+  },"18": {
+    "doc": "說明文件",
+    "title": "4. symboldata",
+    "content": ". ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#4-symboldata",
+    
+    "relUrl": "/說明文件#4-symboldata"
+  },"19": {
+    "doc": "說明文件",
+    "title": "4.1. SYMBOLDATA Objects",
+    "content": ". class SYMBOLDATA() . 外期商品 . exchange . 交易所 . symbol . 商品代碼 . type . 類型(期貨:F 選擇權:O) . name . 中文名稱 . shortname . 中文簡稱 . country . 區域 . currency . 幣別 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#41-symboldata-objects",
+    
+    "relUrl": "/說明文件#41-symboldata-objects"
+  },"20": {
+    "doc": "說明文件",
+    "title": "5. symbolcontract",
+    "content": ". ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#5-symbolcontract",
+    
+    "relUrl": "/說明文件#5-symbolcontract"
+  },"21": {
+    "doc": "說明文件",
+    "title": "5.1. SYMBOLCONTRACT Objects",
+    "content": ". class SYMBOLCONTRACT() . 外期商品合約檔 . exchange . 交易所 . symbol . 商品代碼 . type . 類型(期貨:F 選擇權:O) . monthyear . 年月 . strikeprice . 履約價 . cp . call put . lasttradedate . 最後交易日 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#51-symbolcontract-objects",
+    
+    "relUrl": "/說明文件#51-symbolcontract-objects"
+  },"22": {
+    "doc": "說明文件",
+    "title": "6. dtrade",
+    "content": ". 內期交易 負責下單,改單,回報接收,回報查詢 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#6-dtrade",
+    
+    "relUrl": "/說明文件#6-dtrade"
+  },"23": {
+    "doc": "說明文件",
+    "title": "6.1. Dtrade Objects",
+    "content": ". class Dtrade() . on_error . 錯誤事件 . on_connected . 連線成功事件 . on_disonnected . 斷線事件 . on_reply . 回報接收事件..傳入物件:DOrderReply . on_match . 成回接收事件..傳入物件:DOrderReply . get_current_server . def get_current_server() . 目前連結主機IP 和 PORT . Returns . | Name | Type | Description | —— | —— | ————- | host | str | 主機IP | port | str | 主機Port | . get_server_list . def get_server_list() . 透過可連結主機 . Returns dict[Server] . | Name | Type | Description | —— | —— | ————- | key | str | servername | value | Server | Server ip:str / port:int | . set_severbyname . def set_severbyname(servername) . 透過主機名稱連結主機 . Parameters . | Name | Type | Description | —— | —— | ————- | servername | str | 主機名稱 . order . def order(obj: DOrderObject) -&gt; DOrderResponse . 下單 . Parameters . | Name | Type | Description | —— | —— | ————- | obj | DOrderObject | 下單物件 | . Returns . DOrderResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | errorcode | str | 錯誤代碼 | errormsg | str | 錯誤訊息 | . replace_order . def replace_order(obj: DReplaceObject) -&gt; DOrderResponse . 改單 . Parameters . | Name | Type | Description | —— | —— | ————- | obj | DReplaceObject | 改單物件 | . Returns . DOrderResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | errorcode | str | 錯誤代碼 | errormsg | str | 錯誤訊息 | . query_reply . def query_reply(actno, num_of_query, network_id_start, network_id_end, begin_order_time, end_order_time) -&gt; DQueryReplyResponse . 查詢委託回報 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | networkid_st | str | 網路單號起 | networkid_ed | str | 網路單號迄 | beginOrderTime | str | 委託時間起 | endOrderTime | str | 委託時間迄 | . Returns . QueryReplyResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | error | str | 錯誤訊息 | data | List of OrderReply | 回報集合 | . query_match . def query_match(actno, num_of_query, network_id_start, network_id_end, begin_match_time, end_match_time) -&gt; DQueryMatchResponse . 查詢成交回報 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | networkid_st | str | 網路單號起 | networkid_ed | str | 網路單號迄 | begin_match_time | str | 成交時間起 | end_match_time | str | 成交時間迄 | . Returns . QueryReplyResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | error | str | 錯誤訊息 | data | List of MatchReply | 成回集合 | . close . def close() . 關閉物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#61-dtrade-objects",
+    
+    "relUrl": "/說明文件#61-dtrade-objects"
+  },"24": {
+    "doc": "說明文件",
+    "title": "7. trade/ddata",
+    "content": ". 內期交易物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#7-tradeddata",
+    
+    "relUrl": "/說明文件#7-tradeddata"
+  },"25": {
+    "doc": "說明文件",
+    "title": "7.1. DOrderReply Objects",
+    "content": ". class DOrderReply() . 委託回報物件 . brokerid . 分公司 str . investoracno . 帳號 str . networkid . 網路流水序號 str . ordertime . 委託時間 str . orderno . 委託書號 str . subact . 子帳 str . productkind . 商品類別 str (1:期貨 2:選擇權 3:複式選擇權 4:複式期貨) . productid . 商品代碼 str . bs . 買賣別 str B:買進 S:賣出 . ordertype . 價格別 str (L:限價 M:市價 P:範圍市價) . price . 委託價格 float . orderqty . 委託數量 str . nomatchqty . 未成交數量 . matchqty . 成交數量 int . delqty . 刪除數量 int . ordercondition . 委託種類 I:IOC R:ROD F:FOK . opencloseflag . 開倉別 str 0:新倉 1:平倉 空白:自動 . tradedate . 交易日期 str . note . 備註 str . mdate . 異動時間 str . orderstatus . 委託狀態 str . statuscode . 委託狀態碼 str . seq . 下單序號 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#71-dorderreply-objects",
+    
+    "relUrl": "/說明文件#71-dorderreply-objects"
+  },"26": {
+    "doc": "說明文件",
+    "title": "7.2. DMatchReply Objects",
+    "content": ". class DMatchReply() . 成交回報物件 . brokerid . 分公司 str . investoracno . 帳號 str . networkid . 網路流水序號 str . matchtime . 成交時間 str . orderno . 委託書號 str . subact . 子帳 str . productkind . 商品類別 str(1:期貨 2:選擇權 3:複式選擇權 4:複式期貨) . productid . 商品代碼 str . bs . 買賣別 str B:買進 S:賣出 . matchprice . 成交價格 float . matchqty . 成交口數 int . matchseq . 成交序號 str . matchpricefoot1 . 成交價1 float . matchpricefoot2 . 成交價2 float . note . 備註 str . mdate . 異動時間 str . brokerid . 分公司 str . investoracno . 帳號 str . networkid . 網路流水序號 str . matchtime . 成交時間 str . orderno . 委託書號 str . subact . 子帳 str . productkind . 商品類別 str(1:期貨 2:選擇權 3:複式選擇權 4:複式期貨) . productid . 商品代碼 str . bs . 買賣別 str B:買進 S:賣出 . matchprice . 成交價格 float . matchqty . 成交口數 int . matchseq . 成交序號 str . matchpricefoot1 . 成交價1 float . matchpricefoot2 . 成交價2 float . note . 備註 str . mdate . 異動時間 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#72-dmatchreply-objects",
+    
+    "relUrl": "/說明文件#72-dmatchreply-objects"
+  },"27": {
+    "doc": "說明文件",
+    "title": "7.3. DOrderObject Objects",
+    "content": ". @dataclass class DOrderObject() . 下單物件 . actno . 帳號 str . subactno . 子帳 str . productid . 商品代號 str . bs . 買賣別 str B:買進 S:賣出 . ordertype . 下單方式 str L:限價 M:市價 P:範圍市價 . price . 委託價格 float . orderqty . 委託數量 int . ordercondition . 委託種類 str I:IOC R:ROD F:FOK . opencloseflag . 新平倉碼 str 0:新倉 1:平倉 空白:自動 . dtrade . 當沖碼 str Y:當沖 N:非當沖 . note . 備註 str:限10碼非中文 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#73-dorderobject-objects",
+    
+    "relUrl": "/說明文件#73-dorderobject-objects"
+  },"28": {
+    "doc": "說明文件",
+    "title": "7.4. DReplaceObject Objects",
+    "content": ". @dataclass class DReplaceObject() . 改單物件 . replacetype . 修改方式 str4:取消, 5: 減量, m:改價 . actno . 帳號 str . orderno . 委託書號 str . ordercondition . 委託種類 str I:IOC R:ROD F:FOK . ordertype . 下單方式 str L:限價 M:市價 P:範圍市價 . price . 委託價格 float . orderqty . 委託數量 int . note . 備註 str:限10碼非中文 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#74-dreplaceobject-objects",
+    
+    "relUrl": "/說明文件#74-dreplaceobject-objects"
+  },"29": {
+    "doc": "說明文件",
+    "title": "7.5. DOrderResponse Objects",
+    "content": ". @dataclass class DOrderResponse() . 下單回覆物件 . issend . 是否送出 bool . errorcode . 錯誤代碼 str . errormsg . 錯誤訊息 str . note . 下單傳入備註 str . seq . 下單序號 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#75-dorderresponse-objects",
+    
+    "relUrl": "/說明文件#75-dorderresponse-objects"
+  },"30": {
+    "doc": "說明文件",
+    "title": "7.6. DQueryReplyResponse Objects",
+    "content": ". @dataclass class DQueryReplyResponse() . 委託回報查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回報集合 List[OrderReply] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#76-dqueryreplyresponse-objects",
+    
+    "relUrl": "/說明文件#76-dqueryreplyresponse-objects"
+  },"31": {
+    "doc": "說明文件",
+    "title": "7.7. DQueryMatchResponse Objects",
+    "content": ". @dataclass class DQueryMatchResponse() . 成交回報查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 成回集合 List[MatchReply] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#77-dquerymatchresponse-objects",
+    
+    "relUrl": "/說明文件#77-dquerymatchresponse-objects"
+  },"32": {
+    "doc": "說明文件",
+    "title": "8. ftrade",
+    "content": ". 外期交易 負責下單,改單,回報接收,回報查詢 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#8-ftrade",
+    
+    "relUrl": "/說明文件#8-ftrade"
+  },"33": {
+    "doc": "說明文件",
+    "title": "8.1. Ftrade Objects",
+    "content": ". class Ftrade() . on_error . 錯誤事件 . on_connected . 連線成功事件 . on_disonnected . 斷線事件 . on_reply . 回報接收事件..傳入物件:FOrderReply . on_match . 成回接收事件..傳入物件:FOrderReply . get_current_server . def get_current_server() . 目前連結主機IP 和 PORT . Returns . | Name | Type | Description | —— | —— | ————- | host | str | 主機IP | port | str | 主機Port | . get_server_list . def get_server_list() . 透過可連結主機 . Returns dict[Server] . | Name | Type | Description | —— | —— | ————- | key | str | servername | value | Server | Server ip:str / port:int | . set_severbyname . def set_severbyname(servername) . 透過主機名稱連結主機 . Parameters . | Name | Type | Description | —— | —— | ————- | servername | str | 主機名稱 . order . def order(obj) -&gt; FOrderResponse . 下單 . Parameters . | Name | Type | Description | —— | —— | ————- | obj | DOrderObject | 下單物件 | . Returns . DOrderResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | errorcode | str | 錯誤代碼 | errormsg | str | 錯誤訊息 | . replace_order . def replace_order(obj) -&gt; FOrderResponse . 改單 . Parameters . | Name | Type | Description | —— | —— | ————- | obj | DReplaceObject | 改單物件 | . Returns . DOrderResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | errorcode | str | 錯誤代碼 | errormsg | str | 錯誤訊息 | . query_reply . def query_reply(actno, num_of_query, network_id_start, network_id_end, begin_order_time, end_order_time) -&gt; FQueryReplyResponse . 查詢委託回報 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | networkid_st | str | 網路單號起 | networkid_ed | str | 網路單號迄 | beginOrderTime | str | 委託時間起 | endOrderTime | str | 委託時間迄 | . Returns . QueryReplyResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | error | str | 錯誤訊息 | data | List of FOrderReply | 回報集合 | . query_match . def query_match(actno, num_of_query, network_id_start, network_id_end, begin_match_time, end_match_time) -&gt; FQueryMatchResponse . 查詢成交回報 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | networkid_st | str | 網路單號起 | networkid_ed | str | 網路單號迄 | begin_match_time | str | 成交時間起 | end_match_time | str | 成交時間迄 | . Returns . QueryReplyResponse | Name | Type | Description | —— | —— | ————- | ok | bool | True 成功 /False 失敗 | error | str | 錯誤訊息 | data | List of FMatchReply | 成回集合 | . close . def close() . 關閉物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#81-ftrade-objects",
+    
+    "relUrl": "/說明文件#81-ftrade-objects"
+  },"34": {
+    "doc": "說明文件",
+    "title": "9. trade/fdata",
+    "content": ". 外期交易物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#9-tradefdata",
+    
+    "relUrl": "/說明文件#9-tradefdata"
+  },"35": {
+    "doc": "說明文件",
+    "title": "9.1. FOrderReply Objects",
+    "content": ". class FOrderReply() . 委託回報物件 . brokerid . 分公司 str . investoracno . 帳號 str . networkid . 網路流水序號 str . ordertime . 委託時間 str . orderno . 委託書號 str . subact . 子帳 str . productkind . 商品類別 str(1:期貨 2:選擇權 3:複式選擇權 4:複式期貨) . exchange . 交易所 str . symbol . 商品代碼 str . maturitymonthyear . 年月 str . putorcall . CP str F:期貨 C:Call P:Put . strikeprice . 履約價 str . symbol2 . 商品代碼2 str . maturitymonthyear2 . 年月2 str . putorcall2 . CP2 str F:期貨 C:Call P:Put . strikeprice2 . 履約價2 str . side1 . side1 str . side2 . side2 str . bs . “買賣別 str B:買進 S:賣出 . ordertype . 價格別 str L:限價 M:市價 3:停損市價 4:停損限價 . price . 委託價格 float . stopprice . 停損價格 float . orderqty . 委託數量 int . nomatchqty . 未成交數量 int . matchqty . 成交數量 int . delqty . 刪除數量 int . pricebase . pricebase int . ordercondition . 委託種類 str I:IOC R:ROD F:FOK . opencloseflag . 開倉別 str0:新倉 1:平倉 空白:自動 . tradedate . 交易日期 str . note . 備註 str . mdate . 異動時間 str . orderstatus . 委託狀態 str . statuscode . 委託狀態碼 str . seq . 下單序號 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#91-forderreply-objects",
+    
+    "relUrl": "/說明文件#91-forderreply-objects"
+  },"36": {
+    "doc": "說明文件",
+    "title": "9.2. FMatchReply Objects",
+    "content": ". class FMatchReply() . 成交回報物件 . brokerid . 分公司 str . investoracno . 帳號 str . networkid . 網路流水序號 str . matchtime . 委託時間 str . orderno . 委託書號 str . subact . 子帳 str . productkind . 商品類別 str(1:期貨 2:選擇權 3:複式選擇權 4:複式期貨) . exchange . 交易所 str . symbol . 商品代碼 str . maturitymonthyear . 年月 str . putorcall . CP str F:期貨 C:Call P:Put . strikeprice . 履約價 str . symbol2 . 商品代碼2 str . maturitymonthyear2 . 年月2 str . putorcall2 . CP2 str . strikeprice2 . 履約價2 str . side1 . side1 str . side2 . side2 str . bs . “買賣別 str B:買進 S:賣出 . matchprice . “成交價格 float . matchqty . “成交口數 int . matchseq . “成交序號 str . pricebase . pricebase int . note . 備註 str . mdate . 異動時間 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#92-fmatchreply-objects",
+    
+    "relUrl": "/說明文件#92-fmatchreply-objects"
+  },"37": {
+    "doc": "說明文件",
+    "title": "9.3. FOrderObject Objects",
+    "content": ". @dataclass class FOrderObject() . 下單物件 . actno . 帳號 str . subactno . 子帳 str . exchange . 交易所 str . symbol . 商品代碼 str . maturitymonthyear . 年月 str . putorcall . CP str F:期貨 C:Call P:Put . strikeprice . 履約價 str . symbol2 . 商品代碼2 str . maturitymonthyear2 . 年月2 str . putorcall2 . CP2 str . strikeprice2 . 履約價2 str . side1 . side1 str . side2 . side2 str . bs . 買賣別 str B:買進 S:賣出 . ordertype . 下單方式 str L:限價 M:市價 3:停損市價 4:停損限價 . price . 委託價格 float . stopprice . 停損價格 float . orderqty . 委託數量 int . ordercondition . 委託種類 str I:IOC R:ROD F:FOK . opencloseflag . 新平倉碼 str . dtrade . 當沖碼 str Y:當沖 N:非當沖 . note . 備註 str:限10碼非中文 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#93-forderobject-objects",
+    
+    "relUrl": "/說明文件#93-forderobject-objects"
+  },"38": {
+    "doc": "說明文件",
+    "title": "9.4. FReplaceObject Objects",
+    "content": ". @dataclass class FReplaceObject() . 改單物件 . replacetype . 修改方式 str 4:取消, 5: 減量, m:改價 . actno . 帳號 str . orderno . 委託書號 str . ordercondition . 委託種類 str I:IOC R:ROD F:FOK . ordertype . 下單方式 str L:限價 M:市價 3:停損市價 4:停損限價 . price . 委託價格 float . stopprice . 停損價格 float . orderqty . 委託數量 int . note . 備註:限10碼非中文 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#94-freplaceobject-objects",
+    
+    "relUrl": "/說明文件#94-freplaceobject-objects"
+  },"39": {
+    "doc": "說明文件",
+    "title": "9.5. FOrderResponse Objects",
+    "content": ". class FOrderResponse() . 下單回覆物件 . issend . 是否送出 bool . errorcode . 錯誤代碼 str . errormsg . 錯誤訊息 str . note . 下單傳入備註 str . seq . 下單序號 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#95-forderresponse-objects",
+    
+    "relUrl": "/說明文件#95-forderresponse-objects"
+  },"40": {
+    "doc": "說明文件",
+    "title": "9.6. FQueryReplyResponse Objects",
+    "content": ". @dataclass class FQueryReplyResponse() . 委託回報查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回報集合 List[OrderReply] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#96-fqueryreplyresponse-objects",
+    
+    "relUrl": "/說明文件#96-fqueryreplyresponse-objects"
+  },"41": {
+    "doc": "說明文件",
+    "title": "9.7. FQueryMatchResponse Objects",
+    "content": ". @dataclass class FQueryMatchResponse() . 成交回報查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 成回集合 List[MatchReply] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#97-fquerymatchresponse-objects",
+    
+    "relUrl": "/說明文件#97-fquerymatchresponse-objects"
+  },"42": {
+    "doc": "說明文件",
+    "title": "10. dquote",
+    "content": ". 內期行情 註冊接收即時和查詢 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#10-dquote",
+    
+    "relUrl": "/說明文件#10-dquote"
+  },"43": {
+    "doc": "說明文件",
+    "title": "10.1. Dquote Objects",
+    "content": ". class Dquote() . on_error . 錯誤事件 . on_connected . 連線成功事件 . on_disonnected . 斷線事件 . on_tickdatatrade . 成交價事件..傳入物件:DTickDataTrade . on_tickdatahighlow . 最高最低價事件..傳入物件:DTickDataHighLow . on_indexdata . 現貨價事件..傳入物件:DIndexData . on_tickdatabidoffer . 五檔事件..傳入物件:DTickDataBidOffer . on_tickdatabeforetrade . 試搓成交價事件..傳入物件:DTickDataBeforeTrade . on_tickdatabeforebidoffer . 試搓五檔事件..傳入物件:DTickDataBeforeBidOffer . on_tickdataopen . 開盤價事件..傳入物件:DTickDataOpen . get_current_server . def get_current_server() . 目前連結主機IP 和 PORT . Returns . | Name | Type | Description | —— | —— | ————- | host | str | 主機IP | port | str | 主機Port | . get_server_list . def get_server_list() . 透過可連結主機 . Returns dict[Server] . | Name | Type | Description | —— | —— | ————- | key | str | servername | value | Server | Server ip:str / port:int | . set_severbyname . def set_severbyname(servername) -&gt; Tuple[bool, str] . 透過主機名稱連結主機 . Parameters . | Name | Type | Description | —— | —— | ————- | servername | str | 主機名稱 . get_subscribe_tradebidoffer . def get_subscribe_tradebidoffer() . 查詢已註冊成交.賣賣價量 商品 . get_subscribe_highlow . def get_subscribe_highlow() . 查詢已註冊最高最低價 . get_subscribe_indexdata . def get_subscribe_indexdata() . 查詢已註冊現貨 商品 . get_subscribe_open . def get_subscribe_open() . 查詢已註冊開盤價 商品 . query_tickdatatrade . def query_tickdatatrade(productid) -&gt; DTickDataTradeResponse . 查詢最後成交價量 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . TickDataTradeResponse . query_tickdatahighlow . def query_tickdatahighlow(productid) -&gt; DTickDataHighLowResponse . 查詢最高(低)價 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . TickDataHighLowResponse . query_tickdatabeforetrade . def query_tickdatabeforetrade(productid) -&gt; DTickDataBeforeTradeResponse . 查詢最後盤前成交價量 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . TickDataBeforeTradeResponse . query_tickdataopen . def query_tickdataopen(productid) -&gt; DTickDataOpenResponse . 查詢開盤價 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . TickDataOpenResponse . query_indexdata . def query_indexdata(productid) -&gt; DIndexDataResponse . 查詢現貨成交價 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . IndexDataResponse . query_tickdatabidoffer . def query_tickdatabidoffer(productid) -&gt; DTickDataBidOfferResponse . 查詢最後五檔 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . TickDataBidOfferResponse . query_tickdatabeforebidoffer . def query_tickdatabeforebidoffer(productid) -&gt; DTickDataBeforeBidOfferResponse . 查詢最後盤前五檔 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . TickDataBeforeBidOfferResponse . subscribe_tradebidoffer . def subscribe_tradebidoffer(productid) -&gt; Tuple[bool, str] . 註冊成交.賣賣價量 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . unsubscribe_tradebidoffer . def unsubscribe_tradebidoffer(productid) -&gt; Tuple[bool, str] . 反註冊成交.賣賣價量 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . subscribe_highlow . def subscribe_highlow(productid) -&gt; Tuple[bool, str] . 註冊最高最低價 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . unsubscribe_highlow . def unsubscribe_highlow(productid) -&gt; Tuple[bool, str] . 反註冊最高最低價 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . subscribe_open . def subscribe_open(productid) -&gt; Tuple[bool, str] . 註冊開盤價 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . unsubscribe_open . def unsubscribe_open(productid) -&gt; Tuple[bool, str] . 反註冊開盤價 . Parameters . | Name | Type | Description | —— | —— | ————- | productid | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . subscribe_indexdata . def subscribe_indexdata(kind, index) -&gt; Tuple[bool, str] . 註冊現貨價 . Parameters . | Name | Type | Description | —— | —— | ————- | index | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . unsubscribe_indexdata . def unsubscribe_indexdata(kind, index) -&gt; Tuple[bool, str] . 反註冊現貨價 . Parameters . | Name | Type | Description | —— | —— | ————- | index | str | 商品代碼 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . close . def close() . 關閉物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#101-dquote-objects",
+    
+    "relUrl": "/說明文件#101-dquote-objects"
+  },"44": {
+    "doc": "說明文件",
+    "title": "10.2. Format Objects",
+    "content": ". class Format() . I020_HEAD . 成交價揭示 . I021_HEAD . 最高最低價揭示 . I022_HEAD . 盤前揭示成交價揭示 . I023_HEAD . 定時開盤價量揭示 . I060_HEAD . 現貨價 . I080_HEAD . 委託簿揭示 . I082_HEAD . 盤前委託簿揭示 . I020 . 成交價揭示 . I021 . 最高最低價揭示 . I022 . 盤前揭示成交價揭示 . I023 . 定時開盤價量揭示 . I060 . 現貨價 . I080 . 委託簿揭示 . I082 . 盤前委託簿揭示 . X010 . 商品基本資料訊息 . X020 . 成交價量揭示訊息 . X021 . 盤中最高低價揭示訊息 . X060 . 現貨標的資訊 . X080 . 委託簿揭示訊息 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#102-format-objects",
+    
+    "relUrl": "/說明文件#102-format-objects"
+  },"45": {
+    "doc": "說明文件",
+    "title": "11. quote/ddata",
+    "content": ". 內期行情物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#11-quoteddata",
+    
+    "relUrl": "/說明文件#11-quoteddata"
+  },"46": {
+    "doc": "說明文件",
+    "title": "11.1. DTickDataTrade Objects",
+    "content": ". class DTickDataTrade() . 成交價揭示 . commodityid . 商品代號 str . infotime . 期交所送出時間 str . matchprice . 成交價格 float . matchquantity . 成交量 int . matchtotalqty . 成交總量 int . matchbuycnt . 成交買量 int . matchsellcnt . 成交賣量 int . matchtime . 成交時間 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#111-dtickdatatrade-objects",
+    
+    "relUrl": "/說明文件#111-dtickdatatrade-objects"
+  },"47": {
+    "doc": "說明文件",
+    "title": "11.2. DTickDataHighLow Objects",
+    "content": ". class DTickDataHighLow() . 最高最低價揭示 . commodityid . 商品代碼 str . showtime . 時間 str . dayhighprice . 最高價 float . daylowprice . 最低價 float . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#112-dtickdatahighlow-objects",
+    
+    "relUrl": "/說明文件#112-dtickdatahighlow-objects"
+  },"48": {
+    "doc": "說明文件",
+    "title": "11.3. DTickDataBeforeTrade Objects",
+    "content": ". class DTickDataBeforeTrade() . 盤前揭示成交價揭示 . commodityid . 商品代號 str . infotime . 期交所送出時間 str . matchprice . 成交價格 int . matchquantity . 成交量 int . matchtotalqty . 成交總量 int . matchbuycnt . 成交買量 int . matchsellcnt . 成交賣量 int . matchtime . 成交時間 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#113-dtickdatabeforetrade-objects",
+    
+    "relUrl": "/說明文件#113-dtickdatabeforetrade-objects"
+  },"49": {
+    "doc": "說明文件",
+    "title": "11.4. DIndexData Objects",
+    "content": ". class DIndexData() . 現貨價 . index_kind . 現貨代碼 str . index_time . 現貨統計時間 str . index_value . 現貨價 float . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#114-dindexdata-objects",
+    
+    "relUrl": "/說明文件#114-dindexdata-objects"
+  },"50": {
+    "doc": "說明文件",
+    "title": "11.5. DTickDataBidOffer Objects",
+    "content": ". class DTickDataBidOffer() . 委託簿揭示 . commodityid . 商品代碼 str . bp1 . 第一檔委買價格 float . bp2 . 第二檔委買價格 float . bp3 . 第三檔委買價格 float . bp4 . 第四檔委買價格 float . bp5 . 第五檔委買價格 float . bq1 . 第一檔委買數量 int . bq2 . 第二檔委買數量 int . bq3 . 第三檔委買數量 int . bq4 . 第四檔委買數量 int . bq5 . 第五檔委買數量 int . sp1 . 第一檔委賣價格 float . sp2 . 第二檔委賣價格 float . sp3 . 第三檔委賣價格 float . sp4 . 第四檔委賣價格 float . sp5 . 第五檔委賣價格 float . sq1 . 第一檔委買數量 int . sq2 . 第二檔委賣數量 int . sq3 . 第三檔委賣數量 int . sq4 . 第四檔委賣數量 int . sq5 . 第五檔委賣數量 int . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#115-dtickdatabidoffer-objects",
+    
+    "relUrl": "/說明文件#115-dtickdatabidoffer-objects"
+  },"51": {
+    "doc": "說明文件",
+    "title": "11.6. DTickDataBeforeBidOffer Objects",
+    "content": ". class DTickDataBeforeBidOffer() . 盤前委託簿揭示 . commodityid . 商品代碼 str . bp1 . 第一檔委買價格 float . bp2 . 第二檔委買價格 float . bp3 . 第三檔委買價格 float . bp4 . 第四檔委買價格 float . bp5 . 第五檔委買價格 float . bq1 . 第一檔委買數量 int . bq2 . 第二檔委買數量 int . bq3 . 第三檔委買數量 int . bq4 . 第四檔委買數量 int . bq5 . 第五檔委買數量 int . sp1 . 第一檔委賣價格 float . sp2 . 第二檔委賣價格 float . sp3 . 第三檔委賣價格 float . sp4 . 第四檔委賣價格 float . sp5 . 第五檔委賣價格 float . sq1 . 第一檔委買數量 int . sq2 . 第二檔委賣數量 int . sq3 . 第三檔委賣數量 int . sq4 . 第四檔委賣數量 int . sq5 . 第五檔委賣數量 int . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#116-dtickdatabeforebidoffer-objects",
+    
+    "relUrl": "/說明文件#116-dtickdatabeforebidoffer-objects"
+  },"52": {
+    "doc": "說明文件",
+    "title": "11.7. DTickDataOpen Objects",
+    "content": ". class DTickDataOpen() . 開盤價揭示 . commodityid . 商品代碼 . opentime . 開盤時間 . openprice . 開盤價 . openquantity . 開盤量 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#117-dtickdataopen-objects",
+    
+    "relUrl": "/說明文件#117-dtickdataopen-objects"
+  },"53": {
+    "doc": "說明文件",
+    "title": "11.8. DTickDataTradeResponse Objects",
+    "content": ". @dataclass class DTickDataTradeResponse() . 成交價量查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataTrade . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#118-dtickdatatraderesponse-objects",
+    
+    "relUrl": "/說明文件#118-dtickdatatraderesponse-objects"
+  },"54": {
+    "doc": "說明文件",
+    "title": "11.9. DTickDataBeforeTradeResponse Objects",
+    "content": ". @dataclass class DTickDataBeforeTradeResponse() . 試搓成交價量查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataBeforeTrade . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#119-dtickdatabeforetraderesponse-objects",
+    
+    "relUrl": "/說明文件#119-dtickdatabeforetraderesponse-objects"
+  },"55": {
+    "doc": "說明文件",
+    "title": "11.10. DTickDataHighLowResponse Objects",
+    "content": ". @dataclass class DTickDataHighLowResponse() . 最高最低價查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataHighLow . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1110-dtickdatahighlowresponse-objects",
+    
+    "relUrl": "/說明文件#1110-dtickdatahighlowresponse-objects"
+  },"56": {
+    "doc": "說明文件",
+    "title": "11.11. DTickDataOpenResponse Objects",
+    "content": ". @dataclass class DTickDataOpenResponse() . 開盤價查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataOpen . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1111-dtickdataopenresponse-objects",
+    
+    "relUrl": "/說明文件#1111-dtickdataopenresponse-objects"
+  },"57": {
+    "doc": "說明文件",
+    "title": "11.12. DIndexDataResponse Objects",
+    "content": ". @dataclass class DIndexDataResponse() . 現貨價格查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 IndexData . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1112-dindexdataresponse-objects",
+    
+    "relUrl": "/說明文件#1112-dindexdataresponse-objects"
+  },"58": {
+    "doc": "說明文件",
+    "title": "11.13. DTickDataBidOfferResponse Objects",
+    "content": ". @dataclass class DTickDataBidOfferResponse() . 最佳買賣價查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataBidOffer . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1113-dtickdatabidofferresponse-objects",
+    
+    "relUrl": "/說明文件#1113-dtickdatabidofferresponse-objects"
+  },"59": {
+    "doc": "說明文件",
+    "title": "11.14. DTickDataBeforeBidOfferResponse Objects",
+    "content": ". @dataclass class DTickDataBeforeBidOfferResponse() . 試搓最佳買賣價查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataBeforeBidOffer . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1114-dtickdatabeforebidofferresponse-objects",
+    
+    "relUrl": "/說明文件#1114-dtickdatabeforebidofferresponse-objects"
+  },"60": {
+    "doc": "說明文件",
+    "title": "12. fquote",
+    "content": ". 外期行情 註冊接收即時和查詢 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#12-fquote",
+    
+    "relUrl": "/說明文件#12-fquote"
+  },"61": {
+    "doc": "說明文件",
+    "title": "12.1. Fquote Objects",
+    "content": ". class Fquote() . on_error . 錯誤事件 . on_connected . 連線成功事件 . on_disonnected . 斷線事件 . on_tickdatatrade . 成交價事件..傳入物件:FTickDataTrade . on_tickdatabid . 最佳買價量事件..傳入物件:FTickDataBid . on_tickdataoffer . 最佳賣價量事件..傳入物件:FTickDataOffer . on_tickdataimplied . 隱含價事件..傳入物件:FTickDataImplied . on_tickdatahighlow . 最高最低價事件..傳入物件:FTickDataHighLow . on_tickdataopenclose . 開盤價事件..傳入物件:FTickDataOpenclose . on_tickdatasettle . 結算價事件..傳入物件:FTickDataOpen . get_current_server . def get_current_server() . 目前連結主機IP 和 PORT . Returns . | Name | Type | Description | —— | —— | ————- | host | str | 主機IP | port | str | 主機Port | . get_server_list . def get_server_list() . 透過可連結主機 . Returns dict[Server] . | Name | Type | Description | —— | —— | ————- | key | str | servername | value | Server | Server ip:str / port:int | . set_severbyname . def set_severbyname(servername) . 透過主機名稱連結主機 . Parameters . | Name | Type | Description | —— | —— | ————- | servername | str | 主機名稱 . get_subscribe . def get_subscribe() . 查詢已註冊商品 . query_tickdatatrade . def query_tickdatatrade(exchange, symbol, ym, strike, cp) -&gt; FTickDataTradeResponse . 查詢最後成交價量 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . FTickDataTradeResponse . query_tickdatabid . def query_tickdatabid(exchange, symbol, ym, strike, cp) -&gt; FTickDataBidResponse . 查詢最佳買進報價 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . FTickDataBidResponse . query_tickdataoffer . def query_tickdataoffer(exchange, symbol, ym, strike, cp) -&gt; FTickDataOfferResponse . 最佳賣出報價 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . FTickDataOfferResponse . query_tickdataimplied . def query_tickdataimplied(exchange, symbol, ym, strike, cp) -&gt; FTickDataImpliedResponse . 隱含買賣價量 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . FTickDataImpliedResponse . query_tickdataopenclose . def query_tickdataopenclose(exchange, symbol, ym, strike, cp) -&gt; FTickDataOpencloseResponse . 查詢開收盤價 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . FTickDataOpencloseResponse . query_tickdatahighlow . def query_tickdatahighlow(exchange, symbol, ym, strike, cp) -&gt; FTickDataHighLowResponse . 查詢最高最低價 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . FTickDataHighLowResponse . query_tickdatasettle . def query_tickdatasettle(exchange, symbol, ym, strike, cp) -&gt; FTickDataSettleResponse . 查詢結算價 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . FTickDataSettleResponse . subscribe . def subscribe(exchange: str, symbol: str, ym: str, cp: str, strike: str) -&gt; Tuple[bool, str] . 註冊 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . unsubscribe . def unsubscribe(exchange: str, symbol: str, ym: str, cp: str, strike: str) -&gt; Tuple[bool, str] . 反註冊 . Parameters . | Name | Type | Description | —— | —— | ————- | exchange | str | 交易所 | symbol | str | 商品代號 | ym | str | 年月 | cp | str | CP | strike | str | 履約價 | . Returns . | Type | Description | —— | ————- | bool | 是否成功 | str | 錯誤訊息 | . close . def close() . 關閉物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#121-fquote-objects",
+    
+    "relUrl": "/說明文件#121-fquote-objects"
+  },"62": {
+    "doc": "說明文件",
+    "title": "12.2. Format Objects",
+    "content": ". class Format() . I020_HEAD . 成交價揭示 . I021_HEAD . 最高最低價揭示 . I022_HEAD . 盤前揭示成交價揭示 . I060_HEAD . 現貨價 . I080_HEAD . 委託簿揭示 . I082_HEAD . 盤前委託簿揭示 . TICKDATATRADE . 即時成交價量 . TICKDATABID . 即時最佳買進報價 . TICKDATAOFFER . 即時最佳賣出報價 . TICKDATAIMPLIED . 即時隱含買賣價量 . TICKDATAHIGHLOW . 即時最高最低價 . TICKDATAOPENCLOSE . 即時開收盤價 . TICKDATASETTLE . 即時結算價 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#122-format-objects",
+    
+    "relUrl": "/說明文件#122-format-objects"
+  },"63": {
+    "doc": "說明文件",
+    "title": "13. quote/fdata",
+    "content": ". 外期行情物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#13-quotefdata",
+    
+    "relUrl": "/說明文件#13-quotefdata"
+  },"64": {
+    "doc": "說明文件",
+    "title": "13.1. FContract Objects",
+    "content": ". @dataclass class FContract() . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . strike . 履約價 str . cp . CP str . display_denominator . 分母 float . display_multiply . 倍率 float . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#131-fcontract-objects",
+    
+    "relUrl": "/說明文件#131-fcontract-objects"
+  },"65": {
+    "doc": "說明文件",
+    "title": "13.2. FTickDataTrade Objects",
+    "content": ". class FTickDataTrade() . 即時成交價量 . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . cp . CP str . strike . 履約價 str . display_denominator . 分母 float . display_multiply . 倍率 float . total . 總量 int . lastprice . 成交價 float . lastvolume . 成交量 int . time . 成交時間 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#132-ftickdatatrade-objects",
+    
+    "relUrl": "/說明文件#132-ftickdatatrade-objects"
+  },"66": {
+    "doc": "說明文件",
+    "title": "13.3. FTickDataBid Objects",
+    "content": ". class FTickDataBid() . 即時最佳買進報價 . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . cp . CP str . strike . 履約價 str . display_denominator . 分母 float . display_multiply . 倍率 float . BidDOM1Price . 最佳買價1 float . BidDOM1Volume . 最佳買量1 int . BidDOM2Price . 最佳買價2 float . BidDOM2Volume . 最佳買量2 int . BidDOM3Price . 最佳買價3 float . BidDOM3Volume . 最佳買量3 . BidDOM4Price . 最佳買價4 float . BidDOM4Volume . 最佳買量4 int . BidDOM5Price . 最佳買價5 float . BidDOM5Volume . 最佳買量5 int . BidDOM6Price . 最佳買價6 float . BidDOM6Volume . 最佳買量6 int . BidDOM7Price . 最佳買價7 float . BidDOM7Volume . 最佳買量7 int . BidDOM8Price . 最佳買價8 float . BidDOM8Volume . 最佳買量8 int . BidDOM9Price . 最佳買價9 float . BidDOM9Volume . 最佳買量9 int . BidDOM10Price . 最佳買價10 float . BidDOM10Volume . 最佳買量10 int . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#133-ftickdatabid-objects",
+    
+    "relUrl": "/說明文件#133-ftickdatabid-objects"
+  },"67": {
+    "doc": "說明文件",
+    "title": "13.4. FTickDataOffer Objects",
+    "content": ". class FTickDataOffer() . 即時最佳買進報價 . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . cp . CP str . strike . 履約價 str . display_denominator . 分母 float . display_multiply . 倍率 float . OfferDOM1Price . 最佳賣價1 float . OfferDOM1Volume . 最佳賣量1 int . OfferDOM2Price . 最佳賣價2 float . OfferDOM2Volume . 最佳賣量2 int . OfferDOM3Price . 最佳賣價3 float . OfferDOM3Volume . 最佳賣量3 int . OfferDOM4Price . 最佳賣價4 float . OfferDOM4Volume . 最佳賣量4 int . OfferDOM5Price . 最佳賣價5 float . OfferDOM5Volume . 最佳賣量5 int . OfferDOM6Price . 最佳賣價6 float . OfferDOM6Volume . 最佳賣量6 int . OfferDOM7Price . 最佳賣價7 float . OfferDOM7Volume . 最佳賣量7 int . OfferDOM8Price . 最佳賣價8 float . OfferDOM8Volume . 最佳賣量8 int . OfferDOM9Price . 最佳賣價9 float . OfferDOM9Volume . 最佳賣量9 int . OfferDOM10Price . 最佳賣價10 float . OfferDOM10Volume . 最佳賣量10 int . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#134-ftickdataoffer-objects",
+    
+    "relUrl": "/說明文件#134-ftickdataoffer-objects"
+  },"68": {
+    "doc": "說明文件",
+    "title": "13.5. FTickDataImplied Objects",
+    "content": ". class FTickDataImplied() . 即時隱含買賣價量 . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . cp . CP str . strike . 履約價 str . display_denominator . 分母 float . display_multiply . 倍率 float . ImpliedBidPrice . 隱含買價 float . ImpliedBidVolume . 隱含買量 int . ImpliedOfferPrice . 隱含賣價 float . ImpliedOfferVolume . 隱含賣量 int . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#135-ftickdataimplied-objects",
+    
+    "relUrl": "/說明文件#135-ftickdataimplied-objects"
+  },"69": {
+    "doc": "說明文件",
+    "title": "13.6. FTickDataHighLow Objects",
+    "content": ". class FTickDataHighLow() . 即時最高最低價 . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . cp . CP str . strike . 履約價 str . display_denominator . 分母 float . display_multiply . 倍率 float . High . 最高價 float . Low . 最低價 float . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#136-ftickdatahighlow-objects",
+    
+    "relUrl": "/說明文件#136-ftickdatahighlow-objects"
+  },"70": {
+    "doc": "說明文件",
+    "title": "13.7. FTickDataOpenclose Objects",
+    "content": ". class FTickDataOpenclose() . 即時開收盤價 . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . cp . CP str . strike . 履約價 str . display_denominator . 分母 float . display_multiply . 倍率 float . Opening . 開盤價 float . Closing . 收盤價 float . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#137-ftickdataopenclose-objects",
+    
+    "relUrl": "/說明文件#137-ftickdataopenclose-objects"
+  },"71": {
+    "doc": "說明文件",
+    "title": "13.8. FTickDataSettle Objects",
+    "content": ". class FTickDataSettle() . 即時結算價 . exchage . 交易所 str . symbol . 商品代號 str . ym . 年月 str . cp . CP str . strike . 履約價 str . display_denominator . 分母 float . display_multiply . 倍率 float . CurrStl . 目前結算價 . NewStl . 最新結算價 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#138-ftickdatasettle-objects",
+    
+    "relUrl": "/說明文件#138-ftickdatasettle-objects"
+  },"72": {
+    "doc": "說明文件",
+    "title": "13.9. FTickDataTradeResponse Objects",
+    "content": ". @dataclass class FTickDataTradeResponse() . 成交價量查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataTrade . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#139-ftickdatatraderesponse-objects",
+    
+    "relUrl": "/說明文件#139-ftickdatatraderesponse-objects"
+  },"73": {
+    "doc": "說明文件",
+    "title": "13.10. FTickDataBidResponse Objects",
+    "content": ". @dataclass class FTickDataBidResponse() . 最佳買價量查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataBid . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1310-ftickdatabidresponse-objects",
+    
+    "relUrl": "/說明文件#1310-ftickdatabidresponse-objects"
+  },"74": {
+    "doc": "說明文件",
+    "title": "13.11. FTickDataOfferResponse Objects",
+    "content": ". @dataclass class FTickDataOfferResponse() . 最佳賣價量查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataOffer . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1311-ftickdataofferresponse-objects",
+    
+    "relUrl": "/說明文件#1311-ftickdataofferresponse-objects"
+  },"75": {
+    "doc": "說明文件",
+    "title": "13.12. FTickDataImpliedResponse Objects",
+    "content": ". @dataclass class FTickDataImpliedResponse() . 隱含價量查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataImplied . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1312-ftickdataimpliedresponse-objects",
+    
+    "relUrl": "/說明文件#1312-ftickdataimpliedresponse-objects"
+  },"76": {
+    "doc": "說明文件",
+    "title": "13.13. FTickDataHighLowResponse Objects",
+    "content": ". @dataclass class FTickDataHighLowResponse() . 最高最低價查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataHighLow . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1313-ftickdatahighlowresponse-objects",
+    
+    "relUrl": "/說明文件#1313-ftickdatahighlowresponse-objects"
+  },"77": {
+    "doc": "說明文件",
+    "title": "13.14. FTickDataOpencloseResponse Objects",
+    "content": ". @dataclass class FTickDataOpencloseResponse() . 開收盤價查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataOpenclose . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1314-ftickdataopencloseresponse-objects",
+    
+    "relUrl": "/說明文件#1314-ftickdataopencloseresponse-objects"
+  },"78": {
+    "doc": "說明文件",
+    "title": "13.15. FTickDataSettleResponse Objects",
+    "content": ". @dataclass class FTickDataSettleResponse() . 結算價查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 TickDataSettle . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#1315-ftickdatasettleresponse-objects",
+    
+    "relUrl": "/說明文件#1315-ftickdatasettleresponse-objects"
+  },"79": {
+    "doc": "說明文件",
+    "title": "14. daccount",
+    "content": ". 內期帳務 提供保證金.未平倉.即時部位查詢 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#14-daccount",
+    
+    "relUrl": "/說明文件#14-daccount"
+  },"80": {
+    "doc": "說明文件",
+    "title": "14.1. Daccount Objects",
+    "content": ". class Daccount() . on_error . 錯誤事件 . on_connected . 連線成功事件 . on_disconnected . 斷線事件 . get_current_server . def get_current_server() . 目前連結主機IP 和 PORT . Returns . | Name | Type | Description | —— | —— | ————- | host | str | 主機IP | port | str | 主機Port | . get_server_list . def get_server_list() . 透過可連結主機 . Returns dict[Server] . | Name | Type | Description | —— | —— | ————- | key | str | servername | value | Server | Server ip:str / port:int | . set_severbyname . def set_severbyname(servername) . 透過主機名稱連結主機 . Parameters . | Name | Type | Description | —— | —— | ————- | servername | str | 主機名稱 . get_margin . def get_margin(actno, currency) -&gt; DMarginResponse . 查詢保證金 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | currency | str | 幣別 | . Returns MarginResponse . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | List[Margin] | 保證金集合物件 | . get_position . def get_position(actno, groupid='', trader='') -&gt; DPositionResponse . 查詢即時部位 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | . Returns PositionResponse . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | List[Position] | 即時部位集合物件 | . get_unliquidation . def get_unliquidation(actno, currency='', action='3', sort='') -&gt; DUnliquidationResponse . 查詢未平倉彙總 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | currency | str | 幣別 | . Returns UnliquidationResponse . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | List[Unliquidation] | 未平倉彙總集合物件 | . close . def close() . 關閉物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#141-daccount-objects",
+    
+    "relUrl": "/說明文件#141-daccount-objects"
+  },"81": {
+    "doc": "說明文件",
+    "title": "15. account/ddata",
+    "content": ". 內期帳務物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#15-accountddata",
+    
+    "relUrl": "/說明文件#15-accountddata"
+  },"82": {
+    "doc": "說明文件",
+    "title": "15.1. DMargin Objects",
+    "content": ". class DMargin() . 內期保證金物件 . total_count . 總筆數 int . current_count . 現在筆數 int . network_id . 網路序號 str . company . 公司別 str . actno . 帳號 str . account_date . 帳務日期 str . currency . 幣別 str . exrate . 匯率 float . lctdab . 昨日權益數 float . ltdab . 昨日餘額 float . dwamt . 存提 float . osprtlos . 期貨平倉損益 float . prtlos . 未沖銷期貨浮動損益 float . optosprtlos . 選擇權平倉損益 float . optprtlos . 選擇權未平倉損益 float . tpremium . 當日權利金支出收入 float . orignfee . 成交手續費 float . ctaxamt . 成交期交稅 float . ordpremium . 委託預扣權利金 float . ctdab . 權益數 float . ordiamt . 委託預扣原始保證金 float . iamt . 原始保證金 float . mamt . 維持保證金 float . ordcexcess . 可動用(出金) 保證金 float . bpremium . 買方選擇權市值 float . spremium . 賣方選擇權市值 float . optequity . 權益總值 float . inirate . 原始比率 float . matrate . 維持比率 float . liquidation_ratio . 清算比率 float . twdoptequity . 台幣權益總值 float . twdinirate . 台幣原始比率 str . twdordexcess . 台幣可動用(出金)保證金 float . securities_payment_amount . 有價證券抵繳金額 float . tmp1prices . 加收保證金 float . optrate . 風險指標 float . update_date . 資料更新日期 str . update_time . 資料更新時間 str . securities_valuation . 有價證券評價價值 str . excerciseprice . 到期履約損益 float . transaction_total_quota . 交易總額度 float . excess_margin . 超額/追繳保證金 float . data_source_type . 資料來源類別 str . night_session_closing_ctdab . 夜盤收盤權益數 float . night_session_optrate . 夜盤風險指標 float . night_session_optequity . 夜盤權利總值 float . night_session_iamt . 夜盤原始保證金 float . night_session_mamt . 夜盤維持保證金 float . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#151-dmargin-objects",
+    
+    "relUrl": "/說明文件#151-dmargin-objects"
+  },"83": {
+    "doc": "說明文件",
+    "title": "15.2. DMarginResponse Objects",
+    "content": ". @dataclass class DMarginResponse() . 保證金查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 List[DMargin] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#152-dmarginresponse-objects",
+    
+    "relUrl": "/說明文件#152-dmarginresponse-objects"
+  },"84": {
+    "doc": "說明文件",
+    "title": "15.3. DPosition Objects",
+    "content": ". @dataclass class DPosition() . 內期即時部位物件 . total_count . 總筆數 int . current_count . 現在筆數 int . network_id . 網路序號 str . company . 公司別 str . actno . 帳號 str . currency . 幣別 str . product . 商品 str . month . 月份 str . call_put . Call Put str . strike_price . 履約價 float . ot_qty_b . 前日買進留倉 int . ot_qty_s . 前日賣出留倉 int . noworder_qty_b . 本日買進委託 int . noworder_qty_s . 本日賣出委託 int . nowmatch_qty_b . 本日買進成交 int . nowmatch_qty_s . 本日賣出成交 int . today_close_position . 本日平倉 int . current_buy_open_position . 目前買進留倉 int . current_sell_open_position . 目前賣出留倉 int . combined_buy_balance . 組合買進餘額 float . combined_sell_balance . 組合賣出餘額 float . open_buy_position_average_cost . 留倉買進平均成本 float . open_sell_position_average_cost . 留倉賣出平均成本 float . buyer_IAMT . 買方原始保證金 float . seller_IAMT . 賣方原始保證金 float . buyer_MAMT . 買方維持保證金 float . seller_MAMT . 賣方維持保證金 float . product_base_number . 商品基數 int . reference_realPrice . 參考即時價 float . close_position_pnl . 平倉損益 float . product_name . 商品名稱 str . buy_spread_points . 價差點數買 . sell_spread_points . 價差點數賣 float . floating_pnl . 浮動損益 float . productkind . 資料來源類別 str . productid . 商品代碼 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#153-dposition-objects",
+    
+    "relUrl": "/說明文件#153-dposition-objects"
+  },"85": {
+    "doc": "說明文件",
+    "title": "15.4. DPositionResponse Objects",
+    "content": ". @dataclass class DPositionResponse() . 即時部位查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 List[Position] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#154-dpositionresponse-objects",
+    
+    "relUrl": "/說明文件#154-dpositionresponse-objects"
+  },"86": {
+    "doc": "說明文件",
+    "title": "15.5. DUnliquidation Objects",
+    "content": ". @dataclass class DUnliquidation() . 內期未平倉物件 . total_count . 總筆數 int . current_count . 現在筆數 int . network_id . 網路序號 str . company . 公司別 str . actno . 帳號 str . productid . 商品代碼 str . bs . 買賣別 str . totalotqty . 留倉口數 int . avgmatchprice . 成交均價 float . realprice . 即時價 float . reftotalpl . 浮動損益 float . ctaxamt . 交易稅 float . commission_fee . 手續費 float . net_profit_loss . 淨損益 float . leg1_product_category . 腳一商品類別 . leg1_product_date . 腳一商品年月 . leg1_strike_price . 腳一履約價 . leg1_call_put . 腳一買賣權 . leg1_buy_sell . 腳一買賣別 . leg1_average_price . 腳一成交均價 float . leg2_product_category . 腳二商品類別 . leg2_product_date . 腳二商品年月 . leg2_strike_price . 腳二履約價 . leg2_call_put . 腳二買賣權 . leg2_buy_sell . 腳二買賣別 . leg2_average_price . 腳二成交均價 float . product_name . 商品名稱 str . leg1_productid . 腳一商品 str . leg2_productid . 腳二商品 str . multiname . 複式單策略名稱 str . data_source_type . 資料來源類別 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#155-dunliquidation-objects",
+    
+    "relUrl": "/說明文件#155-dunliquidation-objects"
+  },"87": {
+    "doc": "說明文件",
+    "title": "15.6. DUnliquidationResponse Objects",
+    "content": ". @dataclass class DUnliquidationResponse() . 未平倉查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 List[TickDataSettle] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#156-dunliquidationresponse-objects",
+    
+    "relUrl": "/說明文件#156-dunliquidationresponse-objects"
+  },"88": {
+    "doc": "說明文件",
+    "title": "16. faccount",
+    "content": ". 外期帳務 提供保證金.未平倉.即時部位查詢 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#16-faccount",
+    
+    "relUrl": "/說明文件#16-faccount"
+  },"89": {
+    "doc": "說明文件",
+    "title": "16.1. Faccount Objects",
+    "content": ". class Faccount() . on_error . 錯誤事件 . on_connected . 連線成功事件 . on_disconnected . 斷線事件 . get_current_server . def get_current_server() . 目前連結主機IP 和 PORT . Returns . | Name | Type | Description | —— | —— | ————- | host | str | 主機IP | port | str | 主機Port | . get_server_list . def get_server_list() . 透過可連結主機 . Returns dict[Server] . | Name | Type | Description | —— | —— | ————- | key | str | servername | value | Server | Server ip:str / port:int | . set_severbyname . def set_severbyname(servername) . 透過主機名稱連結主機 . Parameters . | Name | Type | Description | —— | —— | ————- | servername | str | 主機名稱 . get_margin . def get_margin(actno) . 查詢保證金 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | . Returns MarginResponse . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | List[Margin] | 保證金集合物件 | . get_position . def get_position(actno, groupid='', trader='') . 查詢即時部位 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | . Returns PositionResponse . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | List[Position] | 即時部位集合物件 | . get_unliquidation . def get_unliquidation(actno) . 查詢未平倉彙總 . Parameters . | Name | Type | Description | —— | —— | ————- | actno | str | 帳號 | currency | str | 幣別 | . Returns UnliquidationResponse . | Type | Description | —— | ————- | bool | True 成功 /False 失敗 | str | 錯誤訊息 | List[Unliquidation] | 未平倉彙總集合物件 | . close . def close() . 關閉物件 . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#161-faccount-objects",
+    
+    "relUrl": "/說明文件#161-faccount-objects"
+  },"90": {
+    "doc": "說明文件",
+    "title": "17. account/fdata",
+    "content": ". ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#17-accountfdata",
+    
+    "relUrl": "/說明文件#17-accountfdata"
+  },"91": {
+    "doc": "說明文件",
+    "title": "17.1. FMargin Objects",
+    "content": ". @dataclass class FMargin() . 外期保證金物件 . total_count . 總筆數 int . current_count . 現在筆數int . web_code . Web代號 str . web_serial . 網路序號 str . currency . 幣別 str . previous_day_balance . 前日帳款餘額 float . commission . 手續費 float . exchange_rate . 匯率 float . futures_tax . 期交稅 float . deposit_withdrawal_amount . 存提金額 float . close_pnl . 平倉損益 float . unrealized_pnl . 未平倉損益 float . buy_option_market_value . 買方選擇權市值 float . sell_option_market_value . 賣方選擇權市值 float . order_withholding_premium . 下單預扣權利金 float . today_premium_income_expense . 當日權利金收支 float . net_value . 淨值 float . original_margin . 原始保證金 float . maintenance_margin . 維持保證金 float . available_balance . 可用餘額 float . order_available_margin . 下單可用保證金 float . today_order_margin . 當日委託保證金 float . performance_pnl . 履約損益 float . variable_premium . 變動權利金float . marking_time . 洗價時間 str . additional_payment . 追繳金額 float . yesterday_unrealized_pnl . 昨日未平倉損益 float . today_intraday_unrealized_pnl . 今日盤中浮動損益 float . sell_vertical_spread_market_value . 賣方垂直價差市值 float . strike_payment . 履約價款 float . today_balance . 今日餘額 float . account_total_market_value . 帳戶總市值 float . full_original_margin . 足額原始保證金 float . total_market_value_risk . 總市值風險 float . risk_coefficient . 風險係數 float . maintenance_rate . 維持率 float . company_type . 公司別 str . account . 帳號 str . group . 組別 str . trader . 交易員 str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#171-fmargin-objects",
+    
+    "relUrl": "/說明文件#171-fmargin-objects"
+  },"92": {
+    "doc": "說明文件",
+    "title": "17.2. FMarginResponse Objects",
+    "content": ". @dataclass class FMarginResponse() . 保證金查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 List[Margin] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#172-fmarginresponse-objects",
+    
+    "relUrl": "/說明文件#172-fmarginresponse-objects"
+  },"93": {
+    "doc": "說明文件",
+    "title": "17.3. FUnliquidation Objects",
+    "content": ". @dataclass class FUnliquidation() . 外期未平倉物件 . total_count . 總筆數 int . current_count . 現在筆數 int . company_type . 公司別 str . client_account . 客戶帳號 str . exchange . 交易所 str . buy_sell_type_1 . 買賣別1 str . trade_type_1 . 交易種類1 str . product_code_1 . 商品代號1 str . product_year_month_1 . 商品年月1 str . strike_price_1 . 履約價1 float . buy_sell_option_1 . 買賣權1 str . open_interest_1 . 未平倉量1 int . settlement_price_1 . 結算價1 float . spot_price_1 . 及時價1 float . unrealized_pnl_1 . 未平倉損益1 float . initial_margin_1 . 原始保證金1 float . maintenance_margin_1 . 維持保證金1 float . currency_1 . 幣別1 str . deal_price_1 . 成交價1 float . broker_code . 上手代號 str . unrealized_pnl_ntd_1 . 未平倉損益-約當台幣1 float . commission_1 . 手續費1 float . business_tax_1 . 營業稅1 float . net_open_interest_pnl_1 . 淨未平倉損益1 float . net_open_interest_pnl_ntd_1 . 淨未平倉損益-約當台幣1 float . group . 組別 str . trader . 交易員 str . abbreviation . 簡稱 str . backend_pricebase . 後台Pricebase str . display_pricebase . 顯示pricebase str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#173-funliquidation-objects",
+    
+    "relUrl": "/說明文件#173-funliquidation-objects"
+  },"94": {
+    "doc": "說明文件",
+    "title": "17.4. FUnliquidationResponse Objects",
+    "content": ". @dataclass class FUnliquidationResponse() . 未平倉查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 List[TickDataSettle] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#174-funliquidationresponse-objects",
+    
+    "relUrl": "/說明文件#174-funliquidationresponse-objects"
+  },"95": {
+    "doc": "說明文件",
+    "title": "17.5. FPosition Objects",
+    "content": ". class FPosition() . 外期即時部位物件 . total_count . 總筆數 int . current_count . 現在筆數 int . web_code . Web代號 str . web_serial . 網路序號 str . company_type . 公司別 str . client_account . 客戶帳號 str . exchange . 交易所 str . trade_type . 交易種類 str . product_code . 商品代號 str . product_year_month . 商品年月 str . strike_price . 履約價 float . buy_sell_option . 買賣權 str . net_buy . 淨買 int . net_sell . 淨賣 int . buyer_position . 買方留倉 int . seller_position . 賣方留倉 int . buyer_transaction . 買方成交 int . seller_transaction . 賣方成交 int . buyer_order . 買方委託 int . seller_order . 賣方委託 int . delivery_date . 交割日期 str . currency . 幣別 str . average_deal_price . 成交均價 float . instant_price . 即時價 float . unrealized_pnl . 未平倉損益 float . close_volume . 平倉口數 int . close_pnl . 平倉損益 float . group . 組別 str . trader . 交易員 str . abbreviation . 簡稱 str . price_base . Pricebase str . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#175-fposition-objects",
+    
+    "relUrl": "/說明文件#175-fposition-objects"
+  },"96": {
+    "doc": "說明文件",
+    "title": "17.6. FPositionResponse Objects",
+    "content": ". @dataclass class FPositionResponse() . 即時部位查詢回覆物件 . ok . 是否成功 bool . error . 錯誤訊息 str . data . 回覆物件 List[Position] . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6#176-fpositionresponse-objects",
+    
+    "relUrl": "/說明文件#176-fpositionresponse-objects"
+  },"97": {
+    "doc": "說明文件",
+    "title": "說明文件",
+    "content": ". | 1. pfcf . | 1.1. LoginResponse Objects | 1.2. Pfcf Objects | . | 2. p08 . | 2.1. P08 Objects | . | 3. p09 . | 3.1. P09 Objects | . | 4. symboldata . | 4.1. SYMBOLDATA Objects | . | 5. symbolcontract . | 5.1. SYMBOLCONTRACT Objects | . | 6. dtrade . | 6.1. Dtrade Objects | . | 7. trade/ddata . | 7.1. DOrderReply Objects | 7.2. DMatchReply Objects | 7.3. DOrderObject Objects | 7.4. DReplaceObject Objects | 7.5. DOrderResponse Objects | 7.6. DQueryReplyResponse Objects | 7.7. DQueryMatchResponse Objects | . | 8. ftrade . | 8.1. Ftrade Objects | . | 9. trade/fdata . | 9.1. FOrderReply Objects | 9.2. FMatchReply Objects | 9.3. FOrderObject Objects | 9.4. FReplaceObject Objects | 9.5. FOrderResponse Objects | 9.6. FQueryReplyResponse Objects | 9.7. FQueryMatchResponse Objects | . | 10. dquote . | 10.1. Dquote Objects | 10.2. Format Objects | . | 11. quote/ddata . | 11.1. DTickDataTrade Objects | 11.2. DTickDataHighLow Objects | 11.3. DTickDataBeforeTrade Objects | 11.4. DIndexData Objects | 11.5. DTickDataBidOffer Objects | 11.6. DTickDataBeforeBidOffer Objects | 11.7. DTickDataOpen Objects | 11.8. DTickDataTradeResponse Objects | 11.9. DTickDataBeforeTradeResponse Objects | 11.10. DTickDataHighLowResponse Objects | 11.11. DTickDataOpenResponse Objects | 11.12. DIndexDataResponse Objects | 11.13. DTickDataBidOfferResponse Objects | 11.14. DTickDataBeforeBidOfferResponse Objects | . | 12. fquote . | 12.1. Fquote Objects | 12.2. Format Objects | . | 13. quote/fdata . | 13.1. FContract Objects | 13.2. FTickDataTrade Objects | 13.3. FTickDataBid Objects | 13.4. FTickDataOffer Objects | 13.5. FTickDataImplied Objects | 13.6. FTickDataHighLow Objects | 13.7. FTickDataOpenclose Objects | 13.8. FTickDataSettle Objects | 13.9. FTickDataTradeResponse Objects | 13.10. FTickDataBidResponse Objects | 13.11. FTickDataOfferResponse Objects | 13.12. FTickDataImpliedResponse Objects | 13.13. FTickDataHighLowResponse Objects | 13.14. FTickDataOpencloseResponse Objects | 13.15. FTickDataSettleResponse Objects | . | 14. daccount . | 14.1. Daccount Objects | . | 15. account/ddata . | 15.1. DMargin Objects | 15.2. DMarginResponse Objects | 15.3. DPosition Objects | 15.4. DPositionResponse Objects | 15.5. DUnliquidation Objects | 15.6. DUnliquidationResponse Objects | . | 16. faccount . | 16.1. Faccount Objects | . | 17. account/fdata . | 17.1. FMargin Objects | 17.2. FMarginResponse Objects | 17.3. FUnliquidation Objects | 17.4. FUnliquidationResponse Objects | 17.5. FPosition Objects | 17.6. FPositionResponse Objects | . | . ",
+    "url": "/%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6",
+    
+    "relUrl": "/說明文件"
+  },"98": {
+    "doc": "開始",
+    "title": "1. 開始",
+    "content": "1.1 載入統一API . import pfcf from pfcf.pfcf import * . 1.2 宣告統一API . api = Pfcf() . 1.3 註冊錯誤事件 . api.on_error = lambda error: print(f'api錯誤 {error}') . 1.4 系統登入 . loginresponse = api.login( \"登入url\", \"帳號\", \"密碼\", '憑證檔名', '憑證密碼') . ",
+    "url": "/%E9%96%8B%E5%A7%8B/#1-%E9%96%8B%E5%A7%8B",
+    
+    "relUrl": "/開始/#1-開始"
+  },"99": {
+    "doc": "開始",
+    "title": "開始",
+    "content": " ",
+    "url": "/%E9%96%8B%E5%A7%8B/",
+    
+    "relUrl": "/開始/"
+  }
+}
