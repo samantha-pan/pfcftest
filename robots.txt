@@ -1,1 +1,1 @@
-Sitemap: /sitemap.xml
+Sitemap: https://samantha-pan.github.io//pfcftest/sitemap.xml
