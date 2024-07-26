@@ -491,7 +491,7 @@
   },"70": {
     "doc": "事先準備",
     "title": "1. 事先準備",
-    "content": "1.1 儲存憑證 . | 取得您的憑證檔案和密碼 | 將憑證檔案放到程式執行目錄下 | 您的目錄會是 | . ├── 您的程式.py └── XXXXXXXXXX.pfx . 1.2 下載pfcf套件 . | python版本 | windows | linux | mac | . | 3.7 | 下載 | 下載 |   | . | 3.8 | 下載 | 下載 |   | . | 3.9 | 下載 | 下載 |   | . | 3.10 | 下載 | 下載 |   | . | 3.11 | 下載 | 下載 |   | . | 3.12 | 下載 | 下載 |   | . 1.3 複製pfcf套件 . | 複製[pfcf.whl]到程式執行目錄下 - | 您的目錄會是 | . ├── 您的程式.py ├── pfcf.whl └── XXXXXXXXXX.pfx . 1.4 安裝pfcf套件 . pip install pfcf.whl . ",
+    "content": "1.1 儲存憑證 . | 取得您的憑證檔案和密碼 | 將憑證檔案放到程式執行目錄下 | 您的目錄會是 | . ├── 您的程式.py └── XXXXXXXXXX.pfx . 1.2 下載pfcf套件 . | python版本 | windows | linux | mac | . | 3.7 | 下載 | 下載 |   | . | 3.8 | 下載 | 下載 | 下載 | . | 3.9 | 下載 | 下載 |   | . | 3.10 | 下載 | 下載 |   | . | 3.11 | 下載 | 下載 |   | . | 3.12 | 下載 | 下載 |   | . 1.3 複製pfcf套件 . | 複製[pfcf.whl]到程式執行目錄下 - | 您的目錄會是 | . ├── 您的程式.py ├── pfcf.whl └── XXXXXXXXXX.pfx . 1.4 安裝pfcf套件 . pip install pfcf.whl . ",
     "url": "/pfcftest/#1-%E4%BA%8B%E5%85%88%E6%BA%96%E5%82%99",
     
     "relUrl": "/#1-事先準備"
