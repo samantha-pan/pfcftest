@@ -29,17 +29,17 @@ permalink: /
 
 ### 1.3 複製pfcf套件
  
- - 複製[pfcf.whl]到程式執行目錄下   - 
+ - 複製[pfcf(下載檔名).whl]到程式執行目錄下   - 
  - 您的目錄會是
 
 ```  
  ├── 您的程式.py
- ├── pfcf.whl
+ ├── pfcf(下載檔名).whl
  └── XXXXXXXXXX.pfx
 ```
 
 ### 1.4 安裝pfcf套件
 ``` 
-    pip install pfcf.whl
+    pip install pfcf(下載檔名).whl
 ```
  
