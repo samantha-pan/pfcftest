@@ -20,12 +20,12 @@ permalink: /
 
 | python版本 | windows | linux  | mac |
 | ------ | ------ | ------ |
-| 3.7 | [下載]("download/pfcf-1.0.0.1-cp37-cp37m-win_amd64.whl") |  [下載]("download/pfcf-1.0.0.1-cp37-cp37m-linux_x86_64.whl") |  |    
-| 3.8 | [下載]("download/pfcf-1.0.0.1-cp38-cp38m-win_amd64.whl") |  [下載]("download/pfcf-1.0.0.1-cp38-cp38m-linux_x86_64.whl") |  |    
-| 3.9 | [下載]("download/pfcf-1.0.0.1-cp39-cp39m-win_amd64.whl") |  [下載]("download/pfcf-1.0.0.1-cp39-cp39m-linux_x86_64.whl") |  |    
-| 3.10 | [下載]("download/pfcf-1.0.0.1-cp310-cp310m-win_amd64.whl") |  [下載]("download/pfcf-1.0.0.1-cp310-cp310m-linux_x86_64.whl") |  |    
-| 3.11 | [下載]("download/pfcf-1.0.0.1-cp311-cp311m-win_amd64.whl") |  [下載]("download/pfcf-1.0.0.1-cp311-cp311m-linux_x86_64.whl") |  |    
-| 3.12 | [下載]("download/pfcf-1.0.0.1-cp312-cp312m-win_amd64.whl") |  [下載]("download/pfcf-1.0.0.1-cp312-cp312m-linux_x86_64.whl") |  |    
+| 3.7 | [下載](download/pfcf-1.0.0.1-cp37-cp37m-win_amd64.whl) |  [下載]("download/pfcf-1.0.0.1-cp37-cp37m-linux_x86_64.whl) |  |    
+| 3.8 | [下載](download/pfcf-1.0.0.1-cp38-cp38m-win_amd64.whl) |  [下載]("download/pfcf-1.0.0.1-cp38-cp38m-linux_x86_64.whl) |  |    
+| 3.9 | [下載](download/pfcf-1.0.0.1-cp39-cp39m-win_amd64.whl) |  [下載]("download/pfcf-1.0.0.1-cp39-cp39m-linux_x86_64.whl) |  |    
+| 3.10 | [下載](download/pfcf-1.0.0.1-cp310-cp310m-win_amd64.whl) |  [下載]("download/pfcf-1.0.0.1-cp310-cp310m-linux_x86_64.whl) |  |    
+| 3.11 | [下載](download/pfcf-1.0.0.1-cp311-cp311m-win_amd64.whl) |  [下載]("download/pfcf-1.0.0.1-cp311-cp311m-linux_x86_64.whl) |  |    
+| 3.12 | [下載](download/pfcf-1.0.0.1-cp312-cp312m-win_amd64.whl) |  [下載]("download/pfcf-1.0.0.1-cp312-cp312m-linux_x86_64.whl) |  |    
 
 ### 1.3 複製pfcf套件
  
