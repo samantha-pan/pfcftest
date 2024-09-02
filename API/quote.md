@@ -1,9 +1,8 @@
 ---  
 nav_order: 4
 parent: API Reference  
-title: "dquote"
+title: "quote"
 --- 
-<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 內期行情
 註冊接收即時和查詢
 
@@ -604,9 +603,8 @@ class Format()
 ---  
 nav_order: 4
 parent: API Reference  
-title: "dquote"
+title: "quote"
 --- 
-<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 內期行情物件
 
 <a id="ddata.DTickDataTrade"></a>

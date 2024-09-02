@@ -3,6 +3,7 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 <a id="domesticcontract.DomesticContract"></a>
 
 ## DomesticContract Objects
@@ -60,6 +61,7 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 <a id="domesticproduct.DomesticProduct"></a>
 
 ## DomesticProduct Objects
@@ -111,6 +113,7 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 <a id="foreigncontract.ForeignContract"></a>
 
 ## ForeignContract Objects
@@ -168,6 +171,7 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 <a id="foreignproduct.ForeignProduct"></a>
 
 ## ForeignProduct Objects
@@ -225,6 +229,7 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 <a id="exchange.EXCHANGE"></a>
 
 ## EXCHANGE Objects

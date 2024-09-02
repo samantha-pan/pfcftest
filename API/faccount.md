@@ -1,8 +1,9 @@
 ---  
 nav_order: 7
 parent: API Reference  
-title: "daccount"
+title: "faccount"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 外期帳務
 提供保證金.未平倉.即時部位查詢
 
@@ -162,8 +163,9 @@ def close()
 ---  
 nav_order: 7
 parent: API Reference  
-title: "daccount"
+title: "faccount"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 <a id="fdata.FMargin"></a>
 
 ## FMargin Objects

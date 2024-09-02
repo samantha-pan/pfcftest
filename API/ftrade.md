@@ -3,6 +3,7 @@ nav_order: 3
 parent: API Reference
 title: "ftrade"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 外期交易
     負責下單,改單,回報接收,回報查詢
 
@@ -16,13 +17,13 @@ class FTrade()
 
 <a id="ftrade.FTrade.on_error"></a>
 
-#### on_error
+#### on\_error
 
 錯誤事件
 
 <a id="ftrade.FTrade.on_connected"></a>
 
-#### on_connected
+#### on\_connected
 
 連線成功事件
 
@@ -212,6 +213,7 @@ nav_order: 3
 parent: API Reference
 title: "ftrade"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 外期交易物件
 
 <a id="fdata.FOrderReply"></a>

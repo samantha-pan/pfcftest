@@ -3,6 +3,7 @@ nav_order: 2
 parent: API Reference  
 title: "dtrade"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 內期交易
     負責下單,改單,回報接收,回報查詢
 
@@ -212,6 +213,7 @@ nav_order: 2
 parent: API Reference  
 title: "dtrade"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 內期交易物件
 
 <a id="ddata.DOrderReply"></a>

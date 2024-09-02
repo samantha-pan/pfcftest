@@ -3,6 +3,7 @@ nav_order: 5
 parent: API Reference  
 title: "fquote"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 外期行情
 註冊接收即時和查詢
 
@@ -453,6 +454,7 @@ nav_order: 5
 parent: API Reference  
 title: "fquote"
 --- 
+<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
 外期行情物件
 
 <a id="fdata.FContract"></a>
