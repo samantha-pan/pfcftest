@@ -2,8 +2,9 @@
 nav_order: 6
 parent: API Reference  
 title: "daccount"
---- 
-<link rel="stylesheet" href="/assets/css/just-the-docs-custom.css">
+---  
+<link rel="stylesheet" href="'/assets/css/just-the-docs-custom.css' | relative_url">
+
 內期帳務
 提供保證金.未平倉.即時部位查詢
 
