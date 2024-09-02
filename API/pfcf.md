@@ -120,27 +120,27 @@ def logout()
 
 登出
 
-<a id="pfcf.Pfcf.get_p09s"></a>
+<a id="pfcf.Pfcf.get_domestic_products"></a>
 
-#### get\_p09s
+#### get\_domestic\_products
 
 ```python
-def get_p09s()
+def get_domestic_products()
 ```
 
 取得內期商品檔
-##### Returns P09
+##### Returns DomesticProducts
 
-<a id="pfcf.Pfcf.get_symboldatas"></a>
+<a id="pfcf.Pfcf.get_foreign_products"></a>
 
-#### get\_symboldatas
+#### get\_foreign\_products
 
 ```python
-def get_symboldatas()
+def get_foreign_products()
 ```
 
 取得外期商品檔
-##### Returns SYMBOLDATA
+##### Returns ForeignProducts
 
 <a id="pfcf.Pfcf.get_exchanges"></a>
 
@@ -153,58 +153,36 @@ def get_exchanges()
 取得外期交易所
 ##### Returns EXCHANGE
 
-<a id="pfcf.Pfcf.get_p08m"></a>
+<a id="pfcf.Pfcf.get_domestic_contracts"></a>
 
-#### get\_p08m
+#### get\_domestic\_contracts
 
 ```python
-def get_p08m(kind_id) -> P08Response
+def get_domestic_contracts(symbol, type) -> DomesticContractResponse
 ```
 
-取得內期選擇權商品檔
+取得內期合約檔
 ##### Parameters 
 
 | Name | Type | Description |
 | ------ | ------ | ------------- |
-| kind_id | str | 商品代碼 |         
+| symbol | str | 商品代碼 |         
+| type | str | 類別 F期貨 O選擇權 |  
 
-##### Returns P08Response
+##### Returns DomesticContractResponse
 
 | Type | Description |
 | ------ | ------------- |
 | bool | True 成功 /False 失敗 |    
 | str | 錯誤訊息 |    
-| P08 | 商品合約資料 |
+| DomesticContract | 商品合約資料 |
 
-<a id="pfcf.Pfcf.get_p08mf"></a>
+<a id="pfcf.Pfcf.get_foreign_contracts"></a>
 
-#### get\_p08mf
-
-```python
-def get_p08mf(kind_id) -> P08Response
-```
-
-取得內期期貨商品檔
-##### Parameters 
-
-| Name | Type | Description |
-| ------ | ------ | ------------- |
-| kind_id | str | 商品代碼 | 
-
-##### Returns P08Response
-
-| Type | Description |
-| ------ | ------------- |
-| bool | True 成功 /False 失敗 |    
-| str | 錯誤訊息 |    
-| P08 | 商品合約資料 |
-
-<a id="pfcf.Pfcf.get_symbol_contract"></a>
-
-#### get\_symbol\_contract
+#### get\_foreign\_contracts
 
 ```python
-def get_symbol_contract(exchange, symbol, type) -> SymbolContractResponse
+def get_foreign_contracts(exchange, symbol, type) -> ForeignContractResponse
 ```
 
 取得外期商品檔
@@ -216,13 +194,13 @@ def get_symbol_contract(exchange, symbol, type) -> SymbolContractResponse
 | symbol |str | 商品 |         
 | type | str | 類別 F期貨 O選擇權 |         
 
-##### Returns P08Response
+##### Returns ForeignContractResponse
 
 | Type | Description |
 | ------ | ------------- |
 | bool | True 成功 /False 失敗 |    
 | str | 錯誤訊息 |    
-| SYMBOLCONTRACT | 商品合約資料 |
+| ForeignContract | 商品合約資料 |
 
 <a id="pfcf.Pfcf.get_accounts"></a>
 

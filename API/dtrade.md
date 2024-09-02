@@ -6,45 +6,45 @@ title: "dtrade"
 內期交易
     負責下單,改單,回報接收,回報查詢
 
-<a id="dtrade.Dtrade"></a>
+<a id="dtrade.DTrade"></a>
 
-## Dtrade Objects
+## DTrade Objects
 
 ```python
-class Dtrade()
+class DTrade()
 ```
 
-<a id="dtrade.Dtrade.on_error"></a>
+<a id="dtrade.DTrade.on_error"></a>
 
 #### on\_error
 
 錯誤事件
 
-<a id="dtrade.Dtrade.on_connected"></a>
+<a id="dtrade.DTrade.on_connected"></a>
 
 #### on\_connected
 
 連線成功事件
 
-<a id="dtrade.Dtrade.on_disonnected"></a>
+<a id="dtrade.DTrade.on_disonnected"></a>
 
 #### on\_disonnected
 
 斷線事件
 
-<a id="dtrade.Dtrade.on_reply"></a>
+<a id="dtrade.DTrade.on_reply"></a>
 
 #### on\_reply
 
 回報接收事件..傳入物件:DOrderReply
 
-<a id="dtrade.Dtrade.on_match"></a>
+<a id="dtrade.DTrade.on_match"></a>
 
 #### on\_match
 
 成回接收事件..傳入物件:DOrderReply
 
-<a id="dtrade.Dtrade.get_current_server"></a>
+<a id="dtrade.DTrade.get_current_server"></a>
 
 #### get\_current\_server
 
@@ -60,7 +60,7 @@ def get_current_server()
 | host | str | 主機IP |    
 | port | str | 主機Port |
 
-<a id="dtrade.Dtrade.get_server_list"></a>
+<a id="dtrade.DTrade.get_server_list"></a>
 
 #### get\_server\_list
 
@@ -76,12 +76,12 @@ def get_server_list()
 | key | str | servername |    
 | value | Server | Server ip:str / port:int |
 
-<a id="dtrade.Dtrade.set_severbyname"></a>
+<a id="dtrade.DTrade.set_sever_by_name"></a>
 
-#### set\_severbyname
+#### set\_sever\_by\_name
 
 ```python
-def set_severbyname(servername)
+def set_sever_by_name(servername)
 ```
 
 透過主機名稱連結主機
@@ -91,7 +91,7 @@ def set_severbyname(servername)
 | ------ | ------ | ------------- |
 | servername | str | 主機名稱 |
 
-<a id="dtrade.Dtrade.order"></a>
+<a id="dtrade.DTrade.order"></a>
 
 #### order
 
@@ -115,7 +115,7 @@ DOrderResponse
 | errorcode |str | 錯誤代碼 | 
 | errormsg | str | 錯誤訊息 |
 
-<a id="dtrade.Dtrade.replace_order"></a>
+<a id="dtrade.DTrade.replace_order"></a>
 
 #### replace\_order
 
@@ -139,7 +139,7 @@ DOrderResponse
 | errorcode | str | 錯誤代碼 | 
 | errormsg | str | 錯誤訊息 |
 
-<a id="dtrade.Dtrade.query_reply"></a>
+<a id="dtrade.DTrade.query_reply"></a>
 
 #### query\_reply
 
@@ -168,7 +168,7 @@ QueryReplyResponse
 | error | str | 錯誤訊息 |
 | data | List of OrderReply | 回報集合 |
 
-<a id="dtrade.Dtrade.query_match"></a>
+<a id="dtrade.DTrade.query_match"></a>
 
 #### query\_match
 
@@ -197,7 +197,7 @@ QueryReplyResponse
 | error | str | 錯誤訊息 |
 | data | List of MatchReply | 成回集合 |
 
-<a id="dtrade.Dtrade.close"></a>
+<a id="dtrade.DTrade.close"></a>
 
 #### close
 

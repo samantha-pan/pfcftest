@@ -6,75 +6,75 @@ title: "fquote"
 外期行情
 註冊接收即時和查詢
 
-<a id="fquote.Fquote"></a>
+<a id="fquote.FQuote"></a>
 
-## Fquote Objects
+## FQuote Objects
 
 ```python
-class Fquote()
+class FQuote()
 ```
 
-<a id="fquote.Fquote.on_error"></a>
+<a id="fquote.FQuote.on_error"></a>
 
 #### on\_error
 
 錯誤事件
 
-<a id="fquote.Fquote.on_connected"></a>
+<a id="fquote.FQuote.on_connected"></a>
 
 #### on\_connected
 
 連線成功事件
 
-<a id="fquote.Fquote.on_disonnected"></a>
+<a id="fquote.FQuote.on_disonnected"></a>
 
 #### on\_disonnected
 
 斷線事件
 
-<a id="fquote.Fquote.on_tickdatatrade"></a>
+<a id="fquote.FQuote.on_tick_data_trade"></a>
 
-#### on\_tickdatatrade
+#### on\_tick\_data\_trade
 
 成交價事件..傳入物件:FTickDataTrade
 
-<a id="fquote.Fquote.on_tickdatabid"></a>
+<a id="fquote.FQuote.on_tick_data_bid"></a>
 
-#### on\_tickdatabid
+#### on\_tick\_data\_bid
 
 最佳買價量事件..傳入物件:FTickDataBid
 
-<a id="fquote.Fquote.on_tickdataoffer"></a>
+<a id="fquote.FQuote.on_tick_data_offer"></a>
 
-#### on\_tickdataoffer
+#### on\_tick\_data\_offer
 
 最佳賣價量事件..傳入物件:FTickDataOffer
 
-<a id="fquote.Fquote.on_tickdataimplied"></a>
+<a id="fquote.FQuote.on_tick_data_implied"></a>
 
-#### on\_tickdataimplied
+#### on\_tick\_data\_implied
 
 隱含價事件..傳入物件:FTickDataImplied
 
-<a id="fquote.Fquote.on_tickdatahighlow"></a>
+<a id="fquote.FQuote.on_tick_data_high_low"></a>
 
-#### on\_tickdatahighlow
+#### on\_tick\_data\_high\_low
 
 最高最低價事件..傳入物件:FTickDataHighLow
 
-<a id="fquote.Fquote.on_tickdataopenclose"></a>
+<a id="fquote.FQuote.on_tick_data_open_close"></a>
 
-#### on\_tickdataopenclose
+#### on\_tick\_data\_open\_close
 
 開盤價事件..傳入物件:FTickDataOpenclose
 
-<a id="fquote.Fquote.on_tickdatasettle"></a>
+<a id="fquote.FQuote.on_tick_data_settle"></a>
 
-#### on\_tickdatasettle
+#### on\_tick\_data\_settle
 
 結算價事件..傳入物件:FTickDataOpen
 
-<a id="fquote.Fquote.get_current_server"></a>
+<a id="fquote.FQuote.get_current_server"></a>
 
 #### get\_current\_server
 
@@ -90,7 +90,7 @@ def get_current_server()
 | host | str | 主機IP |    
 | port | str | 主機Port |
 
-<a id="fquote.Fquote.get_server_list"></a>
+<a id="fquote.FQuote.get_server_list"></a>
 
 #### get\_server\_list
 
@@ -106,12 +106,12 @@ def get_server_list()
 | key | str | servername |    
 | value | Server | Server ip:str / port:int |
 
-<a id="fquote.Fquote.set_severbyname"></a>
+<a id="fquote.FQuote.set_sever_by_name"></a>
 
-#### set\_severbyname
+#### set\_sever\_by\_name
 
 ```python
-def set_severbyname(servername)
+def set_sever_by_name(servername)
 ```
 
 透過主機名稱連結主機
@@ -121,7 +121,7 @@ def set_severbyname(servername)
 | ------ | ------ | ------------- |
 | servername | str | 主機名稱 |
 
-<a id="fquote.Fquote.get_subscribe"></a>
+<a id="fquote.FQuote.get_subscribe"></a>
 
 #### get\_subscribe
 
@@ -131,13 +131,13 @@ def get_subscribe()
 
 查詢已註冊商品
 
-<a id="fquote.Fquote.query_tickdatatrade"></a>
+<a id="fquote.FQuote.query_tick_data_trade"></a>
 
-#### query\_tickdatatrade
+#### query\_tick\_data\_trade
 
 ```python
-def query_tickdatatrade(exchange, symbol, ym, strike,
-                        cp) -> FTickDataTradeResponse
+def query_tick_data_trade(exchange, symbol, ym, strike,
+                          cp) -> FTickDataTradeResponse
 ```
 
 查詢最後成交價量
@@ -154,13 +154,13 @@ def query_tickdatatrade(exchange, symbol, ym, strike,
 ##### Returns 
 FTickDataTradeResponse
 
-<a id="fquote.Fquote.query_tickdatabid"></a>
+<a id="fquote.FQuote.query_tick_data_bid"></a>
 
-#### query\_tickdatabid
+#### query\_tick\_data\_bid
 
 ```python
-def query_tickdatabid(exchange, symbol, ym, strike,
-                      cp) -> FTickDataBidResponse
+def query_tick_data_bid(exchange, symbol, ym, strike,
+                        cp) -> FTickDataBidResponse
 ```
 
 查詢最佳買進報價
@@ -178,13 +178,13 @@ def query_tickdatabid(exchange, symbol, ym, strike,
 
 FTickDataBidResponse
 
-<a id="fquote.Fquote.query_tickdataoffer"></a>
+<a id="fquote.FQuote.query_tick_data_offer"></a>
 
-#### query\_tickdataoffer
+#### query\_tick\_data\_offer
 
 ```python
-def query_tickdataoffer(exchange, symbol, ym, strike,
-                        cp) -> FTickDataOfferResponse
+def query_tick_data_offer(exchange, symbol, ym, strike,
+                          cp) -> FTickDataOfferResponse
 ```
 
 最佳賣出報價
@@ -202,13 +202,13 @@ def query_tickdataoffer(exchange, symbol, ym, strike,
 
 FTickDataOfferResponse
 
-<a id="fquote.Fquote.query_tickdataimplied"></a>
+<a id="fquote.FQuote.query_tick_data_implied"></a>
 
-#### query\_tickdataimplied
+#### query\_tick\_data\_implied
 
 ```python
-def query_tickdataimplied(exchange, symbol, ym, strike,
-                          cp) -> FTickDataImpliedResponse
+def query_tick_data_implied(exchange, symbol, ym, strike,
+                            cp) -> FTickDataImpliedResponse
 ```
 
 隱含買賣價量
@@ -226,13 +226,13 @@ def query_tickdataimplied(exchange, symbol, ym, strike,
 
 FTickDataImpliedResponse
 
-<a id="fquote.Fquote.query_tickdataopenclose"></a>
+<a id="fquote.FQuote.query_tick_data_open_close"></a>
 
-#### query\_tickdataopenclose
+#### query\_tick\_data\_open\_close
 
 ```python
-def query_tickdataopenclose(exchange, symbol, ym, strike,
-                            cp) -> FTickDataOpencloseResponse
+def query_tick_data_open_close(exchange, symbol, ym, strike,
+                               cp) -> FTickDataOpencloseResponse
 ```
 
 查詢開收盤價
@@ -250,13 +250,13 @@ def query_tickdataopenclose(exchange, symbol, ym, strike,
 
 FTickDataOpencloseResponse
 
-<a id="fquote.Fquote.query_tickdatahighlow"></a>
+<a id="fquote.FQuote.query_tick_data_high_low"></a>
 
-#### query\_tickdatahighlow
+#### query\_tick\_data\_high\_low
 
 ```python
-def query_tickdatahighlow(exchange, symbol, ym, strike,
-                          cp) -> FTickDataHighLowResponse
+def query_tick_data_high_low(exchange, symbol, ym, strike,
+                             cp) -> FTickDataHighLowResponse
 ```
 
 查詢最高最低價
@@ -274,13 +274,13 @@ def query_tickdatahighlow(exchange, symbol, ym, strike,
 
 FTickDataHighLowResponse
 
-<a id="fquote.Fquote.query_tickdatasettle"></a>
+<a id="fquote.FQuote.query_tick_data_settle"></a>
 
-#### query\_tickdatasettle
+#### query\_tick\_data\_settle
 
 ```python
-def query_tickdatasettle(exchange, symbol, ym, strike,
-                         cp) -> FTickDataSettleResponse
+def query_tick_data_settle(exchange, symbol, ym, strike,
+                           cp) -> FTickDataSettleResponse
 ```
 
 查詢結算價
@@ -298,7 +298,7 @@ def query_tickdatasettle(exchange, symbol, ym, strike,
 
 FTickDataSettleResponse
 
-<a id="fquote.Fquote.subscribe"></a>
+<a id="fquote.FQuote.subscribe"></a>
 
 #### subscribe
 
@@ -325,7 +325,7 @@ def subscribe(exchange: str, symbol: str, ym: str, cp: str,
 |bool|是否成功|    
 |str|錯誤訊息|
 
-<a id="fquote.Fquote.unsubscribe"></a>
+<a id="fquote.FQuote.unsubscribe"></a>
 
 #### unsubscribe
 
@@ -352,7 +352,7 @@ def unsubscribe(exchange: str, symbol: str, ym: str, cp: str,
 |bool|是否成功|    
 |str|錯誤訊息|
 
-<a id="fquote.Fquote.close"></a>
+<a id="fquote.FQuote.close"></a>
 
 #### close
 

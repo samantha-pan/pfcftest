@@ -1,38 +1,38 @@
 ---  
 nav_order: 7
 parent: API Reference  
-title: "faccount"
+title: "daccount"
 --- 
 外期帳務
 提供保證金.未平倉.即時部位查詢
 
-<a id="faccount.Faccount"></a>
+<a id="faccount.FAccount"></a>
 
-## Faccount Objects
+## FAccount Objects
 
 ```python
-class Faccount()
+class FAccount()
 ```
 
-<a id="faccount.Faccount.on_error"></a>
+<a id="faccount.FAccount.on_error"></a>
 
 #### on\_error
 
 錯誤事件
 
-<a id="faccount.Faccount.on_connected"></a>
+<a id="faccount.FAccount.on_connected"></a>
 
 #### on\_connected
 
 連線成功事件
 
-<a id="faccount.Faccount.on_disconnected"></a>
+<a id="faccount.FAccount.on_disconnected"></a>
 
 #### on\_disconnected
 
 斷線事件
 
-<a id="faccount.Faccount.get_current_server"></a>
+<a id="faccount.FAccount.get_current_server"></a>
 
 #### get\_current\_server
 
@@ -48,7 +48,7 @@ def get_current_server()
 | host | str | 主機IP |    
 | port | str | 主機Port |
 
-<a id="faccount.Faccount.get_server_list"></a>
+<a id="faccount.FAccount.get_server_list"></a>
 
 #### get\_server\_list
 
@@ -64,12 +64,12 @@ def get_server_list()
 | key | str | servername |    
 | value | Server | Server ip:str / port:int |
 
-<a id="faccount.Faccount.set_severbyname"></a>
+<a id="faccount.FAccount.set_sever_by_name"></a>
 
-#### set\_severbyname
+#### set\_sever\_by\_name
 
 ```python
-def set_severbyname(servername)
+def set_sever_by_name(servername)
 ```
 
 透過主機名稱連結主機
@@ -79,7 +79,7 @@ def set_severbyname(servername)
 | ------ | ------ | ------------- |
 | servername | str | 主機名稱 |
 
-<a id="faccount.Faccount.get_margin"></a>
+<a id="faccount.FAccount.get_margin"></a>
 
 #### get\_margin
 
@@ -102,7 +102,7 @@ def get_margin(actno)
 | str | 錯誤訊息 |    
 | List[Margin] | 保證金集合物件 |
 
-<a id="faccount.Faccount.get_position"></a>
+<a id="faccount.FAccount.get_position"></a>
 
 #### get\_position
 
@@ -125,7 +125,7 @@ def get_position(actno, groupid='', trader='')
 | str | 錯誤訊息 |    
 | List[Position] | 即時部位集合物件 |
 
-<a id="faccount.Faccount.get_unliquidation"></a>
+<a id="faccount.FAccount.get_unliquidation"></a>
 
 #### get\_unliquidation
 
@@ -149,7 +149,7 @@ def get_unliquidation(actno)
 | str | 錯誤訊息 |    
 | List[Unliquidation] | 未平倉彙總集合物件 |
 
-<a id="faccount.Faccount.close"></a>
+<a id="faccount.FAccount.close"></a>
 
 #### close
 
@@ -162,7 +162,7 @@ def close()
 ---  
 nav_order: 7
 parent: API Reference  
-title: "faccount"
+title: "daccount"
 --- 
 <a id="fdata.FMargin"></a>
 

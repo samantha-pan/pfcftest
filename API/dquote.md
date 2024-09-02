@@ -6,75 +6,75 @@ title: "quote"
 內期行情
 註冊接收即時和查詢
 
-<a id="dquote.Dquote"></a>
+<a id="dquote.DQuote"></a>
 
-## Dquote Objects
+## DQuote Objects
 
 ```python
-class Dquote()
+class DQuote()
 ```
 
-<a id="dquote.Dquote.on_error"></a>
+<a id="dquote.DQuote.on_error"></a>
 
 #### on\_error
 
 錯誤事件
 
-<a id="dquote.Dquote.on_connected"></a>
+<a id="dquote.DQuote.on_connected"></a>
 
 #### on\_connected
 
 連線成功事件
 
-<a id="dquote.Dquote.on_disonnected"></a>
+<a id="dquote.DQuote.on_disonnected"></a>
 
 #### on\_disonnected
 
 斷線事件
 
-<a id="dquote.Dquote.on_tickdatatrade"></a>
+<a id="dquote.DQuote.on_tick_data_trade"></a>
 
-#### on\_tickdatatrade
+#### on\_tick\_data\_trade
 
 成交價事件..傳入物件:DTickDataTrade
 
-<a id="dquote.Dquote.on_tickdatahighlow"></a>
+<a id="dquote.DQuote.on_tick_data_high_low"></a>
 
-#### on\_tickdatahighlow
+#### on\_tick\_data\_high\_low
 
 最高最低價事件..傳入物件:DTickDataHighLow
 
-<a id="dquote.Dquote.on_indexdata"></a>
+<a id="dquote.DQuote.on_index_data"></a>
 
-#### on\_indexdata
+#### on\_index\_data
 
 現貨價事件..傳入物件:DIndexData
 
-<a id="dquote.Dquote.on_tickdatabidoffer"></a>
+<a id="dquote.DQuote.on_tick_data_bid_offer"></a>
 
-#### on\_tickdatabidoffer
+#### on\_tick\_data\_bid\_offer
 
 五檔事件..傳入物件:DTickDataBidOffer
 
-<a id="dquote.Dquote.on_tickdatabeforetrade"></a>
+<a id="dquote.DQuote.on_tick_data_before_trade"></a>
 
-#### on\_tickdatabeforetrade
+#### on\_tick\_data\_before\_trade
 
 試搓成交價事件..傳入物件:DTickDataBeforeTrade
 
-<a id="dquote.Dquote.on_tickdatabeforebidoffer"></a>
+<a id="dquote.DQuote.on_tick_data_before_bid_offer"></a>
 
-#### on\_tickdatabeforebidoffer
+#### on\_tick\_data\_before\_bid\_offer
 
 試搓五檔事件..傳入物件:DTickDataBeforeBidOffer
 
-<a id="dquote.Dquote.on_tickdataopen"></a>
+<a id="dquote.DQuote.on_tick_data_open"></a>
 
-#### on\_tickdataopen
+#### on\_tick\_data\_open
 
 開盤價事件..傳入物件:DTickDataOpen
 
-<a id="dquote.Dquote.get_current_server"></a>
+<a id="dquote.DQuote.get_current_server"></a>
 
 #### get\_current\_server
 
@@ -90,7 +90,7 @@ def get_current_server()
 | host | str | 主機IP |    
 | port | str | 主機Port |
 
-<a id="dquote.Dquote.get_server_list"></a>
+<a id="dquote.DQuote.get_server_list"></a>
 
 #### get\_server\_list
 
@@ -106,12 +106,12 @@ def get_server_list()
 | key | str | servername |    
 | value | Server | Server ip:str / port:int |
 
-<a id="dquote.Dquote.set_severbyname"></a>
+<a id="dquote.DQuote.set_sever_by_name"></a>
 
-#### set\_severbyname
+#### set\_sever\_by\_name
 
 ```python
-def set_severbyname(servername) -> Tuple[bool, str]
+def set_sever_by_name(servername) -> Tuple[bool, str]
 ```
 
 透過主機名稱連結主機
@@ -121,17 +121,17 @@ def set_severbyname(servername) -> Tuple[bool, str]
 | ------ | ------ | ------------- |
 | servername | str | 主機名稱 |
 
-<a id="dquote.Dquote.get_subscribe_tradebidoffer"></a>
+<a id="dquote.DQuote.get_subscribe_trade_bid_offer"></a>
 
-#### get\_subscribe\_tradebidoffer
+#### get\_subscribe\_trade\_bid\_offer
 
 ```python
-def get_subscribe_tradebidoffer()
+def get_subscribe_trade_bid_offer()
 ```
 
 查詢已註冊成交.賣賣價量 商品
 
-<a id="dquote.Dquote.get_subscribe_highlow"></a>
+<a id="dquote.DQuote.get_subscribe_highlow"></a>
 
 #### get\_subscribe\_highlow
 
@@ -141,17 +141,17 @@ def get_subscribe_highlow()
 
 查詢已註冊最高最低價
 
-<a id="dquote.Dquote.get_subscribe_indexdata"></a>
+<a id="dquote.DQuote.get_subscribe_index_data"></a>
 
-#### get\_subscribe\_indexdata
+#### get\_subscribe\_index\_data
 
 ```python
-def get_subscribe_indexdata()
+def get_subscribe_index_data()
 ```
 
 查詢已註冊現貨 商品
 
-<a id="dquote.Dquote.get_subscribe_open"></a>
+<a id="dquote.DQuote.get_subscribe_open"></a>
 
 #### get\_subscribe\_open
 
@@ -161,12 +161,12 @@ def get_subscribe_open()
 
 查詢已註冊開盤價 商品
 
-<a id="dquote.Dquote.query_tickdatatrade"></a>
+<a id="dquote.DQuote.query_tick_data_trade"></a>
 
-#### query\_tickdatatrade
+#### query\_tick\_data\_trade
 
 ```python
-def query_tickdatatrade(productid) -> DTickDataTradeResponse
+def query_tick_data_trade(productid) -> DTickDataTradeResponse
 ```
 
 查詢最後成交價量
@@ -179,12 +179,12 @@ def query_tickdatatrade(productid) -> DTickDataTradeResponse
 ##### Returns  
 TickDataTradeResponse
 
-<a id="dquote.Dquote.query_tickdatahighlow"></a>
+<a id="dquote.DQuote.query_tick_data_high_low"></a>
 
-#### query\_tickdatahighlow
+#### query\_tick\_data\_high\_low
 
 ```python
-def query_tickdatahighlow(productid) -> DTickDataHighLowResponse
+def query_tick_data_high_low(productid) -> DTickDataHighLowResponse
 ```
 
 查詢最高(低)價
@@ -198,12 +198,12 @@ def query_tickdatahighlow(productid) -> DTickDataHighLowResponse
 
 TickDataHighLowResponse
 
-<a id="dquote.Dquote.query_tickdatabeforetrade"></a>
+<a id="dquote.DQuote.query_tick_data_before_trade"></a>
 
-#### query\_tickdatabeforetrade
+#### query\_tick\_data\_before\_trade
 
 ```python
-def query_tickdatabeforetrade(productid) -> DTickDataBeforeTradeResponse
+def query_tick_data_before_trade(productid) -> DTickDataBeforeTradeResponse
 ```
 
 查詢最後盤前成交價量
@@ -216,12 +216,12 @@ def query_tickdatabeforetrade(productid) -> DTickDataBeforeTradeResponse
 ##### Returns 
 TickDataBeforeTradeResponse
 
-<a id="dquote.Dquote.query_tickdataopen"></a>
+<a id="dquote.DQuote.query_tick_data_open"></a>
 
-#### query\_tickdataopen
+#### query\_tick\_data\_open
 
 ```python
-def query_tickdataopen(productid) -> DTickDataOpenResponse
+def query_tick_data_open(productid) -> DTickDataOpenResponse
 ```
 
 查詢開盤價
@@ -235,12 +235,12 @@ def query_tickdataopen(productid) -> DTickDataOpenResponse
 
 TickDataOpenResponse
 
-<a id="dquote.Dquote.query_indexdata"></a>
+<a id="dquote.DQuote.query_index_data"></a>
 
-#### query\_indexdata
+#### query\_index\_data
 
 ```python
-def query_indexdata(productid) -> DIndexDataResponse
+def query_index_data(productid) -> DIndexDataResponse
 ```
 
 查詢現貨成交價
@@ -253,12 +253,12 @@ def query_indexdata(productid) -> DIndexDataResponse
 ##### Returns 
 IndexDataResponse
 
-<a id="dquote.Dquote.query_tickdatabidoffer"></a>
+<a id="dquote.DQuote.query_tick_data_bid_offer"></a>
 
-#### query\_tickdatabidoffer
+#### query\_tick\_data\_bid\_offer
 
 ```python
-def query_tickdatabidoffer(productid) -> DTickDataBidOfferResponse
+def query_tick_data_bid_offer(productid) -> DTickDataBidOfferResponse
 ```
 
 查詢最後五檔
@@ -272,12 +272,13 @@ def query_tickdatabidoffer(productid) -> DTickDataBidOfferResponse
 
 TickDataBidOfferResponse
 
-<a id="dquote.Dquote.query_tickdatabeforebidoffer"></a>
+<a id="dquote.DQuote.query_tick_data_before_bid_offer"></a>
 
-#### query\_tickdatabeforebidoffer
+#### query\_tick\_data\_before\_bid\_offer
 
 ```python
-def query_tickdatabeforebidoffer(productid) -> DTickDataBeforeBidOfferResponse
+def query_tick_data_before_bid_offer(
+        productid) -> DTickDataBeforeBidOfferResponse
 ```
 
 查詢最後盤前五檔
@@ -291,12 +292,12 @@ def query_tickdatabeforebidoffer(productid) -> DTickDataBeforeBidOfferResponse
 
 TickDataBeforeBidOfferResponse
 
-<a id="dquote.Dquote.subscribe_tradebidoffer"></a>
+<a id="dquote.DQuote.subscribe_trade_bid_offer"></a>
 
-#### subscribe\_tradebidoffer
+#### subscribe\_trade\_bid\_offer
 
 ```python
-def subscribe_tradebidoffer(productid) -> Tuple[bool, str]
+def subscribe_trade_bid_offer(productid) -> Tuple[bool, str]
 ```
 
 註冊成交.賣賣價量
@@ -313,12 +314,12 @@ def subscribe_tradebidoffer(productid) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.unsubscribe_tradebidoffer"></a>
+<a id="dquote.DQuote.unsubscribe_trade_bid_offer"></a>
 
-#### unsubscribe\_tradebidoffer
+#### unsubscribe\_trade\_bid\_offer
 
 ```python
-def unsubscribe_tradebidoffer(productid) -> Tuple[bool, str]
+def unsubscribe_trade_bid_offer(productid) -> Tuple[bool, str]
 ```
 
 反註冊成交.賣賣價量
@@ -335,12 +336,12 @@ def unsubscribe_tradebidoffer(productid) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.subscribe_highlow"></a>
+<a id="dquote.DQuote.subscribe_high_low"></a>
 
-#### subscribe\_highlow
+#### subscribe\_high\_low
 
 ```python
-def subscribe_highlow(productid) -> Tuple[bool, str]
+def subscribe_high_low(productid) -> Tuple[bool, str]
 ```
 
 註冊最高最低價
@@ -357,12 +358,12 @@ def subscribe_highlow(productid) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.unsubscribe_highlow"></a>
+<a id="dquote.DQuote.unsubscribe_high_low"></a>
 
-#### unsubscribe\_highlow
+#### unsubscribe\_high\_low
 
 ```python
-def unsubscribe_highlow(productid) -> Tuple[bool, str]
+def unsubscribe_high_low(productid) -> Tuple[bool, str]
 ```
 
 反註冊最高最低價
@@ -379,7 +380,7 @@ def unsubscribe_highlow(productid) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.subscribe_open"></a>
+<a id="dquote.DQuote.subscribe_open"></a>
 
 #### subscribe\_open
 
@@ -401,7 +402,7 @@ def subscribe_open(productid) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.unsubscribe_open"></a>
+<a id="dquote.DQuote.unsubscribe_open"></a>
 
 #### unsubscribe\_open
 
@@ -423,12 +424,12 @@ def unsubscribe_open(productid) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.subscribe_indexdata"></a>
+<a id="dquote.DQuote.subscribe_index_data"></a>
 
-#### subscribe\_indexdata
+#### subscribe\_index\_data
 
 ```python
-def subscribe_indexdata(kind, index) -> Tuple[bool, str]
+def subscribe_index_data(kind, index) -> Tuple[bool, str]
 ```
 
 註冊現貨價
@@ -445,12 +446,12 @@ def subscribe_indexdata(kind, index) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.unsubscribe_indexdata"></a>
+<a id="dquote.DQuote.unsubscribe_index_data"></a>
 
-#### unsubscribe\_indexdata
+#### unsubscribe\_index\_data
 
 ```python
-def unsubscribe_indexdata(kind, index) -> Tuple[bool, str]
+def unsubscribe_index_data(kind, index) -> Tuple[bool, str]
 ```
 
 反註冊現貨價
@@ -467,7 +468,7 @@ def unsubscribe_indexdata(kind, index) -> Tuple[bool, str]
 | bool | 是否成功 |    
 | str | 錯誤訊息 |
 
-<a id="dquote.Dquote.close"></a>
+<a id="dquote.DQuote.close"></a>
 
 #### close
 

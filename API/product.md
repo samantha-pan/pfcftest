@@ -3,53 +3,53 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
-<a id="p08.P08"></a>
+<a id="domesticcontract.DomesticContract"></a>
 
-## P08 Objects
+## DomesticContract Objects
 
 ```python
-class P08()
+class DomesticContract()
 ```
 
 內期商品合約檔
 
-<a id="p08.P08.prod_id"></a>
+<a id="domesticcontract.DomesticContract.prod_id"></a>
 
 #### prod\_id
 
 商品代號
 
-<a id="p08.P08.month"></a>
+<a id="domesticcontract.DomesticContract.month"></a>
 
 #### month
 
 年月
 
-<a id="p08.P08.cp"></a>
+<a id="domesticcontract.DomesticContract.cp"></a>
 
 #### cp
 
 CP
 
-<a id="p08.P08.stikeprice"></a>
+<a id="domesticcontract.DomesticContract.stikeprice"></a>
 
 #### stikeprice
 
 履約價
 
-<a id="p08.P08.maxprice"></a>
+<a id="domesticcontract.DomesticContract.maxprice"></a>
 
 #### maxprice
 
 漲停價
 
-<a id="p08.P08.minprice"></a>
+<a id="domesticcontract.DomesticContract.minprice"></a>
 
 #### minprice
 
 跌停價
 
-<a id="p08.P08.premium"></a>
+<a id="domesticcontract.DomesticContract.premium"></a>
 
 #### premium
 
@@ -60,47 +60,47 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
-<a id="p09.P09"></a>
+<a id="domesticproduct.DomesticProduct"></a>
 
-## P09 Objects
+## DomesticProduct Objects
 
 ```python
-class P09()
+class DomesticProduct()
 ```
 
 內期商品
 
-<a id="p09.P09.kind_id"></a>
+<a id="domesticproduct.DomesticProduct.kind_id"></a>
 
 #### kind\_id
 
 商品類別
 
-<a id="p09.P09.name"></a>
+<a id="domesticproduct.DomesticProduct.name"></a>
 
 #### name
 
 商品名稱
 
-<a id="p09.P09.stock_id"></a>
+<a id="domesticproduct.DomesticProduct.stock_id"></a>
 
 #### stock\_id
 
 股票代碼
 
-<a id="p09.P09.subtype"></a>
+<a id="domesticproduct.DomesticProduct.subtype"></a>
 
 #### subtype
 
 類別
 
-<a id="p09.P09.contract_size"></a>
+<a id="domesticproduct.DomesticProduct.contract_size"></a>
 
 #### contract\_size
 
 合約基數
 
-<a id="p09.P09.strike_price_decimal_locator"></a>
+<a id="domesticproduct.DomesticProduct.strike_price_decimal_locator"></a>
 
 #### strike\_price\_decimal\_locator
 
@@ -111,53 +111,110 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
-<a id="symboldata.SYMBOLDATA"></a>
+<a id="foreigncontract.ForeignContract"></a>
 
-## SYMBOLDATA Objects
+## ForeignContract Objects
 
 ```python
-class SYMBOLDATA()
+class ForeignContract()
 ```
 
-外期商品
+外期商品合約檔
 
-<a id="symboldata.SYMBOLDATA.exchange"></a>
+<a id="foreigncontract.ForeignContract.exchange"></a>
 
 #### exchange
 
 交易所
 
-<a id="symboldata.SYMBOLDATA.symbol"></a>
+<a id="foreigncontract.ForeignContract.symbol"></a>
 
 #### symbol
 
 商品代碼
 
-<a id="symboldata.SYMBOLDATA.type"></a>
+<a id="foreigncontract.ForeignContract.type"></a>
 
 #### type
 
 類型(期貨:F 選擇權:O)
 
-<a id="symboldata.SYMBOLDATA.name"></a>
+<a id="foreigncontract.ForeignContract.monthyear"></a>
+
+#### monthyear
+
+年月
+
+<a id="foreigncontract.ForeignContract.strikeprice"></a>
+
+#### strikeprice
+
+履約價
+
+<a id="foreigncontract.ForeignContract.cp"></a>
+
+#### cp
+
+call put
+
+<a id="foreigncontract.ForeignContract.lasttradedate"></a>
+
+#### lasttradedate
+
+最後交易日
+
+---  
+nav_order: 1
+parent: API Reference  
+title: "product"
+--- 
+<a id="foreignproduct.ForeignProduct"></a>
+
+## ForeignProduct Objects
+
+```python
+class ForeignProduct()
+```
+
+外期商品
+
+<a id="foreignproduct.ForeignProduct.exchange"></a>
+
+#### exchange
+
+交易所
+
+<a id="foreignproduct.ForeignProduct.symbol"></a>
+
+#### symbol
+
+商品代碼
+
+<a id="foreignproduct.ForeignProduct.type"></a>
+
+#### type
+
+類型(期貨:F 選擇權:O)
+
+<a id="foreignproduct.ForeignProduct.name"></a>
 
 #### name
 
 中文名稱
 
-<a id="symboldata.SYMBOLDATA.shortname"></a>
+<a id="foreignproduct.ForeignProduct.shortname"></a>
 
 #### shortname
 
 中文簡稱
 
-<a id="symboldata.SYMBOLDATA.country"></a>
+<a id="foreignproduct.ForeignProduct.country"></a>
 
 #### country
 
 區域
 
-<a id="symboldata.SYMBOLDATA.currency"></a>
+<a id="foreignproduct.ForeignProduct.currency"></a>
 
 #### currency
 
@@ -168,55 +225,37 @@ nav_order: 1
 parent: API Reference  
 title: "product"
 --- 
-<a id="symbolcontract.SYMBOLCONTRACT"></a>
+<a id="exchange.EXCHANGE"></a>
 
-## SYMBOLCONTRACT Objects
+## EXCHANGE Objects
 
 ```python
-class SYMBOLCONTRACT()
+class EXCHANGE()
 ```
 
-外期商品合約檔
+外期交易所物件
 
-<a id="symbolcontract.SYMBOLCONTRACT.exchange"></a>
+<a id="exchange.EXCHANGE.exchange"></a>
 
 #### exchange
 
 交易所
 
-<a id="symbolcontract.SYMBOLCONTRACT.symbol"></a>
+<a id="exchange.EXCHANGE.name"></a>
 
-#### symbol
+#### name
 
-商品代碼
+中文名稱
 
-<a id="symbolcontract.SYMBOLCONTRACT.type"></a>
+<a id="exchange.EXCHANGE.country"></a>
 
-#### type
+#### country
 
-類型(期貨:F 選擇權:O)
+區域
 
-<a id="symbolcontract.SYMBOLCONTRACT.monthyear"></a>
+<a id="exchange.EXCHANGE.currency"></a>
 
-#### monthyear
+#### currency
 
-年月
-
-<a id="symbolcontract.SYMBOLCONTRACT.strikeprice"></a>
-
-#### strikeprice
-
-履約價
-
-<a id="symbolcontract.SYMBOLCONTRACT.cp"></a>
-
-#### cp
-
-call put
-
-<a id="symbolcontract.SYMBOLCONTRACT.lasttradedate"></a>
-
-#### lasttradedate
-
-最後交易日
+幣別
 
