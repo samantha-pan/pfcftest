@@ -28,7 +28,7 @@ baseurl: "/pfcftest"      # place folder name if the site is served in a subfold
 # Build settings 
 theme: just-the-docs 
 custom_css:
-  - assets/css/just-the-docs-custom.css
+  - assets/css/custom.css
 plugins: 
   - jekyll-feed
   - jekyll-seo-tag
