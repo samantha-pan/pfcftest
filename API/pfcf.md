@@ -3,7 +3,7 @@ nav_order: 0
 parent: API Reference  
 title: "pfcf"
 --- 
-<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
+<link rel="stylesheet" href="/assets/css/just-the-docs-custom.css">
 統一期貨API元件
 
 <a id="pfcf.LoginResponse"></a>

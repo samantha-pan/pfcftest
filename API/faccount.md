@@ -3,7 +3,7 @@ nav_order: 7
 parent: API Reference  
 title: "faccount"
 --- 
-<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
+<link rel="stylesheet" href="/assets/css/just-the-docs-custom.css">
 外期帳務
 提供保證金.未平倉.即時部位查詢
 
@@ -165,7 +165,7 @@ nav_order: 7
 parent: API Reference  
 title: "faccount"
 --- 
-<link rel="stylesheet" href="{ '/assets/css/just-the-docs-custom.css' | relative_url }">
+<link rel="stylesheet" href="/assets/css/just-the-docs-custom.css">
 <a id="fdata.FMargin"></a>
 
 ## FMargin Objects
