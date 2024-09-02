@@ -16,13 +16,13 @@ class FTrade()
 
 <a id="ftrade.FTrade.on_error"></a>
 
-#### on\_error
+#### on_error
 
 錯誤事件
 
 <a id="ftrade.FTrade.on_connected"></a>
 
-#### on\_connected
+#### on_connected
 
 連線成功事件
 
