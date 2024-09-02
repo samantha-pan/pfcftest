@@ -26,9 +26,10 @@ domain: samantha-pan.github.io       # if you want to force HTTPS, specify the d
 url: https://samantha-pan.github.io/  # the base hostname and protocol for your site, e.g. http://example.com
 baseurl: "/pfcftest"      # place folder name if the site is served in a subfolder
 # Build settings 
-theme: just-the-docs
-custom_css:
-  - assets/css/custom.css
+theme:
+  name: "just-the-docs"
+  custom_css:
+    - assets/css/custom.css
 plugins: 
   - jekyll-feed
   - jekyll-seo-tag
