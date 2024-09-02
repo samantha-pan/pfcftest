@@ -27,6 +27,8 @@ url: https://samantha-pan.github.io/  # the base hostname and protocol for your 
 baseurl: "/pfcftest"      # place folder name if the site is served in a subfolder
 # Build settings 
 theme: just-the-docs 
+custom_css:
+  - assets/css/just-the-docs-custom.css
 plugins: 
   - jekyll-feed
   - jekyll-seo-tag
